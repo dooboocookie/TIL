@@ -6,4 +6,4 @@
 ## 분류
 ### java
 
-* [연산자 정리](./Operator.md)
+* [연산자 정리](./Java/Operator.md)
