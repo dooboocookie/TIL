@@ -29,6 +29,20 @@ public class Computer {
 </code>
 </pre>
 > * 객체 : 인스턴스의 주소를 참조하는 변수 / 실제로 존재하는 사물이나 개념
+<pre>
+<code>
+클래스명 객체명;
+Computer computer;
+</code>
+</pre>
 > * 인스턴스 : 클래스를 인스턴스화하여 힙영역에 만든 저장공간
+<pre>
+<code>
+객체명 = new 클래스명();
+computer = new Coputer();
+</code>
+</pre>
 
 ### 객체의 구성요소
+> * 속성(property) : 필드(field), 상태(state), 멤버변수(member), 상태
+> * 기능(function) : 메소드(method), 행위
