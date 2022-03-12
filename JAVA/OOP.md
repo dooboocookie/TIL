@@ -39,10 +39,21 @@ Computer computer;
 <pre>
 <code>
 객체명 = new 클래스명();
-computer = new Coputer();
+computer = new Computer();
 </code>
 </pre>
 
 ### 객체의 구성요소
 > * 속성(property) : 필드(field), 상태(state), 멤버변수(member), 상태
+<pre>
+<code>
+computer.size = 13;
+computer.name = "MacBook Air"
+</code>
+</pre>
 > * 기능(function) : 메소드(method), 행위
+<pre>
+<code>
+computer.task();
+</code>
+</pre>
