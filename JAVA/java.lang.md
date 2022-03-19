@@ -248,6 +248,123 @@ System.out.println(String.join("@@", names));
 //"경환@@두부@@쿠키"
 ```
 
+> ## StringBuffer / StringBuilder 클래스
+
+* String 클래스는 변경이 불가한 클래스지만, StringBuffer는 변경이 가능하여 String을 수정, 변경할 떄 많이 사용
+* StringBuffer는 멀티쓰레드에 안전하도록 동기화
+* StringBuilder는 쓰레드 동기화만 뺀 클래스
+* String 클래스는 초기화 할 때 마다 새로운 인스턴스를 생성하기 때문에 성능이 좋지 않음
+
+### 생성자
+* StringBuffer() : 16개의 문자를 담을 수 있는 버퍼를 가진 인스턴스 생성
+* StringBuffer(int i) : i개의 문자를 담을 수 있는 버퍼를 가진 인스턴스 생성
+* StringBuffer(String str) : str의 길이 + 16개의 문자를 담을 수 있는 버퍼를 가진 인스턴스 생성
+
+### append()
+* 입력된 값을 StringBuffer 인스턴스의 저장하여 뒤에 붙이는 메소드 
+* 매개변수 : boolean/ char/ int/ long/ float/ double/ Object/ String
+* 리턴타입 : StringBuffer
+```java
+StringBuffer sb = new StringBuffer("두부");
+sb.append('&').append("쿠키");
+System.out.println(sb);
+```
+
+### indexOf()
+* 입력된 문자열을 버퍼에 담긴 문자열의 위치를 찾아 정수를 반환하는 메소드
+* 매개변수 : String
+* 리턴타입 : int
+
+### replace()
+* 범위 내의 문자들을 입력된 문자열로 대체하는 메소드
+* 매개변수 : int start, int end, String str
+* 리턴타입 : StringBuffer
+
+### delete
+* 범위 내의 문자들을 제거하는 메소드
+* 매개변수 : int start, int end
+* 리턴타입 : StringBuffer
+
+### capacity()
+* 인스턴스의 버퍼크기를 정수로 반환하는 메소드
+
+### toString()
+* StringBuffer인스턴스를 문자열로 반환하는 메소드
+* 리턴타입 : String
+
+### reverse()
+* 저장되어있는 문자들의 순서를 뒤집는 메소드
+* 리턴타입 : StringBuffer
+
+> ## Math 클래스
+* 수학에 관련된 멤버를 갖고 있는 클래스
+* 멤버
+  * PI(3.141592...), E(2.71...) 와 같은 상수
+  * 메소드는 자주 사용하므로, static 메소드로 선언  
+
+### 메소드
+* double round(double a) : 소수점 첫째자리에서 반올림하는 메소드
+* double ceil(double a) : 소수점 첫째자리에서 올림하는 메소드
+  * 페이징 처리 시 유용
+* double floor(double a) : 소수점 첫째자리에서 내림하는 메소드
+* double random() : 0 ~ 1 사이 난수 반환하는 메소드
+* int abs(int a) : 절대 값을 반환하는 메소드
+* double pow(double a, double b) : 제곱을 계산하는 메소드
+* double sqrt(double a) : 1/2승을 계산하는 메소드
+* int max(int a, int b) : 더 큰 값을 구하는 메소드
+* int min(int a, int b) : 더 작은 값을 구하는 메소드
+
+
+> ## 래퍼 클래스
+* 8가지 기본형 변수를 객체로 다루기 위한 클래스
+  * boolean > Boolean
+  * byte    > Byte
+  * short   > Short
+  * int     > Integer
+  * long    > Long
+  * fload   > Float
+  * double  > Double
+  * char    > Character
+* Number 클래스
+  * 숫자 래퍼 클래스의 상위 클래스
+    * Byte
+    * Short
+    * Integer
+    * Long
+    * Float
+    * Double
+* 추상 클래스, 추상 메소드
+```java
+public abstract class Number implements java.io.Serializable {
+  
+  public abstract int intValue();
+  public abstract long longValue();
+  public abstract float floatValue();
+  public abstract double doubleValue();
+
+  public byte byteValue() {
+    return (byte)intValue();
+  }// byteValue()
+
+  public byte shortValue() {
+    return (short)intValue();
+  }// shortValue()
+
+}// Number
+```
+
+### 문자열 변환
+* xxx n = XXX.parsexxx();
+  * 문자열을 해당 기본형 타입으로 반환하는 static 메소드
+  * 매개변수 : String str / String str, int radix
+    * 진법(radix)과 문자열(str)을 일치 안시키면, NumberFormatException 발생
+  * 리턴타입 : 해당 기본형 숫자 타입
+
+### 오토박싱(autoboxing) / 오토언박싱(autounboxing)
+
+* 래퍼 클래스 참조 타입과 기본형 타입과의 연산을 할 때 컴파일러가 자동으로 변환
+* 오토박싱 : 기본형 타입을 자동으로 래퍼 클래스 참조형 타입으로 형 변환
+* 오토언박싱 : 래퍼 클래스 참조형 타입을 자동으로 기본형 타입으로 형 변환
 
 
 
