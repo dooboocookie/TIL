@@ -1,4 +1,4 @@
-> ## java.lang 패키지
+# java.lang 패키지
 * 가장 기본이 되는 클래스를 포함
 * 컴파일 시 자동으로 import java.lang.* 문이 추가
 * 따라서, import문을 따로 작성하지 않아도 java.lang 패키지의 클래스들을 사용 가능
@@ -366,7 +366,159 @@ public abstract class Number implements java.io.Serializable {
 * 오토박싱 : 기본형 타입을 자동으로 래퍼 클래스 참조형 타입으로 형 변환
 * 오토언박싱 : 래퍼 클래스 참조형 타입을 자동으로 기본형 타입으로 형 변환
 
+# java.util 패키지
+> ## java.util.Objects 클래스
+* 모든 메소드가 static 메소드
+* 객체의 비교나 null check에 활용
 
+### isNull() / nonNull()
+* 객체가 널인지 확인하여 true/false를 반환하는 메소드
+* 매개변수 : Object
+* 리턴타입 : boolean
+```java
+Object obj = null;
+
+boolean a = (obj = null);
+boolean b = Objects.isNull(obj);
+boolean c = Objects.nonNull(obj);
+
+System.out.printf("%b, %b, %b", a, b, c);
+//true, treu, true
+```
+
+### equals()
+* 객체를 일치하는지 비교하여 true/false를 반환하는 메소드
+* 매개변수 : Object a, Object b
+* 리턴타입 : boolean
+* Object 클래스의 equals()는 null check이 필수적
+
+```java
+Object obj1 = null;
+Object obj2 = null;
+
+boolean a = (obj1 != null && obj1.equals(obj2));
+boolean b = Objects.equals(obj1, obj2);
+
+System.out.printf("%b, %b", a, b);
+// false, true
+```
+
+> ## java.util.Random 클래스
+### 생성자 
+* Random() : System.currentTimeMillis()를 seed값으로 Random 인스턴스 생성
+* Random(seed) : seed값으로 Random 인스턴스 생성
+
+### nextInt()
+* 지정된 범위의 난수를 반환하는 메소드
+* 매개변수 : X / int bound
+* 리턴타입 : int (int 범위 / 0 ~ bound)
+* boolean, double, float, byte, long형에 대한 메소드도 존재
+
+> ## java.util.regex 패키지
+
+### Regular Expression(regex, 정규 표현식)
+* 지정한 pattern과 일치하는 문자열을 찾기 위해서, 정의된 기호와 문자를 기용해서 작성
+  * [0-9], \d : 숫자
+  * [a-z] : 소문자 알파벳
+  * [A-Z] : 대문자 알파벳
+  * [a-zA-Z0-9], \w : 숫자와 알파벳
+  * . : 모든 문자
+  * [A|B] : A or B
+  * \* : 0개 ~ 여러 개
+    * A.* : A, AB, ABC, ...
+  * \+ : 1개 ~ 여러 개
+    * A.+ : AB, ABC, ...
+  * A{1,3} : A or AA or AAA
+
+### Pattern클래스 / Matcher클래스
+* Pattern 클래스 : regex를 정의하는 역할
+* Matcher 클래스 : regex와 입력값 비교하는 역할
+
+```java
+//1. 정규식 정의 (소문자로 된 문자열)
+Pattern p = Pattern.compile("[a-z]+");
+
+//2. matcher()메소드로 Matcher 인스턴스 생성
+Matcher m = p.matcher("aaa");
+
+//3. matches()메소드로 boolean값 반환
+System.out.println(m.matches());
+//true
+```
+
+### find() 
+* 문자열에서 정규식에 일치하는 부분을 찾아서 그 위치(start() / end())를 찾아 true/false로 반환하는 메소드
+* 매개변수 : X
+* 리턴타입 : boolean
+
+### group()
+* regex에서 그룹화된 부분을 나누어 문자열로 반환하는 메소드
+*  매개변수 : X(0 > 전체), int
+*  리턴타입 : String
+```java
+String source = "010-1234-5678";
+String pattern = "(0\\d{1,2})-(\\d{3,4})-(\\d{4})";
+
+Pattern p = Pattern.complie(pattern);
+Matcher m = p.matcher(source);
+
+System.out.println(m.group(0));
+// "010-1234-5678"
+System.out.println(m.group(1));
+// "010"
+System.out.println(m.group(2));
+// "1234"
+System.out.println(m.group(3));
+// "5678"
+```
+
+> ## java.util.Scanner 클래스
+* 입력 소스를 입력 받는데 도움을 주는 클래스
+### 생성자
+* Scanner(String source)
+* Scanner(File source)
+* Scanner(InputStream source)
+* Scanner(Readable source)
+* Scanner(ReadableByteChannel source)
+* Scanner(Path source)
+
+### useDelimiter()
+* 정규식을 구분자로 하여 라인단위로 나누는 메소드
+* 매개변수 : String regex / Pattern pattern
+* 리턴타입 : Sanner(this)
+
+### next()
+* 라인단위로 입력받은 내용을 출력하는 메소드
+* 매개변수 : X
+* 리턴타입 : String
+* int, long, ... 기본형 타입을 반환하는 메소드도 존재
+
+
+> ## java.util.StringTokenizer  클래스
+* 문자열을 구분자로 나눠, token(여러 문자열)로 자르는데 사용되는 클래스
+
+### 생성자
+StringTokenizer(String str, String delim)
+
+### nextToken()
+* 구분자로 나누어진 문자열을 반환하는 메소드
+* 매개변수 : X
+* 리턴타입 : String
+
+### hasMoreToken()
+* 토큰이 남아있는지 확인하는 메소드
+* 매개변수 : X
+* 리턴타입 : boolean
+
+
+> ## etc.
+
+### java.math.BigInteger 클래스
+* long형의 범위를 벗어난 계산을 할때 사용하는 클래스
+
+### java.math.BigDecimal 클래스
+* double형 보다 더 정밀한 실수를 다룰 때 사용하는 클래스
+ 
 
 
 
