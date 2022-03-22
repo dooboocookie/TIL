@@ -238,3 +238,46 @@ time = time.truncatedTo(ChronoUnit.HOURS);
 * 두 인스턴스의 날짜, 시간 정보를 비교하여 true/false값을 반환하는 메소드
 * 매개변수 : LocalDate, LocalTime, ...
 * 리턴타입 : boolean
+
+### 변환
+* LocalDateTime atTime(LocalTime t)
+* LocalDateTime atDate(LocalDate d)
+* LocalDate toLocalDate()
+* LocalTime toLocalTime()
+
+```java
+LocalDate d = LocalDate.now(); // 날짜
+LocalTime t = LocalTime.now(); // 시간
+LocalDateTime dt;
+
+// LocalTime,LocalDate > LocalDateTime
+dt = d.atTime(t);
+dt = t.atDate(d);
+
+// LocalDateTime > LocalTime,LocalDate
+LocalDate a = dt.toLocalDate();
+LocalTime b = dt.toLocalTime();
+```
+
+> ## Instant
+* EPOCH TIME(에포크 타임, 1970-01-01 00:00:00)부터 경과된 시간을 나노초 단위로 표현
+* Date의 대체를 위해 클래스
+* Instant > Date 변환 : static Date from(Instant instant)
+* Date > Instant 변환 : Instant toInstant()
+
+
+> ## TemporalAdjusters 클래스
+* 자주 쓰이는 날짜 계산을 메소드를 정의한 클래스
+
+```java
+LocalDate now = LocalDate.now();
+System.out.println(now); // "2022-03-22"
+
+// 다음 금요일
+LocalDate result  = now.with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
+System.out.println(result); // "2022-03-25"
+
+// 지난 금요일
+result = now.with(TemporalAdjusters.previous(DayOfWeek.FRIDAY));
+System.out.println(result); // "2022-03-18"
+```
