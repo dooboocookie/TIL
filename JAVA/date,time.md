@@ -106,3 +106,135 @@ date.add(Calendar.DATE, 1);
 date.roll(Calendar.MONTH, -1);
 // 2000년 12월 01일
 ```
+
+> ## Date - Calendar 변환
+
+* Calendar -> Date
+```java
+Calendar c = Calendar.getInstance();
+
+Date d1 = c.getTime();
+
+Date d2 = new Date(c.getTimeMillis());
+```
+* Date -> Calendar
+```java
+Date d = new Date();
+
+Calendar c = Calendar.getInstance();
+c.setTime(d);
+```
+---
+---
+# java.time 패키지
+* JDK1.8 추가
+* Date와 Calendar의 단점을 극복하고자 추가된 패키지
+* 불변(immutable)한 클래스들
+* 하위 패키지
+  * chrono : 표준(ISO)가 아닌 달력 시스템을 위한 클래스들
+  * format : 날짜, 시간의 형식화를 위한 클래스들
+  * temporal : 필드(field)와 단위(unit)을 위한 클래스들
+  * zone : 시간대(time-zone)에 관련된 클래스들
+
+> ## LocalDate 클래스 : 날짜
+> ## LocalTime 클래스 : 시간
+> ## LocalDateTime 클래스 : 날짜 + 시간
+> ## ZonedDateTime 클래스 : 날짜 + 시간 + 시간대
+
+### 구현된 상위 인터페이스
+* Temporal
+* TemporalAcessor
+* TemporalAdjuster
+
+### 인스턴스 생성
+* now()
+  * 시스템의 현재 날짜 및 시간 정보를 담아서 인스턴스를 생성하는 메소드
+  * 매개변수 : X
+  * 리턴타입 : LocalDate, LocalTime, ...
+  
+* of()
+  * 입력된 정보들로 날짜 및 시간 정보를 담아서 인스턴스를 생성하는 메소드
+  * 매개변수
+    * int year, int month, int date
+    * int hour, int minute, int second, ...
+    * LocalDate, LocalTime
+  * 리턴타입 : LocalDate, LocalTime, ...
+
+### TemporalField 인터페이스
+* 날짜 및 시간에 대한 필드를 정의한 인터페이스
+* 구현 클래스 : ChronoField 클래스
+* 필드
+  * DAY_OF_WEEK : 요일
+  * YEAR : 년
+  * MONTH_OF_YEAR : 월
+  * DAY_OF_MONTH : 일
+  * HOUR_OF_DAY : 시(0~23)
+  * CLOCK_HOUR_OF_AMPM : 시(1~12)
+  * MINUT_OF_HOUR : 분(0~59)
+  * SECOND_OF_MINUTE : 초(0~59)
+  * ...
+
+### TemporalUnit 인터페이스
+* 날짜 및 시간의 단위를 정의한 인터페이스
+* 구현 클래스 : ChronoUnit 클래스
+* 필드
+  * YEARS : 년
+  * MONTHS : 월
+  * DAYS : 일
+  * HOURS : 시
+  * MINUTES : 분
+  * SECONDS : 초
+  * ...
+
+### get()
+* 필드값에 해당되는 값을 정수로 반환하는 메소드
+* 매개변수 : TemporalField field (ChronoField.XXX)
+* 리턴타입 : int
+
+### getXXX()
+* 해당되는 날짜 정보를 출력하는 메소드
+* 매개변수 : X
+* 리턴타입 : 각 메소드에서 나타내는 날짜 정보에 맞는 타입
+```java
+LocalDate d = LocalDate.now();
+
+int year = d.getYear();
+System.out.println(year); //2022
+
+year = d.get(ChronoField.YEAR);
+System.out.println(year); //2022
+```
+### plus() / minus()
+* 지정된 단위의 값을 더하거나 빼는 메소드
+* 매개변수 : long amountToAdd, TemporalUnit unit
+* 리턴타입 : LocalDate, LocalTime, ...
+
+### with()
+* 필드값에 해당되는 값을 변경하는 메소드
+* 매개변수 : TemporalField field, long newValue
+* 리턴타입 : LocalDate, LocalTime, ...
+```java
+LocalDate date = LocalDate.of(2022, 3, 22);
+//2022-03-22
+date = date.plus(30,ChronoUnit.DAYS);
+//2022-04-21
+date = date.plusDays(1);
+//2022-04-22
+date = date.with(ChronoField.MONTH_OF_YEAR, 3));
+//2022-03-22
+```
+### truncatedTo()
+* 입력된 단위 밑으로는 절삭하는 메소드
+* 매개변수 : TemporalUnit unit
+* 리턴타입 : LocalDate, LocalTime, ...
+
+```java
+LocalTime time = LocalTime.of(12, 34, 56);
+//12:34:56
+time = time.truncatedTo(ChronoUnit.HOURS);
+//12:00
+```
+### isAfter() / isBefore() / isEquals()
+* 두 인스턴스의 날짜, 시간 정보를 비교하여 true/false값을 반환하는 메소드
+* 매개변수 : LocalDate, LocalTime, ...
+* 리턴타입 : boolean
