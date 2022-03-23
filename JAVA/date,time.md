@@ -281,3 +281,101 @@ System.out.println(result); // "2022-03-25"
 result = now.with(TemporalAdjusters.previous(DayOfWeek.FRIDAY));
 System.out.println(result); // "2022-03-18"
 ```
+
+> ## Period 클래스 / Duration 클래스
+* 날짜 / 시간 차이를 계산하기 위한 클래스
+
+### 인스턴스 생성
+* between()
+  * static 메소드
+  * 두 날짜 / 시간의 간격 정보를 갖는 인스턴스를 반환하는 메소드
+  * 매개변수
+    * LocalDate startInclusive, LocalDate endExclusive
+    * Temporal startInclusive, Temporal endExclusive
+  * 리턴타입
+    * Period
+    * Duration
+* until()
+  * 인스턴스 메소드
+  * 두 날짜 /시간의 간격에 대한 정보를 갖는 인스턴스를 반환하는 메소드
+  * 매개변수
+    * ChronoLocalDate endExclusive
+    * Temporal endExclusive
+  * 리턴타입
+    * Period
+    * Duration<br><br>
+  * 두 날짜 / 시간의 차이를 단위에 맞춰 정수로 반환하는 메소드
+  * 매개변수
+    * ChronoLocalDate endExclusive, TemporalUnit
+    * Temporal endExclusive, TemporalUnit
+  * 리턴타입 : long
+
+```java
+LocalDate d1 = new LocalDate.of(2022,2,15);
+LocalDate d2 = new LocalDate.of(2022,3,23);
+
+Period p = Period.between(d1, d2);
+
+System.out.println(p.getYears()); // 0년 차이
+System.out.println(p.get(ChronoUnit.YEARS));
+
+System.out.println(p.getMonths()); // 1달 차이
+
+System.out.println(p.getDays()); // 8일(1개월 + 8일) 차이
+
+
+LocalTime t1 = new LocalTime.of(12,10,10);
+LocalTime t2 = new LocalTime.of(13,11,20);
+
+Duration d = t1.until(t2);
+
+System.out.println(d.getSeconds()); //3610초
+System.out.println(d.get(ChronoUnit.SECONDS)); //3610초
+
+System.out.println(t1.until(t2,ChronoUnit.SECONDS)); //3610초
+```
+
+### get() / getXXX() / of() / plus() / minus() / with() / ...
+  * LocalDate 같은 클래스들과 비슷한 메소드를 갖음
+
+> ## DateTimeFormatter 클래스
+
+* java.time.format 패키지
+* LocalDate, LocalTime, ... 날짜 시간정보를 담는 클래스 타입의 형식화와 파싱을 위한 클래스
+
+### 인스턴스 생성
+* ofLocalizedDate() / ofLocalLocalizedTime() / ...
+  * FormatStyle에 상수로 정의된 형식을 따르는 인스턴스 생성
+    * FULL : Wednesday, March 23, 2022
+    * LONG : March 23, 2022
+    * MEDIUM : Mar 23, 2022
+    * SHORT : 3/23/22
+* ofPattern()
+  * 패턴에 기호를 사용하여 원하는 형식을 갖는 인스턴스 생성
+  * 매개변수 : String pattern
+    * y : 년
+    * M : 월
+    * d : 일
+    * H : 시(0~23)
+    * m : 분
+    * s : 초
+    * ...
+* 상수로 정의된 형식
+  * ISO_LOCAL_DATE : 2022-03-23
+  * ISO_LOCAL_TIME : 22:03:56
+  * ISO_LOCAL_DATE_TIME : 2022-03-23T22:03:56
+  * ...
+
+### format()
+* 날짜 / 시간 정보를 형식화된 상태의 문자열로 반환하는 메소드
+* 매개변수 : TemporalAccessor temporal
+* 리턴타입 : String
+
+### parse
+* 형식에 맞는 문자열에서 날짜 / 시간 정보를 얻어오는 메소드
+* 매개변수 : CharSequence text, DateTimeFormatter formatter
+* 리턴타입
+  * LocalDate
+  * LocalTime
+  * LocalDateTime
+  * ...
