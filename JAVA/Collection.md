@@ -337,6 +337,59 @@ Iterator ir = list.iterator();
 
 * Set 인터페이스를 상속한 컬렉션 클래스, 그 중 대표적인 클래스
 * Set 인터페이스의 특징 : 순서 유지 X / 중복 허용 X
+
+### 생성자
+* HashSet() : 디폴트 생성자,  초기용량이 16인 인스턴스 생성
+* HashSet(int capacity) : 용량(정수)을 갖는 인스턴스 생성
+* HashSet(Collection c) : 콜렉션의 객체들을 포함하는 인스턴스 생성
+
+### add()
+* 객체를 추가하는 메소드
+* 데이터를 추가한 순서에 상관없이 데이터가 놓여짐
+* 중복되는 객체는 추가하지 않음
+* 매개변수 : Object obj
+* 리턴타입 : boolean
+
+### removd()
+* 일치하는 객체를 제거하는 메소드
+* 인덱스 값으로 자료를 수정하지 않음
+* 매개변수 : Object obj
+* 리턴타입 : boolean
+
+```java
+HashSet<Integer> hs = new HashSet<Integer>();
+
+hs.add(9);
+hs.add(1);
+hs.add(15);
+hs.add(20);
+hs.add(15); // false
+
+System.out.println(hs); // [1, 20, 9, 15]
+
+hs.remove(20);
+System.out.println(hs); // [1, 9, 15]
+```
+
+> ## TreeSet 컬렉션 클래스
+
+* 이진 검색 트리(binary search tree) 자료구조
+  * 루트 노드로 시작
+  * 부모 - 자식 노드 관계 : 최대 2개의 자식 노드를 가짐
+  * 형제 - 형제 노드 관계
+  * 부모 노드 보다 작은 값은 왼쪽
+  * 부모 노드 보다 큰 값은 오른쪽 
+  * 정렬, 검색에서 높은 성능
+* Set 특징 : 중복 허용 X / 순서 유지 X (정렬된 위치에 저장)
+
+### 간단한 구현
+```java
+class TreeNode{
+  TreeNode left; // 왼쪽 자식 노드의 주소 참조
+  TreeNode ringt; // 오른쪽 자식 노드의 주소 참조
+  Object obj; // 해당 노드의 저장할 객체
+}
+```
   
 
 
