@@ -390,7 +390,91 @@ class TreeNode{
   Object obj; // 해당 노드의 저장할 객체
 }
 ```
-  
+ > ## Hashing (해싱)
+* 배열과 링크드 리스트의 조합으로 만들어진 자료구조
+* Hash function (int hashFunction(Object key))로 해시코드를 반환
+*  해시코드를 통하여 배열의 요소를 찾음
+*  그 안의 링크드 리스트에서 키값과 일치하는 값을 찾음
+
+> ## HashMap 
+* Map 인터페이스를 구현한 클래스
+  * Entry(key + value)
+    * Key : 객체, 요소를 찾는데 사용, 중복 허용 X
+    * Value : 객체, 요소의 값을 가짐, 중복 허용 O
+* 해쉬 구조로 검색에서 성능이 좋음
+* Hashtable : 동기화 처리가 되는 클래스 / 컬렉션 프레임워크 이후 HashMap으로 대체
+
+### 생성자
+* HashMap() : 디폴트 생성자, 용량 16, 로드 팩터 값이 0.75인 인스턴스를 생성
+* HashMap(int capacity, flaot loadFactor) : 용량과 로드 팩터 값을 설정하여 인스턴스 생성
+* HashMap(Map m) : Map 인스턴스 m의 요소를 포함하는 인스턴스 생성
+
+### put()
+* key와 value를 저장하는 메소드
+* key는 중복 허용X, 이미 key가 있으면 value만 대체
+* 매개변수 : Object key, Object value
+* 리턴타입 : Object
+
+### get()
+* 해당되는 key의 value를 반환하는 메소드
+* 매개변수 : Object key
+* 리턴타입 : Object(value)
+
+### remove()
+* 해당되는 key에 대한 요소를 삭제하는 메소드
+* 매개변수 : Object key
+* 리턴타입 : Object(value)
+
+### keySet() / entrySet()
+* HashMap의 저장된 키값들이나 엔트리들을 Set 인스턴스로 반환
+* 매개변수 : X
+* 리턴타입 : Set
+```java
+HashMap<String, Integer> hm = new HashMap<>();
+hm.put("경환", 1);
+hm.put("두부", 2);
+hm.put("쿠키", 3);
+
+if (hm.contain) hm.remove("경환");
+
+System.out.println(hm);
+//{두부=2, 쿠키=3}
+
+hhm.put("두부", 4);
+
+System.out.println(hm);
+//{두부=4, 쿠키=3}
+```
+
+> ## TreeMap 클래스
+
+* 이진 검색 트리(binary search tree)의 자료 구조를 가진 Map을 구현한 클래스
+* Entry(key + value)의 요소를 갖는 트리 구조
+* 정렬이나 범위검색에 유리
+
+> ## Properties 클래스
+* Map <- Hashtable을 상속받아 구현한 컬렉션 클래스
+* Entry를 <String, String>으로 저장하는 단순화된 클래스
+* 애플리케이션의 환경설정을 저장하고, 읽기 쓰기 등의 메소드를 제공
+
+### 생성자
+* Properties() : 디폴트 생성자
+* Properties(Properties defaults) : 디폴트 속성을 가지는 인스턴스 생성
+
+### setProperty()
+* key와 value를 저장하는 메소드
+* 매개변수 : String key, String value
+* 리턴타입 : Object
+
+### sava()
+* Writer나 OutputStream에 주석을 저장하는 메소드
+* 매개변수 : Wtrier/OutputStream, String comments
+* 리넡타입 : void
+
+### load()
+* InputStream이나 Reader로 부터 목록을 읽어 Properties 인스턴스에 저장하는 메소드
+* 매개변수 : InputStream / Reader
+* 리턴타입 : void 
 
 
 
