@@ -54,11 +54,22 @@
   * 관계형 데이터베이스 관리 시스템
   * Oracle, MySQL, ...
 
+> ## 스키마(Schema)
+* DB에서 테이블들의 집합
+* 인스턴스(instance) : 오라클 서버 > startup(시작) ~ shutdown(종료)
+* 세션(session) : 사용자 > 로그인 ~ 로그아웃
+* 스키마(schema) : 특정 사용자와 관련된 객체(테이블)의 모음
+
 > ## DBA
 * DataBase + Administrator : 데이터 베이스 관리자
 * 오라클 관리자 계정
   * SYS : 최상위 관리자, 모든 권한
   * SYSTEM : DB 생성 권한 X
 
+
+
+> ## SID
+* 설치된 오라클 데이터 베이스의 고유한 이름
+* 오라클 무료 버전은 자동으로 XE 1개만 설치 가능
 
 
