@@ -1,5 +1,12 @@
 # SQL (Structured Query Language)
 * 구조화된 질의 언어
+* 서버<===(질의, 응답)==>클라이언트
+### SQL 작성법
+1. 대소문자는 구분하지 않음 / 조회 및 비밀번호는 구분함
+2. 단어 단위로 띄어쓰기, 줄바꿈 상관 없음
+3. 절별로 줄바꿈 권장
+4. 키워드는 대문자, 그외(테이블명, 컬럼명, ...) 소문자 권장
+5. 탭, 공백, 줄바꿈 사용하여 가독성 높임
 
 > ## SQL의 종류
 ### DQL(Data Query Language)
@@ -28,7 +35,7 @@
   * COMMIT
   * ROLLBACK
   * SAVEPOINT
-
+---
 > ## CREATE 문
 
 ### CREATE USER 문
@@ -75,12 +82,28 @@ ACCOUNT UNLOCK;;
 ```sql
 DROP USER scott CASCADE;
 ```
-
+---
 > ## GRANT 문
-* 권한 부여
+* "롤이나 권한"을 "사용자"에 부여
+* "권한"을 "롤"에 부여
 ```sql
 GRANT RESOURCE, CONNECT TO scott;
 ```
+### 롤(ROLE)
+* 다양한 권한 <==(부여, 제거)==> 다수 사용자
+  1. 롤 생성 
+  2. 롤에 권한 부여
+  3. 사용자에게 롤 부여
+
+> ## REVOKE 문
+* 부여된 권한이나 롤을 제거
+```sql
+REVOKE RESOURCE, CONNECT FROM scott;
+```
+> ## INSERT
+
+
+---
 > ## SELECT 문
 * DQL(Query)
 * 대상 : 하나 이상의 테이블, 뷰
@@ -179,7 +202,15 @@ WHERE SUBSTR(ibsadate, 0, 2) = '98';
   * [NOT] IN(list) : list 값 중 같은 값이 있는지
   * [NOT] BETWEEN a AND b : a ~ b 값인지
   * IS [NOT] NULL : 널 값 인지
-
+  * LIKE
+    * 와일드카드로 일치하는 문자 판단
+    * % : 갯수 상관 없음
+    * _ : 한 개의 문자를 대신
+### NULL 값
+* 아직 정해지지 않은 값
+* '', 0 과는 의미가 다름
+* null값 확인 시, = 비교연산자 사용하지 않음
+* IS NULL 연산자 사용
 
 ### ORDER BY 절
 * 정렬을 위한 절
@@ -193,3 +224,60 @@ ORDER BY deptno ASC, hiredate DESC;
 -- 1차 정렬 : deptno 부서별로 1차 오름차순 정렬
 -- 2차 정렬 : 입사일자를 기준으로 내림차순 정렬
 ```
+
+### WITH 절
+* 서브 쿼리
+  * SQL 문 부속된 또다른 SQL문
+  * 연산자 오른쪽에 위치
+  * ()로 묶음
+```sql
+WITH temp AS (
+    -- 서브쿼리(subquery)
+    SELECT deptno, ename, sal + NVL(comm, 0) pay
+    FROM emp
+    WHERE deptno =30
+)
+SELECT t.* 
+FROM temp t -- t 테이블의 별칭 선언
+WHERE pay BETWEEN 1000 AND 2000;
+```
+* 인라인 뷰(inline view)
+  * FROM절 안에 서브쿼리
+```sql
+SELECT t.*
+FROM (
+    SELECT deptno, ename, sal + NVL(comm, 0) pay
+    FROM emp
+    WHERE deptno =30
+) t
+WHERE t.pay BETWEEN 1000 AND 2000;
+```
+
+> ## 함수
+
+### NVL(exp1, exp2)
+* exp1의 값이 널일 때, exp2로 변환
+### NVL2(exp1, exp2, exp3)
+* exp1의 값이 널이 아닐 때 exp2, 널일 때 exp3로 변환
+
+### SUBSTR(char, pos, [ length ])
+* char문자열에 pos위치부터 length길이만큼 출력
+* pos이 음수면 뒤에서 부터
+### TO_CHAR(date, [ format, [ nlsparm ] ])
+* 날짜를 포맷에 맞춰 출력
+### EXTRACT(datetime)
+* datetime이나 interval 값으로 특정 날짜/시간 정보를 추출
+### REGEXP_LIKE(char, pattern, [ match_option ])
+* 정규표현식으로 해당되는 문자열 평가
+
+> ## Data Dictionary
+
+* 메타 데이터(META DATA)
+* 테이블 + 뷰의 집합
+* 데이터베이스의 정보를 제공하는 역할
+* DB생성 > SYS 계정 생성 > SYS 스키마 생성 > 내부에 테이블로 구성
+### 접두사 종류
+* dba_ : DB 전체에 포함되는 모든 객체에 대한 '자세한' 정보
+* all_ : 자신이 생성한 객체 + 권한이 있는 객체 중 볼 수 있는 정보를
+* user_ : 자신이 생성한 객체 정보
+* V$_ : DB의 성능분석 / 통계 정보를 제공
