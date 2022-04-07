@@ -73,3 +73,46 @@
 * 오라클 무료 버전은 자동으로 XE 1개만 설치 가능
 
 
+> ## SYNONYM
+
+* 객체를 조회할 때 사용자가 소유한 객체 아니면 객체 앞에 소유자 ID(schema)를 붙여아하는 번거로움을 줄이고자 객체의 이름을 정의
+  * ex ) scott.emp >> arirang
+* 종류
+  * PRIVATE SYNONYM : 소유자만 접근 가능 / 잘 사용 안함
+  * PUBLIC SYNONYM : 모든 사용자가 접근 가능 / PUBLIC schema의 소유
+
+* 생성
+  * CREATE PUBLIC SYNONYM [스키마명.]시노님명 FOR [스키마명.]테이블명(객체명);
+  * 관리자 계정에서 SYNONYM 생성
+  * 소유자 계정에서 SYNONYM에게 접근할 수 있는 권한 부여
+```sql
+-- 관리자 계정에서
+CREATE PUBLIC SYNONYM arirang
+FOR scott.emp;
+```
+```sql
+-- 소유자 계정에서
+GRANT SELECT ON emp TO PUBLIC;
+```
+
+> ## dual 테이블
+
+* SYS 계정이 소유하는 테이블(오라클 표준 테이블)
+* 오직 한 행, 한 열만 담고 있는 dummy 테이블
+* 일시적인 산술 연산 및 날짜 연산시 주로 사용
+* PUBLIC SYNONYM으로 설정된 이름
+
+
+
+> ## Data Dictionary
+
+* 메타 데이터(META DATA)
+* 테이블 + 뷰의 집합
+* 데이터베이스의 정보를 제공하는 역할
+* DB생성 > SYS 계정 생성 > SYS 스키마 생성 > 내부에 테이블로 구성
+
+### 접두사 종류
+* dba_ : DB 전체에 포함되는 모든 객체에 대한 '자세한' 정보
+* all_ : 자신이 생성한 객체 + 권한이 있는 객체 중 볼 수 있는 정보를
+* user_ : 자신이 생성한 객체 정보
+* V$_ : DB의 성능분석 / 통계 정보를 제공
