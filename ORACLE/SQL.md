@@ -66,6 +66,10 @@ CREATE TABLE emp
     DEPTNO NUMBER(2) CONSTRAINT FK_DEPTNO REFERENCES DEPT  --부서테이블(dept)의 부서번호(deptno)를 참조
 );
 ```
+### 고유키
+
+### 참조키
+
 > ## ALTER 문
 ### ALTER USER 문
 * 계정을 수정
@@ -81,6 +85,40 @@ ACCOUNT UNLOCK;;
 * 삭제 할 떄, CASCADE 옵션은 계정이 소유하는 객체(스키마)들까지 같이 삭제
 ```sql
 DROP USER scott CASCADE;
+```
+---
+> ## INSERT 문
+* 테이블의 행을 추가하는 문
+* 추가 후 COMMIT이나 ROLLBACK 트랜잭션 처리 필수
+* 형식
+  * INSERT INTO 테이블명 [ (컬럼명,...) ] VALUES (컬럼값,...);
+```sql
+INSERT INTO dept (deptno, dname, loc) VALUES (50, 'QC', 'SEOUL');
+COMMIT;
+```
+> ## UPDATE 문
+* 조건에 맞는 행에 열을 수정하는 문
+* 조건이 없으면 전체 행 수정
+* 수정 후 COMMIT이나 ROLLBACK 트랜잭션 처리 필수
+* 형식
+    * UPDATE 테이블명 SET 컬럼 = 값[, ...] [WHERE 조건식];
+```sql
+UPDATE dept
+SET loc = 'BUSAN'
+WHERE deptno = 50;
+COMMIT;
+```
+> ## DELETE
+* 조건에 맞는 행을 삭제하는 문
+* 조건이 없으면 전체 행 삭제
+* 조건은 보통 중복 값이 없는 고유키(PK)로 하는 것이 일반적
+* 삭제 후 OMMIT이나 ROLLBACK 트랜잭션 처리 필수
+* 형식
+    * DELETE 테이블명 [WHERE 조건식];  
+```sql
+DELETE dept
+WHERE deptno = 50;
+COMMIT;
 ```
 ---
 > ## GRANT 문
@@ -100,7 +138,6 @@ GRANT RESOURCE, CONNECT TO scott;
 ```sql
 REVOKE RESOURCE, CONNECT FROM scott;
 ```
-> ## INSERT
 
 
 ---
@@ -159,6 +196,7 @@ FROM emp;
 
 ### WHERE 절
 * 조건을 묻는 절
+* 절안에서 연산자들을 많이 씀
 ```sql
 SELECT *
 FROM emp
@@ -177,40 +215,7 @@ WHERE SUBSTR(ibsadate, 0, 2) = '98';
 -- YY/MM/dd형태인 날짜 ibsadate 컬럼에서 98년도에 해당되는 조건을 묻는 절들
 ```
 
-### 연산자
-* 비교 연산자  
-  * = : 같은
-  * !=, <>, ^= : 같지 않은
-  * \>=, <=, >, < : 작거나 같은, ...
-* 논리 연산자
-  * NOT 연산자 : 부정 연산자
-  * AND 연산자
-    * true AND true : true
-    * true AND false : false
-    * true AND unknown : unknown
-    * false AND false : false
-    * false AND unknown : false
-    * unknown AND unknown : unkonwn  
-  * OR 연산자
-    * true AND true : true
-    * true AND false : true
-    * true AND unknown : true
-    * false AND false : false
-    * false AND unknown : unkonwn
-    * unknown AND unknown : unkonwn
-* SQL 연산자
-  * [NOT] IN(list) : list 값 중 같은 값이 있는지
-  * [NOT] BETWEEN a AND b : a ~ b 값인지
-  * IS [NOT] NULL : 널 값 인지
-  * LIKE
-    * 와일드카드로 일치하는 문자 판단
-    * % : 갯수 상관 없음
-    * _ : 한 개의 문자를 대신
-### NULL 값
-* 아직 정해지지 않은 값
-* '', 0 과는 의미가 다름
-* null값 확인 시, = 비교연산자 사용하지 않음
-* IS NULL 연산자 사용
+
 
 ### ORDER BY 절
 * 정렬을 위한 절
@@ -226,10 +231,15 @@ ORDER BY deptno ASC, hiredate DESC;
 ```
 
 ### WITH 절
-* 서브 쿼리
+* 서브쿼리 블럭을 미리 선언하여 나중에 반복하여 사용하기 위한 절
+* 하나의 WITH절에 여러개 쿼리 블럭 사용 가능
+* (WITH절이 없는) SELECT 문 이 쿼리 블럭 안에 포함
+* 코딩을 간결하게 함
+### 서브 쿼리
   * SQL 문 부속된 또다른 SQL문
   * 연산자 오른쪽에 위치
   * ()로 묶음
+  * ORDER BY절을 사용할 수 없음
 ```sql
 WITH temp AS (
     -- 서브쿼리(subquery)
@@ -243,6 +253,7 @@ WHERE pay BETWEEN 1000 AND 2000;
 ```
 * 인라인 뷰(inline view)
   * FROM절 안에 서브쿼리
+  * 하나의 테이블 명처럼 사용되는 서브쿼리
 ```sql
 SELECT t.*
 FROM (
@@ -252,32 +263,3 @@ FROM (
 ) t
 WHERE t.pay BETWEEN 1000 AND 2000;
 ```
-
-> ## 함수
-
-### NVL(exp1, exp2)
-* exp1의 값이 널일 때, exp2로 변환
-### NVL2(exp1, exp2, exp3)
-* exp1의 값이 널이 아닐 때 exp2, 널일 때 exp3로 변환
-
-### SUBSTR(char, pos, [ length ])
-* char문자열에 pos위치부터 length길이만큼 출력
-* pos이 음수면 뒤에서 부터
-### TO_CHAR(date, [ format, [ nlsparm ] ])
-* 날짜를 포맷에 맞춰 출력
-### EXTRACT(datetime)
-* datetime이나 interval 값으로 특정 날짜/시간 정보를 추출
-### REGEXP_LIKE(char, pattern, [ match_option ])
-* 정규표현식으로 해당되는 문자열 평가
-
-> ## Data Dictionary
-
-* 메타 데이터(META DATA)
-* 테이블 + 뷰의 집합
-* 데이터베이스의 정보를 제공하는 역할
-* DB생성 > SYS 계정 생성 > SYS 스키마 생성 > 내부에 테이블로 구성
-### 접두사 종류
-* dba_ : DB 전체에 포함되는 모든 객체에 대한 '자세한' 정보
-* all_ : 자신이 생성한 객체 + 권한이 있는 객체 중 볼 수 있는 정보를
-* user_ : 자신이 생성한 객체 정보
-* V$_ : DB의 성능분석 / 통계 정보를 제공
