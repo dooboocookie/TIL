@@ -78,43 +78,93 @@ FROM dual;
 ### LENGTH(char)
 * 문자열의 길이를 반환
 
-> ### NVL(exp1, exp2)
-* exp1의 값이 널일 때, exp2로 변환
+### CONCAT(char1, char2)
+* 두 문자열을 합쳐 하나의 문자열로 변환
+* || 결합 연산자와 비슷한 역할을 함
+  
+```sql
+SELECT CONCAT('두부','쿠키') --'두부쿠키'
+FROM dual;
+```
 
-> ### NVL2(exp1, exp2, exp3)
-* exp1의 값이 널이 아닐 때 exp2, 널일 때 exp3로 변환
-
-> ### SUBSTR(char, pos, [ length ])
+### SUBSTR(char, pos, [ length ])
 * char문자열에 pos위치부터 length길이만큼 출력
 * pos이 음수면 뒤에서 부터
 
-> ### TO_CHAR(date, [ format, [ nlsparm ] ])
-* 날짜를 포맷에 맞춰 출력
 
-> ### EXTRACT(datetime)
-* datetime이나 interval 값으로 특정 날짜/시간 정보를 추출
+### INSTR(char1, char2 [, pos [, occurrence]])
+* char1문자열에서 지정한 문자 char2를 찾아서 위치를 숫자로 반환
+* pos은 검색 시작 위치 (양수면 좌측부터, 음수면 우측부터)
+* occurrence번째 검색된 위치를 반환
+```sql
+SELECT INSTR('abcdabcdabcd', 'bc') -- 2
+    , INSTR('abcdabcdabcd', 'bc', 3) -- 6
+    , INSTR('abcdabcdabcd', 'bc', 3, 2) -- 10
+    , INSTR('abcdabcdabcd', 'bc', -1, 1) -- 10
+FROM dual;
+```
 
-> ### REGEXP_LIKE(char, pattern, [ match_option ])
-* 정규표현식으로 해당되는 문자열 평가
+### RPAD (expr1, n [, expr2] ) / LPAD
+* 문자열 길이를 n으로 고정하고, expr1을 출력 후 남는 공간은 expr2로 채운다
+* RPAD는 우측, LPAD는 좌측
 
-> ### UPPER(char)
-* 대문자로 변환
+### ASCII 코드값
+* ASCII(char) : 문자를 아스키코드값으로 변환
+* CHR(n) : n의 아스키코드값을 갖는 문자로 변환
 
-> ### CONCAT(char1, char2)
-* 두 문자열을 합쳐 하나의 문자열로 변환
-
-> ### REPLACE(char1, char2, char)
+### REPLACE(char1, char2, char)
 * char1 문자열 중 char2를 char3로 대체하여 문자열로 변환
 
-> ### SYSDATE
+### REGEXP_LIKE(char, pattern, [ match_option ])
+* 정규표현식으로 해당되는 문자열 평가
+
+>## 날짜 함수
+
+### SYSDATE
 * 시스템의 날짜 정보를 가져오는 함수
   
-> ### CURRENT_DATE
+### CURRENT_DATE
 * 시스템의 현자 날짜 정보를 가져오는 함수
-> ### CURRENT_TIMESTAMP
+ 
+### CURRENT_TIMESTAMP
 * 시스템의 현재 타임스탬프 날짜 정보를 가져오는 함수
 
-> ### VSIZE()
+### TO_CHAR(date, [ format, [ nlsparm ] ])
+* 날짜를 포맷에 맞춰 출력
+
+### EXTRACT(datetime)
+* datetime이나 interval 값으로 특정 날짜/시간 정보를 추출
+
+### TRUNC(date)
+* 날짜 데이터를 특정위치를 절삭하는 함수
+```sql
+SELECT CURRENT_TIMESTAMP,
+    TRUNC(CURRENT_TIMESTAMP), 
+    -- 시간 정보를 절삭 / 00:00:00
+    TRUNC(CURRENT_TIMESTAMP, 'DD'), 
+    -- 일까지 출력 시 밑으로 절삭 / 00:00:00
+    TRUNC(CURRENT_TIMESTAMP, 'MM'), 
+    -- 월까지 출력 일 밑으로 절삭 / 22/04/01
+    TRUNC(CURRENT_TIMESTAMP, 'YY'), 
+    -- 년까지 출력 월 밑으로 절삭 / 22/01/01
+    TRUNC(CURRENT_TIMESTAMP, 'DAY') 
+    -- 요일 / 그 주의 첫날(일요일) 22/04/03
+FROM dual;
+```
+### ROUND(date)
+* 날짜 데이터의 특정위치를 반올림하는 함수
+
+> ## NULL 처리 함수
+### NVL(exp1, exp2)
+* exp1의 값이 널일 때, exp2로 변환
+
+### NVL2(exp1, exp2, exp3)
+* exp1의 값이 널이 아닐 때 exp2, 널일 때 exp3로 변환
+
+
+
+
+### VSIZE()
 * 입력된 자료의 크기를 출력하는 함수
   * 한글 1문자 == 3바이트
   * 영문 1문자 == 1바이트
