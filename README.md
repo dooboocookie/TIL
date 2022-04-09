@@ -22,3 +22,5 @@
 ### Oracle
 * [데이터베이스](./ORACLE/DATABASE.md)
 * [SQL](./ORACLE/SQL.md)
+* [함수 정리](./ORACLE/function.md)
+* [연산자 정리](./ORACLE/Operator.md)
