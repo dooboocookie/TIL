@@ -171,3 +171,32 @@ FROM dual;
   * 숫자 == 2바이트 
 
 
+> # 그룹 함수
+
+* 그룹의 인풋을 하나의 결과로 출력
+* SELECT절이나 HAVING절에 사용
+* HAVING절은 그룹을 제한
+* GROUP BY절은 행을 그룹
+* 그룹 함수와 행이 여러개인 일반 컬럼을 같이 조회할 수 없음
+
+### COUNT()
+* 컬럼의 갯수를 출력
+* (NULL 포함)
+* DISTINCT : 중복 제거
+* ALL (기본 값) : 중복 포함
+* \* : 널을 포함한 행
+
+```sql
+SELECT  COUNT(*)
+FROM emp
+WHERE deptno =10;
+-- deptno가 10인 레코드 수 / 3
+
+SELECT  COUNT(DISTINCT deptno)
+FROM emp;
+-- 중복을 제외한 deptno컬럼의 수 / 3(10, 20, 30)
+```
+
+### AVG()
+* 평균을 출력
+* (NULL 제외)
