@@ -42,8 +42,17 @@
     * _ : 한 개의 문자를 대신
     * EESCAPE '\'를 통해 와일드 카드(%, _)를 일반 문자로 판단하는 데 사용 
   * EXISTS 
-    * WHERE(상관서브쿠러가 존재하면 true로 반환)
+    * WHERE(상관 서브쿼러가 존재하면 true로 반환)
     * IN으로도 표현가능
+  * ALL
+    * WHERE 절의 서브쿼리에 사용
+    * 서브쿼리의 모든 레코드
+```sql
+SELECT * 
+FROM emp
+WHERE sal >= ALL (SELECT sal FROM emp);
+-- emp테이블에서 가장 높은 sal을 가진 행 조회
+```
 
 > ## NULL 연산자
   * IS [NOT] NULL : 널 값 인지 판단하는 연산자
