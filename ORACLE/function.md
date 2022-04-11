@@ -14,7 +14,7 @@
 |단일행함수<br>(Single-row)|각 행을 대상으로 함수를 적용하여 각 행에 대한 결과를 반환|
 |그룹함수<br>(Group, 복수행)|여러 행을 그룹으로 하여 그룹별로 결과를 하나 반환|
 
-> # 단일행 함수
+# 단일행 함수
 
 >## 숫자 함수
 
@@ -118,22 +118,21 @@ FROM dual;
 ### REGEXP_LIKE(char, pattern, [ match_option ])
 * 정규표현식으로 해당되는 문자열 평가
 
+### VSIZE()
+* 입력된 자료의 크기를 출력하는 함수
+  * 한글 1문자 == 3바이트
+  * 영문 1문자 == 1바이트
+  * 숫자 == 2바이트 
+
 >## 날짜 함수
+### DATETIME 종류
+|종류|내용|
+|:---|:---|
+|SYSDATE|시스템의 날짜 정보를 가져오는 함수| 
+|CURRENT_DATE|시스템의 현재 날짜 정보를 가져오는 함수|
+|CURRENT_TIMESTAMP|시스템의 현재 타임스탬프 날짜 정보를 가져오는 함수|
+|EXTRACT(datetime)|datetime이나 interval 값으로 특정 날짜/시간 정보를 추출|
 
-### SYSDATE
-* 시스템의 날짜 정보를 가져오는 함수
-  
-### CURRENT_DATE
-* 시스템의 현자 날짜 정보를 가져오는 함수
- 
-### CURRENT_TIMESTAMP
-* 시스템의 현재 타임스탬프 날짜 정보를 가져오는 함수
-
-### TO_CHAR(date, [ format, [ nlsparm ] ])
-* 날짜를 포맷에 맞춰 출력
-
-### EXTRACT(datetime)
-* datetime이나 interval 값으로 특정 날짜/시간 정보를 추출
 
 ### TRUNC(date)
 * 날짜 데이터를 특정위치를 절삭하는 함수
@@ -153,6 +152,40 @@ FROM dual;
 ```
 ### ROUND(date)
 * 날짜 데이터의 특정위치를 반올림하는 함수
+* 형식은 TRUNC()와 동일
+
+### 날짜 연산
+* 날짜 - 날짜 = 숫자 (차이 일수)
+* 날짜 ± 숫자 = 날짜 (숫자만큼 전(후) 날짜)
+* 날짜 ± 숫자/24 = 날짜 (숫자만큼의 시간 차이)
+
+### MONTHS_BETWEEN(date1,date2)
+* 두 날짜에 월의 차이를 반환
+```sql
+SELECT MONTHS_BETWEEN(SYSDATE, hiredate), -- 고용일로부터 지난 개월수
+  MONTHS_BETWEEN(hiredate , SYSDATE)/12 -- 년수 계산
+FROM emp;
+```
+> ## 형변환 함수
+
+### TO_CHAR(date [, 'fmt' [, 'nlsparam'])
+* 날짜를 포맷에 맞춰 문자열 출력
+```sql
+SELECT TO_CHAR(SYSDATE, 'YYYY') -- '2022' 문자열로 출력
+FROM dual;
+```
+### TO_DATE( char [, 'fmt' [, 'nlsparam']])
+* 문자열을 포맷에 맞춰 날짜형으로 변환하는 함수
+```sql
+SELECT TO_DATE('2022.04.11'), -- 22/02/11(날짜형)
+  TO_DATE('04.11.2022', 'MM,DD,YYYY'), --22/02/11(날짜형)
+  TO_DATE('2022.04', 'YYYY.MM'), --22/04/01 : 일 입력 안하면 1일로 변환
+  TO_DATE('11', 'DD') -- 22/04/11 : 년, 월 입력 안하면 해당년 해당월로 변환
+FROM dual;
+```
+### TO_NUMBER()
+* 문자를 숫자로 변환
+* 숫자만 있는 문자열은 묵시적으로 숫자로 취급
 
 > ## NULL 처리 함수
 ### NVL(exp1, exp2)
@@ -162,16 +195,34 @@ FROM dual;
 * exp1의 값이 널이 아닐 때 exp2, 널일 때 exp3로 변환
 
 
+> ## 그 밖
+
+### DECODE(expr, search1, result1 [, search2, result2,...][, default]);
+* 다른 언어의 IF문과 같은은 역할을 함
+* PL/SQL에서 사용하기 위해 만들어진 함수
+* default (if문으로 따지면 else)를 안주면 null
+```java
+if (x ==1) {
+    return A;
+} else if (x==10) {
+    return B;
+} else if (x==12) {
+    return C;
+} else if (x==14) {
+    return D;
+} else {
+    return E;
+}  
+```
+* 자바에서의 IF문을 DECODE()로 표현해보면..
+```sql
+SELECT DECODE(x,1,A,10,B,12,C,14,D,E)
+FROM dual;
+```
 
 
-### VSIZE()
-* 입력된 자료의 크기를 출력하는 함수
-  * 한글 1문자 == 3바이트
-  * 영문 1문자 == 1바이트
-  * 숫자 == 2바이트 
 
-
-> # 그룹 함수
+# 그룹 함수
 
 * 그룹의 인풋을 하나의 결과로 출력
 * SELECT절이나 HAVING절에 사용
@@ -181,7 +232,6 @@ FROM dual;
 
 ### COUNT()
 * 컬럼의 갯수를 출력
-* (NULL 포함)
 * DISTINCT : 중복 제거
 * ALL (기본 값) : 중복 포함
 * \* : 널을 포함한 행
@@ -197,6 +247,20 @@ FROM emp;
 -- 중복을 제외한 deptno컬럼의 수 / 3(10, 20, 30)
 ```
 
+### SUM()
+* (NULL 제외) 합을 출력
+
 ### AVG()
-* 평균을 출력
-* (NULL 제외)
+* (NULL 제외) 평균을 출력
+
+### MAX()
+* (NULL 제외) 최대값을 출력
+
+### MIN()
+* (NULL 제외) 최소값을 출력
+
+### STDDEV()
+* (NULL 제외) 표준편차를 출력
+
+### VARIANCE()
+* (NULL 제외) 분산을 출력
