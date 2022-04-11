@@ -166,6 +166,22 @@ SELECT MONTHS_BETWEEN(SYSDATE, hiredate), -- 고용일로부터 지난 개월수
   MONTHS_BETWEEN(hiredate , SYSDATE)/12 -- 년수 계산
 FROM emp;
 ```
+
+### ADD_MONTHS(date, month)
+* 날짜의 개월수를 더한 날짜를 출력
+  * 1월 31일, 2월 28일, 4월 30일 같이 월의 마지막 날에서 연산 시 해당 월에 마지막 날로 계산 
+```sql
+SELECT ADD_MONTHS(TO_DATE('02-28-2022', 'MM-DD-YYYY'),  1),  -- 3월31일
+  ADD_MONTHS(TO_DATE('02-27-2022', 'MM-DD-YYYY'),  1)  -- 3월27일
+FROM dual;
+```
+### LAST_DAY()
+* 해당 월의 마지막 날짜를 반환
+
+### NEXT_DAY()
+* 해당 요일의 돌아오는 날짜를 반환
+
+
 > ## 형변환 함수
 
 ### TO_CHAR(date [, 'fmt' [, 'nlsparam'])
@@ -183,9 +199,28 @@ SELECT TO_DATE('2022.04.11'), -- 22/02/11(날짜형)
   TO_DATE('11', 'DD') -- 22/04/11 : 년, 월 입력 안하면 해당년 해당월로 변환
 FROM dual;
 ```
+
+### TO_CHAR(number [,'fmt' [, 'nlsparam']])
+* 숫자를 포맷에 맞춰 문자열로 변환하는 함수
+
+|기호|내용|
+|:---:|:---|
+|9|숫자|
+|0|숫자, 공백 시 0으로 채움|
+|,|쉼표 표기|
+|.|소수점 표기|
+|L|local currency symbol|
+```sql
+SELECT TO_CHAR(1234567, '9,999,999'), -- '1,234,567' 
+  TO_CHAR(1234567, 'L9,999,999.99'), -- '￦1,234,567.00'
+  TO_CHAR(12, '0999') -- '0012'
+FROM dual;
+```
+
+
 ### TO_NUMBER()
 * 문자를 숫자로 변환
-* 숫자만 있는 문자열은 묵시적으로 숫자로 취급
+* 숫자만 있는 문자열은 묵시적으로 숫자로 취급하기에 잘 사용은 안함
 
 > ## NULL 처리 함수
 ### NVL(exp1, exp2)
@@ -199,28 +234,45 @@ FROM dual;
 
 ### DECODE(expr, search1, result1 [, search2, result2,...][, default]);
 * 다른 언어의 IF문과 같은은 역할을 함
-* PL/SQL에서 사용하기 위해 만들어진 함수
+  * PL/SQL에서 사용하기 위해 만들어진 함수
+* 조건을 =(같다) 비교만 가능
 * default (if문으로 따지면 else)를 안주면 null
 ```java
-if (x ==1) {
-    return A;
-} else if (x==10) {
-    return B;
-} else if (x==12) {
-    return C;
-} else if (x==14) {
-    return D;
-} else {
-    return E;
-}  
+if (x ==1) return 'A';
+else if (x==10)  return 'B';
+else if (x==12) return 'C';
+else if (x==14) return 'D';
+else return 'E';  
 ```
 * 자바에서의 IF문을 DECODE()로 표현해보면..
 ```sql
-SELECT DECODE(x,1,A,10,B,12,C,14,D,E)
+SELECT DECODE(x, 1,A, 10,B, 12,C, 14,D, E)
 FROM dual;
 ```
 
-
+### CASE
+* DECODE보다 더 개선된 함수
+* 형식
+```sql
+SELECT CASE x
+    WHEN 1 THEN 'A'
+    WHEN 10 THEN 'B'
+    WHEN 12 THEN 'C'
+    WHEN 14 THEN 'D'
+    ELSE 'E'
+  END
+FROM dual; 
+```
+* 비교, 산술, 관계 연산자 사용 가능
+```sql
+SELECT emp.*,  
+    CASE
+    WHEN deptno IN (10, 20) THEN 'A팀'
+    ELSE 'B팀'
+  END AS "팀명"
+FROM emp; 
+-- deptno가 10, 20인 사원은 A팀 나머지는 B팀
+```
 
 # 그룹 함수
 
