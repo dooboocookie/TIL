@@ -155,9 +155,11 @@ FROM dual;
 * 형식은 TRUNC()와 동일
 
 ### 날짜 연산
-* 날짜 - 날짜 = 숫자 (차이 일수)
-* 날짜 ± 숫자 = 날짜 (숫자만큼 전(후) 날짜)
-* 날짜 ± 숫자/24 = 날짜 (숫자만큼의 시간 차이)
+|연산|결과|
+|:---|:---|
+|날짜 - 날짜| = 숫자 (차이 일수)|
+|날짜 ± 숫자| = 날짜 (숫자만큼 전(후) 날짜)|
+|날짜 ± 숫자/24| = 날짜 (숫자만큼의 시간 차이)|
 
 ### MONTHS_BETWEEN(date1,date2)
 * 두 날짜에 월의 차이를 반환
@@ -186,6 +188,14 @@ FROM dual;
 
 ### TO_CHAR(date [, 'fmt' [, 'nlsparam'])
 * 날짜를 포맷에 맞춰 문자열 출력
+
+|기호|내용|기호|내용|
+|:---:|:---|:---:|:---|
+|년|Y,YY,YYY,YYYY,RR,RRRR,...|월|MM, MONTH, MON|
+|일|DD(일/월) D(일/주) DDD(일/년)|요일|DY, DAY|
+|시|HH, HH12, HH24|분|MI|
+|초|SS, SSSSS|오전<br>오후|AM, PM|
+
 ```sql
 SELECT TO_CHAR(SYSDATE, 'YYYY') -- '2022' 문자열로 출력
 FROM dual;
@@ -203,13 +213,11 @@ FROM dual;
 ### TO_CHAR(number [,'fmt' [, 'nlsparam']])
 * 숫자를 포맷에 맞춰 문자열로 변환하는 함수
 
-|기호|내용|
-|:---:|:---|
-|9|숫자|
-|0|숫자, 공백 시 0으로 채움|
-|,|쉼표 표기|
-|.|소수점 표기|
-|L|local currency symbol|
+|기호|내용|기호|내용|
+|:---:|:---|:---:|:---|
+|9|숫자|0|숫자, 공백 시 0으로 채움|
+|,|쉼표 표기||.|소수점 표기|
+|L|local currency symbol|||
 ```sql
 SELECT TO_CHAR(1234567, '9,999,999'), -- '1,234,567' 
   TO_CHAR(1234567, 'L9,999,999.99'), -- '￦1,234,567.00'
@@ -229,8 +237,17 @@ FROM dual;
 ### NVL2(exp1, exp2, exp3)
 * exp1의 값이 널이 아닐 때 exp2, 널일 때 exp3로 변환
 
+### NULLIF(expr1, expr2)
+* 두 인자 값을 비교
+* 같으면 NULL 반환
+* 다르면 expr1 반환
 
-> ## 그 밖
+### COALESCE(expr [, expr , ...])
+* 순차적으로 인자 값에 대하여 NULL 체크
+* NULL이 아닌 값 중 가장 처음 순서의 인자 반환
+
+
+> ## IF문 역할하는 함수
 
 ### DECODE(expr, search1, result1 [, search2, result2,...][, default]);
 * 다른 언어의 IF문과 같은은 역할을 함
@@ -273,6 +290,51 @@ SELECT emp.*,
 FROM emp; 
 -- deptno가 10, 20인 사원은 A팀 나머지는 B팀
 ```
+
+> ## 순위 함수 (TOP_N)
+### ROWNUM
+* 함수 아님
+* 오라클 내부에서 사용되는 의사 컬럼(pseudo column)
+* SELECT문으로 조회된 행들의 순서번호
+
+### RANK
+* 그룹 내 순위를 계산하여 NUMBER타입으로 순위를 반환
+* 중복 순위 계산
+```sql
+RANK ( ) OVER ([PARITION BY 절] ORDER BY절 )
+```
+
+### DENSE_RANK()
+* 그룹 내 순위를 계산하여 NUMBER타입으로 순위를 반환
+* 중복 순위 계산 안함
+```sql
+DENSE_RANK ( ) OVER ([PARITION BY 절] ORDER BY절 )
+```
+
+### ROW_NUMBER()
+* 정렬된 결과에 대해 순번을 NUMBER타입으로 반환
+* 같은 순위도 순번이 다름
+```sql
+ROW_NUMBER( ) OVER ([PARITION BY 절] ORDER BY절 )
+```
+```sql
+-- deptno 별 sal이 TOP 2인 정보 조회
+SELECT t.*
+FROM (SELECT  emp.*, RANK() OVER(PARTITION BY deptno ORDER BY sal DESC) seq FROM emp) t
+WHERE seq <= 2;
+
+SELECT t.*
+FROM (SELECT  emp.*, DENSE_RANK() OVER(PARTITION BY deptno ORDER BY sal DESC) seq FROM emp) t
+WHERE seq <= 2;
+
+SELECT t.*
+FROM (SELECT  emp.*, ROW_NUMBER() OVER(PARTITION BY deptno ORDER BY sal DESC) seq FROM emp) t
+WHERE seq <= 2;
+```
+
+### PERCENT_RANK()
+* 첫 행을 0 마지막 행을 1로 순번을 비율로 나타냄
+
 
 # 그룹 함수
 
