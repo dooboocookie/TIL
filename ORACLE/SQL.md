@@ -141,7 +141,7 @@ REVOKE RESOURCE, CONNECT FROM scott;
 
 
 ---
-> ## SELECT 문
+# SELECT 문 (Query)
 * DQL(Query)
 * 대상 : 하나 이상의 테이블, 뷰
 * 데이터를 가져오는 데 사용
@@ -163,7 +163,7 @@ ORDER BY    --7 (생략가능)
 |ALL|중복된 내용도 모두 조회 (생략되어 있음)|
 |AS|컬럼의 별칭(alias)을 부여 (생략할 수 있음)|
 
-### SELECT절 & FROM 절 
+> ## SELECT절 & FROM 절 
 * 테이블 또는 뷰
 ```sql
 SELECT * --모든 정보
@@ -196,7 +196,7 @@ SELECT comm
 FROM emp;
 ```
 
-### WHERE 절
+> ## WHERE 절
 * 조건을 묻는 절
 * 절안에서 연산자들을 많이 씀
 ```sql
@@ -219,7 +219,7 @@ WHERE SUBSTR(ibsadate, 0, 2) = '98';
 
 
 
-### ORDER BY 절
+> ## ORDER BY 절
 * 정렬을 위한 절
 * ASC : 오름차순 (생략 시 기본)
 * DESC : 내림차순
@@ -232,16 +232,23 @@ ORDER BY deptno ASC, hiredate DESC;
 -- 2차 정렬 : 입사일자를 기준으로 내림차순 정렬
 ```
 
-### WITH 절
+> ## WITH 절
 * 서브쿼리 블럭을 미리 선언하여 나중에 반복하여 사용하기 위한 절
 * 하나의 WITH절에 여러개 쿼리 블럭 사용 가능
 * (WITH절이 없는) SELECT 문 이 쿼리 블럭 안에 포함
 * 코딩을 간결하게 함
-### 서브 쿼리
+> ## 서브 쿼리
   * SQL 문 부속된 또다른 SQL문
   * 연산자 오른쪽에 위치
   * ()로 묶음
   * ORDER BY절을 사용할 수 없음
+
+|위치|이름|
+|:---|:---|
+|FROM 절|Inline view|
+|WHERE 절|Nested subquery|
+|parent, child관계| Correlated subquery|
+
 ```sql
 WITH temp AS (
     -- 서브쿼리(subquery)
@@ -264,4 +271,34 @@ FROM (
     WHERE deptno =30
 ) t
 WHERE t.pay BETWEEN 1000 AND 2000;
+```
+### 상관 서브 쿼리(Correlated subquery)  
+* 일반 서브 쿼리의 경우, 결과를 메인 쿼리에서 이용 
+* 상관 서브 쿼리는 서브 쿼리 안에서 메인 쿼리의 값을 이용
+  * 서브쿼리에서 메인쿼리의 값 사용
+  * 그 서브쿼리의 결과를 메인 쿼리에서 사용
+
+```sql
+SELECT *
+FROM emp e
+WHERE sal = (SELECT MAX(sal) FROM emp WHERE deptno = e.deptno);
+-- 조회하려는 행의 deptno의 sal의 최대값을 조회하는 서브쿼리
+```
+
+> ## GROUP BY
+* 레코드들의 그룹을 만들기 위한 절
+* 그룹에 대한 정보를 한 행으로 표시
+* 그룹 함수를 사용하는 쿼리문에서 자주 사용
+
+```sql
+SELECT MAX(sal) max_pay
+FROM emp;
+-- sal의 최댓값 출력
+
+SELECT deptno,
+   MAX(sal) max_pay
+FROM emp
+GROUP BY deptno;
+-- 부서별(deptno로 그룹화) sal 최대값
+
 ```
