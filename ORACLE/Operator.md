@@ -22,7 +22,7 @@
     * true AND true : true
     * true AND false : false
     * true AND unknown : unknown
-    * false AND false : false
+    * false AND false : falsess
     * false AND unknown : false
     * unknown AND unknown : unkonwn  
   * OR 연산자
@@ -42,11 +42,17 @@
     * _ : 한 개의 문자를 대신
     * EESCAPE '\'를 통해 와일드 카드(%, _)를 일반 문자로 판단하는 데 사용 
   * EXISTS 
-    * WHERE(상관 서브쿼러가 존재하면 true로 반환)
+    * WHERE절에서 사용
+    * 상관 서브 쿼리의 결과가 존재에 따라 true, false 반환
     * IN으로도 표현가능
-  * ALL
-    * WHERE 절의 서브쿼리에 사용
-    * 서브쿼리의 모든 레코드
+
+### 비교 연산자와 사용하는 SQL 연산자
+
+|연산자|내용|
+|:---:|:---|
+|ALL|WHERE 절의 서브쿼리에 사용<br> 서브쿼리의 모든 결과에 대해 비교 모두 해당되어야 함|
+|ANY|HERE 절의 서브쿼리에 사용<br> 서브쿼리의 모든 결과에 대해 비교 하나라도 일치해야 됨|
+
 ```sql
 SELECT * 
 FROM emp
