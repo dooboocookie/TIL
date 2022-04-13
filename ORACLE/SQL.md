@@ -196,6 +196,18 @@ SELECT comm
 FROM emp;
 ```
 
+### JOIN 
+* 두 테이블을 연결하기 위한 문
+* FROM 절에서 사용
+* 두 테이블을 연결하기 위한 조건이 필요
+  * WHERE절이나 ON뒤에 조건을을 붙임 
+
+```sql
+SELECT d.danme, e.*
+FROM emp e JOIN dept d ON e.deptno = d.deptno;
+-- emp 테이블에 없고 dept 테이블에 있는 dname이라는 컬럼을
+-- d.deptno(PK) 와 e.deptno(FK)를 통해서 JOIN하여 조회
+```
 > ## WHERE 절
 * 조건을 묻는 절
 * 절안에서 연산자들을 많이 씀
@@ -285,7 +297,7 @@ WHERE sal = (SELECT MAX(sal) FROM emp WHERE deptno = e.deptno);
 -- 조회하려는 행의 deptno의 sal의 최대값을 조회하는 서브쿼리
 ```
 
-> ## GROUP BY
+> ## GROUP BY 절
 * 레코드들의 그룹을 만들기 위한 절
 * 그룹에 대한 정보를 한 행으로 표시
 * 그룹 함수를 사용하는 쿼리문에서 자주 사용
@@ -300,5 +312,55 @@ SELECT deptno,
 FROM emp
 GROUP BY deptno;
 -- 부서별(deptno로 그룹화) sal 최대값
+```
 
+### ROLLUP, CUBE
+* GROUP BY 절에 쓰이는 연산자
+* 그룹에 대해 부분합을 구하는 연산자
+* ROLLUP은 (GROUP BY 컬럼 수) + 1 개의 부분합 출력
+  * deptno별 - job별 부분합
+  * deptno별 부분합
+  * 전체의 부분합
+```sql
+SELECT deptno, job, count(*)
+FROM emp
+GROUP BY ROLLUP (deptno, job);
+```
+|deptno|clerk|salesman|manager|analyst|president|부분합|
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|10|1|-|1|-|1|3|
+|20|1|-|1|1|-|3|
+|10|1|4|1|-|-|6|
+|부분합|-|-|-|-|-|12|
+
+* CUBE는 (GROUP BY 컬럼 수) * 2 개의 부분합 출력
+  * deptno별 - job별 부분합
+  * deptno별 부분합
+  * job별 부분합
+  * 전체의 부분합
+```sql
+SELECT deptno, job, count(*)
+FROM emp
+GROUP BY CUBE (deptno, job);
+```
+|deptno|clerk|salesman|manager|analyst|president|부분합|
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|10|1|-|1|-|1|3|
+|20|1|-|1|1|-|3|
+|10|1|4|1|-|-|6|
+|부분합|3|4|3|1|1|12|
+
+> ## HAVING 절
+* GROUP BY 절에서 그룹화한 그룹에 대한 조건을 주는 절
+* 반드시 GROUP BY 뒤에 위치 (단독으로는 사용 불가)
+* WHERE절과 달리 그룹 함수 같이 그룹에 대한 조건이 가능
+```sql
+SELECT deptno, MAX(sal) --  [5]부서번호(deptno), 최대급여(sal) 조회하고
+FROM emp -- [1] emp 테이블에서
+WHERE EXTRACT(YEAR FROM hiredate) = 1981; -- [2] 입사일이 81년도인 사람들을
+GROUP BY deptno -- [3] 부서별로 그룹지어(deptno로 그룹화)
+HAVING COUNT(*) >= 2 -- [4] 부서원수(그룹의 행 수)가 2명 이상인
+ORDER BY deptno; -- [6] 부서번호로 오름차순 정렬하여 출력하라
+
+-- [번호] 순서대로 처리
 ```
