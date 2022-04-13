@@ -118,11 +118,13 @@ FROM dual;
 ### REGEXP_LIKE(char, pattern, [ match_option ])
 * 정규표현식으로 해당되는 문자열 평가
 
+
 ### VSIZE()
 * 입력된 자료의 크기를 출력하는 함수
   * 한글 1문자 == 3바이트
   * 영문 1문자 == 1바이트
   * 숫자 == 2바이트 
+
 
 >## 날짜 함수
 ### DATETIME 종류
@@ -296,8 +298,9 @@ FROM emp;
 * 함수 아님
 * 오라클 내부에서 사용되는 의사 컬럼(pseudo column)
 * SELECT문으로 조회된 행들의 순서번호
+* 순번을 1번부터 찾을 수 있고, BETWEEN AND 연산자 같이 중간부터는 못찾음
 
-### RANK
+### RANK()
 * 그룹 내 순위를 계산하여 NUMBER타입으로 순위를 반환
 * 중복 순위 계산
 ```sql
@@ -336,6 +339,41 @@ WHERE seq <= 2;
 * 첫 행을 0 마지막 행을 1로 순번을 비율로 나타냄
 
 
+### FIRST_VALUE()
+* 정렬된 값 중 첫 번째 값을 반환하는 함수
+```sql
+FIRST_VALUE(expr) OVER ([PARITION BY 절] ORDER BY절 )
+```
+### LAST_VALUE()
+* 정렬된 값 중 마지막 값을 반환하는 함수
+  * 조회 중인 행이 마지막이므로 조회중인 행의 값 반환
+```sql
+LAST_VALUE(expr) OVER ([PARITION BY 절] ORDER BY절 )
+```
+> ## 그 외
+
+### TRIM(char1 FROM char2)
+* char2문자열의 양 끝쪽에 char1문자를 제거하는 함수
+```sql
+SELECT 
+  TRIM('*' FROM '***AD***MIN***') -- 'AD***MIN' 출력
+FROM dual;
+```
+### PIVOT()
+* 오라클 11g부터 제공
+* 행과 열을 뒤집는 함수
+* 형식
+```sql
+SELECT *
+FROM (PIVOT할 쿼리문)
+PIVOT (그룹함수(집계컬럼) FOR 피벗컬럼 IN (피벗컬럼값 AS 별칭 ...);
+```
+```sql
+SELECT *
+FROM(SELECT deptno, job FROM emp)
+PIVOT(COUNT(*) FOR deptno IN (10,20,30));
+-- 각 deptno에서 job별 인원 수
+```
 # 그룹 함수
 
 * 그룹의 인풋을 하나의 결과로 출력
