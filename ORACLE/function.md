@@ -374,6 +374,24 @@ FROM(SELECT deptno, job FROM emp)
 PIVOT(COUNT(*) FOR deptno IN (10,20,30));
 -- 각 deptno에서 job별 인원 수
 ```
+
+> ## dbms_random
+* PL/SQL의 5가지 중 하나인 package
+* 난수를 반환하는 함수
+
+```sql
+SELECT 
+    ROUND(dbms_random.value,1) "0~1",
+    ROUND(dbms_random.value(0, 100),1) "1~100",-- 0 <= 실수 < 100
+    TRUNC(dbms_random.value(0, 45)) + 1 lotto,
+    dbms_random.string('U', 5) "upper", --대문자
+    dbms_random.string('L', 5) "lower", --소문자
+    dbms_random.string('A', 5) "eng", --대문자 + 소문자
+    dbms_random.string('X', 5) "eng+num", --대문자 + 숫자
+    dbms_random.string('P', 5) "eng+특수" -- 알파벳 + 특수문자
+FROM dual;
+```
+
 # 그룹 함수
 
 * 그룹의 인풋을 하나의 결과로 출력
@@ -399,11 +417,37 @@ FROM emp;
 -- 중복을 제외한 deptno컬럼의 수 / 3(10, 20, 30)
 ```
 
+
 ### SUM()
 * (NULL 제외) 합을 출력
 
 ### AVG()
 * (NULL 제외) 평균을 출력
+
+### OVER 절
+* 그룹함수에서 OVER 절의 사용
+* 질의한 행의 누적된 결과 값을 반환
+* 형식
+```sql
+COUNT([DISTINCT ¦ ALL] expr1) OVER ([PARTITION BY expr2] ORDER BY expr3)
+```
+```sql
+SELECT deptno, ename, sal,
+  COUNT(*) OVER(ORDER BY sal DESC) "sal_count"
+FROM emp;
+-- sal로 내림차순 정렬하여 첫행부터 누적해가며 COUNT하는 쿼리
+-- 이는 sal의 순위 같음
+
+SELECT deptno, ename, sal,
+  COUNT(*) OVER(PARTITION BY deptno ORDER BY sal DESC) "sal_count"
+FROM emp;
+-- deptno 별 sal의 순위
+
+SELECT deptno, ename, sal,
+  AVG(sal) OVER(PARTITION BY deptno ORDER BY deptno) "sal_avg"
+FROM emp;
+-- deptno 별 sal의 평균
+```
 
 ### MAX()
 * (NULL 제외) 최대값을 출력
