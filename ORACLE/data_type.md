@@ -10,14 +10,12 @@
 * 고정 길이, 유니코드 단위 문자 자료형
 * size 생략 시, 1 문자
 
-### VARCHAR2 [ ( size [ BYTE ¦ CHAR ] ) ]
+### VARCHAR2 ( size [ BYTE ¦ CHAR ] )
 * 가변 길이, 바이트단위 문자 자료형
-* size 생략 시, 4000 byte(최대)
 * BYTE | CHAR 단위 생략 시, BYTE 
 
-### NVARCHAR2 [ ( size ) ]
-* 고정 길이, 유니코드 단위 문자 자료형
-* size 생략 시, 4000 byte(최대)
+### NVARCHAR2 ( size )
+* 가변 길이, 유니코드 단위 문자 자료형
 
 
 <table>
