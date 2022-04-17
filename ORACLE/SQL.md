@@ -35,7 +35,7 @@
   * COMMIT
   * ROLLBACK
   * SAVEPOINT
----
+#  DDL (Date  Dfinition Language)
 > ## CREATE 문
 
 ### CREATE USER 문
@@ -52,6 +52,14 @@ IDENTIFIED BY 비밀번호;
 
 ### CREATE TABLE 문
 * 테이블 생성
+1. 일반적인 방법
+* 형식
+```sql
+CREATE [GLOBAL TEMPORARY] TABLE [스키마명.]테이블명(
+  컬럼명 자료형 [DEFAULT 표현식] [제약조건]
+  , ...
+);
+```
 ```sql
 CREATE TABLE emp
 (
@@ -66,9 +74,59 @@ CREATE TABLE emp
     DEPTNO NUMBER(2) CONSTRAINT FK_DEPTNO REFERENCES DEPT  --부서테이블(dept)의 부서번호(deptno)를 참조
 );
 ```
-### 고유키
+#### 제약조건
+<table>
+  <tr>
+    <td>제약조건</td>
+    <td>타입</td>
+    <td>내용</td>
+  </tr>
+  <tr>
+    <td>PRIMARY KEY</td>
+    <td>P</td>
+    <td>기본키(고유키, PRIMARY KEY)<br>유일한  값들로 이루어져야 함<br> NULL 허용 X</td>
+  </tr>
+  <tr>
+    <td>REFERENCES</td>
+    <td>R</td>
+    <td>외래키(참조키, FOREIGN KEY)<br>다른 테이블의 기본키를 참조</td>
+  </tr>  <tr>
+    <td>NOT NULL</td>
+    <td>C</td>
+    <td>NULL 허용 X</td>
+  </tr>
+</table>
 
-### 참조키
+2. 서브쿼리를 이용한 방법
+   * 쿼리를 실행하여 그 결과의 테이블을 만드는 방법
+   * 기존 테이블을 복사 후 수정해서 사용하기에 용이함
+   * 테이블 구조만 복사하기 위해서 사용하기도 함
+   * 제약조건은 복사 안됨(NOT NULL 제외)
+  * 형식
+```sql
+CREATE TABLE 테이블명 [(컬럼명 [, ...])] 
+```
+```sql
+CREATE TABLE tbl_emp10
+AS (
+    SELECT *
+    FROM emp
+    WHERE deptno=10
+);
+-- emp 테이블에서 deptno가 10인 레코드로만 tbl_emp10 테이블 생성
+-- 컬럼명 생략 시 서브쿼리와 같은 컬럼명
+```
+```sql
+CREATE TABLE tbl_copy
+AS (
+    SELECT *
+    FROM emp
+    WHERE 1=0 -- 항상 거짓인 조건
+);
+-- 테이블 레코드를 제외하고 구조만 복사
+```
+
+
 
 > ## ALTER 문
 ### ALTER USER 문
@@ -79,6 +137,49 @@ IDENTIFIED BY lion
 ACCOUNT UNLOCK;;
 -- hr계정의 비밀번호를 lion으로 변경 + 잠금 상태 해제
 ```
+
+### ALTER TABLE 문
+* 테이블의 컬럼을 추가, 삭제, 변경에 사용
+1. 추가
+      *  컬럼을 추가
+      *  제약조건을 추가
+```sql
+ALTER TABLE 테이블명
+ADD (
+  컬럼명 자료형 [DEFAULT 표현식] [제약조건]
+  , ...
+)
+```
+2. 수정
+      * 컬럼을 수정 (한번에 한 컬럼씩 삭제)
+      * 제약조건은 수정이 불가
+```sql
+ALTER TABLE 테이블명
+MODIFY (
+  컬럼명 자료형 [DEFAULT 표현식]
+  , ...
+)
+```
+3. 컬러명 변경
+```sql
+ALTER TABLE 테이블명
+RENAME COLUMN 전_컬럼명 TO 후_컬럼명
+```
+4. 삭제
+      * 컬럼을 삭제
+      * 제약조건을 삭제
+```sql
+ALTER TABLE 테이블명
+DROP COLUMN 컬럼명;
+
+ALTER TABLE 테이블명
+DROP [CONSTRAINT] 제약조건;
+```
+### RENAME
+* 테이블, 뷰, ... 이름변경
+```sql
+RENAME 전_컬럼명 TO 후_컬럼명
+```
 > ## DROP 문
 ### DROP USER 문
 * 계정을 삭제
@@ -86,35 +187,126 @@ ACCOUNT UNLOCK;;
 ```sql
 DROP USER scott CASCADE;
 ```
----
+
+### DROP TABLE 문
+* 테이블을 삭제
+* 형식
+```sql
+DROP TABLE [스키마명.]테이블명 [CASCADE CONSTRAINTS] [PURGE];
+```
+* CASCADE CONSTRAINTS
+  * 무결성 제약조건 삭제 
+  * 대상 테이블의 기본키를 다른 테이블에서 참조키로 사용 중일 떄 삭제하기 위함
+* PURGE
+  * 완전히 삭제
+
+
+
+# DML(Data Manipulation Language)
+
 > ## INSERT 문
 * 테이블의 행을 추가하는 문
 * 추가 후 COMMIT이나 ROLLBACK 트랜잭션 처리 필수
 * 형식
-  * INSERT INTO 테이블명 [ (컬럼명,...) ] VALUES (컬럼값,...);
+```sql
+INSERT INTO 테이블명 [ (컬럼명,...) ] VALUES (컬럼값,...);
+```
 ```sql
 INSERT INTO dept (deptno, dname, loc) VALUES (50, 'QC', 'SEOUL');
 COMMIT;
 ```
+
+### 서브쿼리 INSERT 문
+* 서브쿼리의 결과를 삽입
+* 서브쿼리의 결과의 컬럼들과 대상 테이블의 컬럼들이 일치 해야 함
+```sql
+CREATE TABLE tbl_emp10
+AS (SELECT * FROM emp WHERE 1=0);
+
+INSERT INTO tbl_emp10
+(
+  SELECT *
+  FROM emp
+  WHERE deptno = 10
+);
+COMMIT;
+-- emp 테이블에 deptno가 10인 레코드들 tbl_emp10테이블에 삽입
+```
+
+### 다중테이블 INSERT 문
+1. unconditional insert all
+* 조건 없이 서브쿼리의 결과 행들을 모두 추가
+```sql
+INSERT ALL | FIRST
+  INTO 테이블1 VALUES (컬럼1,컬럼2,...)
+  [INTO 테이블2 VALUES (컬럼1,컬럼2,...)]
+  ...
+서브쿼리;
+```
+
+2. conditional insert all
+* 서브쿼리의 결과 행들 중 조건에 맞는 행들을 모두 추가
+```sql
+INSERT ALL
+WHEN 조건1 THEN
+    INTO 테이블1 VALUES(컬럼1,컬럼2,...)
+WHEN 조거2 THEN
+    INTO 테이블2 VALUES(컬럼1,컬럼2,...)
+...
+ELSE
+    INTO 테이블3 VALUES(컬럼1,컬럼2,...)
+서브쿼리; 
+```
+3. conditional firest insert
+* 서브쿼리의 결과 행들 중 조건에 만족하는 첫번째 테이블에만 행 추가
+```sql
+INSERT FIRST
+WHEN 조건1 THEN
+    INTO 테이블1 VALUES(컬럼1,컬럼2,...)
+WHEN 조거2 THEN
+    INTO 테이블2 VALUES(컬럼1,컬럼2,...)
+...
+ELSE
+    INTO 테이블3 VALUES(컬럼1,컬럼2,...)
+서브쿼리; 
+```
+
+4. pivoting insert
+* INTO 절 뒤에 오는 테이블을 모두 동일하게
+```sql
+INSERT ALL
+[WHEN 조건 THEN]
+    INTO 테이블1 VALUES(컬럼1,컬럼2,...)
+    INTO 테이블1 VALUES(컬럼1,컬럼2,...)
+    ...
+서브쿼리; 
+```
+
 > ## UPDATE 문
 * 조건에 맞는 행에 열을 수정하는 문
 * 조건이 없으면 전체 행 수정
 * 수정 후 COMMIT이나 ROLLBACK 트랜잭션 처리 필수
 * 형식
-    * UPDATE 테이블명 SET 컬럼 = 값[, ...] [WHERE 조건식];
+```sql
+UPDATE 테이블명 SET 컬럼 = 값[, ...] [WHERE 조건식];
+```
 ```sql
 UPDATE dept
 SET loc = 'BUSAN'
 WHERE deptno = 50;
 COMMIT;
 ```
+
+
 > ## DELETE
 * 조건에 맞는 행을 삭제하는 문
 * 조건이 없으면 전체 행 삭제
 * 조건은 보통 중복 값이 없는 고유키(PK)로 하는 것이 일반적
 * 삭제 후 OMMIT이나 ROLLBACK 트랜잭션 처리 필수
 * 형식
-    * DELETE 테이블명 [WHERE 조건식];  
+```sql
+DELETE 테이블명 [WHERE 조건식];  
+```
 ```sql
 DELETE dept
 WHERE deptno = 50;
