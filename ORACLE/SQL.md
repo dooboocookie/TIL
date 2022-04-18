@@ -74,28 +74,6 @@ CREATE TABLE emp
     DEPTNO NUMBER(2) CONSTRAINT FK_DEPTNO REFERENCES DEPT  --부서테이블(dept)의 부서번호(deptno)를 참조
 );
 ```
-#### 제약조건
-<table>
-  <tr>
-    <td>제약조건</td>
-    <td>타입</td>
-    <td>내용</td>
-  </tr>
-  <tr>
-    <td>PRIMARY KEY</td>
-    <td>P</td>
-    <td>기본키(고유키, PRIMARY KEY)<br>유일한  값들로 이루어져야 함<br> NULL 허용 X</td>
-  </tr>
-  <tr>
-    <td>REFERENCES</td>
-    <td>R</td>
-    <td>외래키(참조키, FOREIGN KEY)<br>다른 테이블의 기본키를 참조</td>
-  </tr>  <tr>
-    <td>NOT NULL</td>
-    <td>C</td>
-    <td>NULL 허용 X</td>
-  </tr>
-</table>
 
 2. 서브쿼리를 이용한 방법
    * 쿼리를 실행하여 그 결과의 테이블을 만드는 방법
@@ -126,8 +104,148 @@ AS (
 -- 테이블 레코드를 제외하고 구조만 복사
 ```
 
+### 제약조건
+1. 데이터의 '무결성 제약조건'(integrity constraint)'을 위해 레코드 추가, 수정, 삭제 시 적용되는 규칙
+2. 테이블 삭제 방지의 역할도 함
 
+* 데이터 무결성
 
+<table>
+  <tr>
+    <td>종류</td>
+    <td>내용</td>
+  </tr>
+  <tr>
+    <td>개체 무결성<br>(Entity Integrity)</td>
+    <td>릴레이션에 저장되는 튜블의 유일성을 보장하기 위한 제약조건</td>
+  </tr>
+  <tr>
+    <td>참조 무결성<br>(Relational Integrity)</td>
+    <td>릴레이션 간 데이터의 "일관성"을 보장하기 위한 제약조건</td>
+  <tr>
+    <td>개체 무결성<br>(Entity Integrity)</td>
+    <td>컬럼의 값의 데이터 타입, 길이, 기본 키, 유일성, null허용,... 제약조건</td>
+  </tr>
+</table>
+
+* 제약조건 종류
+<table>
+  <tr>
+    <td>제약조건</td>
+    <td>타입</td>
+    <td>내용</td>
+  </tr>
+  <tr>
+    <td>PRIMARY KEY (PK)</td>
+    <td>P</td>
+    <td>기본키(고유키, PRIMARY KEY)<br>유일한  값들로 이루어져야 함<br> NULL 허용 X</td>
+  </tr>
+  <tr>
+    <td>FOREIGN KEY (FK)</td>
+    <td>R</td>
+    <td>외래키(참조키, FOREIGN KEY)<br>다른 테이블의 기본키를 참조</td>
+  </tr>  
+  <tr>
+    <td>UNIQUE (UK)</td>
+    <td>U</td>
+    <td>유일성 제약조건<br>해당 컬럼에 데이터들은 중복되지 않고 유일</td>
+  </tr>
+  <tr>
+    <td>CHECK (CK)</td>
+    <td>C</td>
+    <td>조건 설정</td>
+  </tr>
+  <tr>
+    <td>NOT NULL (NN)</td>
+    <td>C</td>
+    <td>NULL 허용 X</td>
+  </tr>
+</table>
+
+### 선언
+1. 컬럼 레벨 (column level)
+  * IN-LINE constraint 방법
+  * CREATE TABLE 문에서 컬럼 선언 시 같은 라인에 작성
+```sql
+CREATE TABLE tbl_column_level
+(
+  -- 고유키
+  empno NUMBER(4) NOT NULL CONSTRAINTS PK_TBLCOLUMNLEVEL_EMPNO PRIMARY KEY,
+  -- NOT NULL
+  ename VARCHAR2(20) NOT NULL,
+  -- 외래키
+  deptno NUMBER(2) NOT NULL CONSTRAINTS FK_TBLCOLUMNLEVEL_DEPTNO REFERENCES dept(deptno),
+  -- CHECK
+  kor NUMBER(3) CONSTRAINTS CK_TBLCOLUMNLEVEL_KOR CHECK (kor BETWEEN 0 AND 100),
+    -- 유일성 제약조건
+  email VARCHAR2(50) CONSTRAINTS UK_TBLCOLUMNLEVEL_EMAIL UNIQUE,
+  city VARCHAR2(20)
+);
+```
+2. 테이블 레벨 (table level)
+  * OUT_OF_LINE constraint 방법
+  * CREATE TABLE 문에서 컬럼 선언 라인과 다른 줄에 선언
+    * NOT NULL은 선언 불가
+  * ALTER TABLE 문으로 추가 시 사용 
+```sql
+CREATE TABLE tbl_table_level
+(
+    empno NUMBER(4) NOT NULL,
+    ename VARCHAR2(20) NOT NULL,
+    deptno NUMBER(2) NOT NULL,
+    kor NUMBER(3),
+    email VARCHAR2(50),
+    city VARCHAR2(20),
+    
+    --PK 제약조건 설정
+    CONSTRAINTS PK_TBLTABLELEVEL_empno PRIMARY KEY(empno), --복합키
+    CONSTRAINTS FK_TBLTABLELEVEL_DEPTNO FOREIGN KEY(deptno) REFERENCES dept(deptno),
+    CONSTRAINTS UK_TBLTABLELEVEL_EMAIL UNIQUE(email),
+    CONSTRAINTS CK_TBLTABLELEVEL_KOR CHECK (kor BETWEEN 0 AND 100)
+);
+```
+
+### 삭제
+```sql
+ALTER TABLE 테이블명
+DROP PRIMARY KEY;
+
+ALTER TABLE 테이블명
+DROP CONSTRAINT 제약조건명
+```
+### 활성화 / 비활성화
+1. 비활성화 (DISABLE)
+     * 제약조건을 체크하지 않음
+```sql
+ALTER TABLE 테이블명
+DISABLE CONSTRAINT 제악조건명 [CASCADE];
+```
+2. 활성화 (ENABLE)
+     * 비활성화된 제약조건을 활성화
+```sql
+ALTER TABLE 테이블명
+ENABLE CONSTRAINT 제악조건명;
+```
+
+### FOREIGN KEY 삭제 옵션
+1. ON DELECT CASCADE
+* 부모키 삭제 시, 참조키에 해당되는 레코드들도 삭제
+```sql
+ALTER TABLE tbl_emp
+ADD CONSTRAINT FK_TBLEMP_DEPTNO FOREIGN KEY (deptno) REFERENCES tbl_dept (deptno) ON DELETE CASCADE;
+
+DELETE FROM tbl_dept
+WHERE deptno = 30;
+```
+2. ON DELECT SET NULL
+* 부모키 삭제 시, 참조키에 해당되는 레코드들의 해당 컬럼은 NULL값으로 바뀜
+```sql
+ALTER TABLE tbl_emp
+ADD CONSTRAINT FK_TBLEMP_DEPTNO FOREIGN KEY (deptno) REFERENCES tbl_dept (deptno) ON DELETE SET NULL;
+
+DELETE FROM tbl_dept
+WHERE deptno = 30;
+```
 > ## ALTER 문
 ### ALTER USER 문
 * 계정을 수정
@@ -298,7 +416,7 @@ COMMIT;
 ```
 
 
-> ## DELETE
+> ## DELETE 문
 * 조건에 맞는 행을 삭제하는 문
 * 조건이 없으면 전체 행 삭제
 * 조건은 보통 중복 값이 없는 고유키(PK)로 하는 것이 일반적
@@ -312,7 +430,25 @@ DELETE dept
 WHERE deptno = 50;
 COMMIT;
 ```
----
+
+> ## MERGE 문
+1. 구조가 같은 두 테이블을 하나의 테이블로 합치는 문
+2. 대량의 데이터는 쿼리문의 성능이 떨어짐으로, 나눠서 관리하던 데이터를 하나로 합칠 때 유용
+* 처리
+  * 매치되는 행이 존재하면 더하여 UPDATE
+  * 매치되는 행이 없으면 INSERT
+```sql
+MERGE INTO 스키마명.테이블명
+USING (서브쿼리) 
+ON (조건문)  
+WHEN MATCHED THEN -- UPDATE
+    UPDATE SET 컬럼명 = 값 [, ...]
+WHEN NOT MATCHED THEN -- INSERT
+    INSERT (컬럼명[, ...]) VALUES (값 [, ...]);
+```
+
+
+# DCL (Data Control Language)
 > ## GRANT 문
 * "롤이나 권한"을 "사용자"에 부여
 * "권한"을 "롤"에 부여
@@ -555,4 +691,51 @@ HAVING COUNT(*) >= 2 -- [4] 부서원수(그룹의 행 수)가 2명 이상인
 ORDER BY deptno; -- [6] 부서번호로 오름차순 정렬하여 출력하라
 
 -- [번호] 순서대로 처리
+```
+
+> ## 계층적 절의 (LEVEL)
+
+* LEVEL
+  * 의사 칼럼
+  * 테이블에서 행의 LEVEL을 가리키는 일련번호
+* 형식 
+```sql
+SELECT LEVEL {, 컬럼 [, ...]}
+FROM 테이블명
+WHERE 조건
+START WITH 조건
+CONNECT BY [PRIOR 컬럼1 비교연산자 컬럼2]|[컬럼1 비교연산자 PRIOR 컬럼2]
+```
+### START WITH 절
+* 최상위 행을 나타내는 조건식
+
+### CONNECT BY 절
+* 계층관계를 지정하는 절
+* PRIOR 연산자
+  * TOP-DOWN / BOTTOM-UP 방식을 결정
+
+
+|TOP-DOWN|BOTTOM-UP|
+|:---|:---|
+|CONNECT BY PRIOR 자식키 = 부모키|CONNECT BY PRIOR 부모키 = 자식키|
+|최상위 계층부터 출력|최하위 계층부터 출력|
+
+* LEVEL 함수
+
+|함수|반환|
+|:---|:---|
+|CONNECT_BY_ISLEAF|LEAF(하위) 데이터가 없으면 1, 있으면 0을 반환|
+|CONNECT_BY_ISCYCLE|ROOT(최상위) 데이터면 1, 아니면 0을 반환|
+|CONNECT_BY_ROOT|해당 데이터의 ROOT 데이터 값을 반환|
+
+### 가지 제거
+* CONNECT BY 절을 통한 가지 제거
+```sql
+SELECT 
+  LPAD(' ', (LEVEL-1)*3) || ename '계층도'
+FROM emp
+START WITH mgr IS NULL
+CONNECT BY PRIOR empno = mgr AND ename != 'CLARK';
+--'CLARK'에서 가지 제거
+--'CLARK'과 그 하위 계층('CLARK'을 매니저로 두는 레코드)는 출력 안함
 ```
