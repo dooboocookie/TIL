@@ -24,3 +24,4 @@
 * [SQL](./ORACLE/SQL.md)
 * [함수 정리](./ORACLE/function.md)
 * [연산자 정리](./ORACLE/Operator.md)
+* [데이터타입](./ORACLE/data_type.md)
