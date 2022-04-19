@@ -524,18 +524,7 @@ SELECT comm
 FROM emp;
 ```
 
-### JOIN 
-* 두 테이블을 연결하기 위한 문
-* FROM 절에서 사용
-* 두 테이블을 연결하기 위한 조건이 필요
-  * WHERE절이나 ON뒤에 조건을을 붙임 
 
-```sql
-SELECT d.danme, e.*
-FROM emp e JOIN dept d ON e.deptno = d.deptno;
--- emp 테이블에 없고 dept 테이블에 있는 dname이라는 컬럼을
--- d.deptno(PK) 와 e.deptno(FK)를 통해서 JOIN하여 조회
-```
 > ## WHERE 절
 * 조건을 묻는 절
 * 절안에서 연산자들을 많이 씀
@@ -693,6 +682,149 @@ ORDER BY deptno; -- [6] 부서번호로 오름차순 정렬하여 출력하라
 -- [번호] 순서대로 처리
 ```
 
+
+> ## JOIN 
+* 두 테이블을 연결하기 위한 문
+* FROM 절에서 사용
+* 두 테이블을 연결하기 위한 조건이 필요
+  * WHERE절이나 ON뒤에 조건을을 붙임
+  * JOIN 조건 수 = JOIN 테이블 수 - 1
+* JOIN의 종류
+<table>
+  <tr>
+    <td>종류</td>
+    <td>내용</td>
+  </tr>
+  <tr>
+    <td>EQUI JOIN</td>
+    <td>JOIN 조건에 '='연산자 사용<br>관계되는 두 컬럼의 값이 일치하는 데이터만 출력</td>
+  </tr>
+  <tr>
+    <td>NON-EQUI JOIN</td>
+    <td>JOIN 조건 : BETWEEN A AND B 연산자 사용 <br>관계되는 컬럼들이 일치하지 않는 경우에 범위를 해당되는 데이터를 출력</td>
+  </tr>
+  <tr>
+    <td>INNER JOIN</td>
+    <td>EQUI JOIN과 동일한 내용</td>
+  </tr>
+  <tr>
+    <td>OUTER JOIN</td>
+    <td>JOIN 조건을 만족하지 않는 행을 출력하기 위한 형태</td>
+  </tr>
+  <tr>
+    <td>SELF JOIN</td>
+    <td>테이블 하나를 Alias(별칭)을 통하여 2개의 테이블 처럼 JOIN하는 형태</td>
+  </tr>
+  <tr>
+    <td>CROSS JOIN</td>
+    <td>JOIN 조건을 주지 않은 형태<br>두 테이블의 데이터 수를 곱한 만큼 결과가 생성</td>
+  </tr>
+  <tr>
+    <td>ANTI JOIN</td>
+    <td>서브 쿼리의 결과를 NOT IN으로 걸러냄</td>
+  </tr>
+  <tr>
+    <td>SEMI JOIN</td>
+    <td>서브 쿼리의 결과를 EXISTS로 존재하는지 확인</td>
+  </tr>
+</table>
+
+### EQUI JOIN
+* 가장 일반적이 형태의 JOIN
+* JOIN 조건
+  * = 연산자
+  * 두 컬럼의 값이 일치하는 값들을 출력
+* 형식
+```sql
+SELECT *
+FROM 테이블1 [별칭1], 테이블2 [별칭2]
+WHERE 테이블1[|별칭1].컬럼명 = 테이블2[|별칭2].컬럼명;
+
+SELECT *
+FROM 테이블1 [별칭1] JOIN 테이블2 [별칭2] ON 테이블1[|별칭1].컬럼명 = 테이블2[|별칭2].컬럼명;
+
+SELECT *
+FROM 테이블1 JOIN 테이블2 USING (컬럼명);
+
+SELECT *
+FROM 테이블1 NATURAL JOIN 테이블2;
+```
+
+```sql
+SELECT d.danme, e.*
+FROM emp e JOIN dept d ON e.deptno = d.deptno;
+-- emp 테이블에 없고 dept 테이블에 있는 dname이라는 컬럼을
+-- d.deptno(PK) 와 e.deptno(FK)를 통해서 JOIN하여 조회
+```
+### NON-EQUI JOIN
+* JOIN 조건
+  * BETWEEN A AND B 연산자
+  * 컬럼이 일치하지 않고, 범위 안에 값을 출력
+* 형식
+
+```sql
+SELECT *
+FROM 테이블1 [별칭1] JOIN 테이블2 [별칭2] 
+  ON 테이블1[|별칭1].컬럼명 BETWEEN 테이블2[|별칭2].컬럼명1 AND 테이블2[|별칭2].컬럼명2;
+```
+```sql
+SELECT *
+FROM emp e JOIN salgrade s
+  ON e.sal BETWEEN s.lowsal AND s.hisal;
+-- salgrade의 lowsal~hisal범위에 해당되는 데이터들 출력
+```
+
+### OUTER JOIN
+* 조건에 만족하지 않는 행도 출력
+* JOIN 조건
+  * 조건에 '(+)'기호를 사용
+  * '(+)' 사용 시 부족한 데이터는 NULL값으로 출력
+* LEFT OUTER JOIN
+  * 왼쪽 테이블의 데이터를 모두 출력 
+```sql
+SELECT *
+FROM 테이블1 LEFT [OUTER] JOIN 테이블2
+  ON 테이블1.컬럼명 = 테이블2.컬럼명;
+
+SELECT *
+FROM 테이블1 JOIN 테이블2
+  ON 테이블1.컬럼명 = 테이블2.컬럼명(+);
+```
+
+* RIGHT OUTER JOIN
+  * 오른쪽 테이블의 데이터를 모두 출력 
+```sql
+SELECT *
+FROM 테이블1 RIGHT [OUTER] JOIN 테이블2
+  ON 테이블1.컬럼명 = 테이블2.컬럼명;
+
+SELECT *
+FROM 테이블1 JOIN 테이블2
+  ON 테이블1.컬럼명(+) = 테이블2.컬럼명;
+```
+
+* FULL OUTER JOIN
+  * 두 테이블의 데이터를 모두 출력 
+```sql
+SELECT *
+FROM 테이블1 FULL [OUTER] JOIN 테이블2
+  ON 테이블1.컬럼명 = 테이블2.컬럼명;
+```
+
+### SELF JOIN
+* 하나의 테이블을 Alias(별칭)을 사용하여 두개의 테이블 처럼 JOIN
+```sql
+SELECT 별칭1.컬럼명, 별칭2.컬럼명, ...
+FROM 테이블 별칭1 JOIN 테이블 별칭2
+  ON 별칭1.컬럼1 = 별칭2.컬럼2
+```
+```sql
+SELECT e1.empno, e1.ename, e1.deptno, e1.mgr, e2.ename 상사
+FROM emp e1 JOIN emp e2
+  ON e1.mgr = e2.empno;
+-- 상사번호와 일치하는 사원번호의 행의 이름을 출력
+```
+
 > ## 계층적 절의 (LEVEL)
 
 * LEVEL
@@ -739,3 +871,4 @@ CONNECT BY PRIOR empno = mgr AND ename != 'CLARK';
 --'CLARK'에서 가지 제거
 --'CLARK'과 그 하위 계층('CLARK'을 매니저로 두는 레코드)는 출력 안함
 ```
+
