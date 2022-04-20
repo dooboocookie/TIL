@@ -17,9 +17,9 @@ graph
 
 |단계|내용|
 |:---|:---|
-|개념적 모델링|Entity, Attribute 추출<br>Entity 관계 정의 $\Rightarrow$ ER-Diagram 작성|
-|논리적 모델링|ER-Diagram을 Mapping rule에 의해<br> $\Rightarrow$ 관계 스키마 설계 + 정규화|
-|물리적 모델링|DBMS 선정<br> $\Rightarrow$ 컬럼, 데이터타입, 인덱스 정의, 역정규화, ... <br>물리적 스키마 |
+|개념적 모델링|Entity, Attribute 추출<br>Entity 관계 정의 &rarr; ER-Diagram 작성|
+|논리적 모델링|ER-Diagram을 Mapping rule에 의해<br> &rarr; 관계 스키마 설계 + 정규화|
+|물리적 모델링|DBMS 선정<br> &rarr; 컬럼, 데이터타입, 인덱스 정의, 역정규화, ... <br>물리적 스키마 |
 
 > ## 요구 분석
 * 프로젝트 방향이 결정되는 중요한 단계
