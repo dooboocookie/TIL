@@ -40,7 +40,7 @@
     </tr>
 </table>
 
-> ## 문법
+> ## 구조
 
 ### 블록 구조
 * 3개의 블록 구조
@@ -60,6 +60,8 @@ END;
 ```
 * 블럭 내, 여러 SQL문 사용 가능
 * 블럭 내, GREATEST, LEAST, DECODE, 그룹함수 사용 불가
+
+> ## 변수
 
 ### 변수 선언
 * 선언 블럭에 선언
@@ -103,4 +105,87 @@ DECLARE
 BEGIN
 END;
 
+```
+### 변수 초기화
+* := 사용
+
+```sql
+DECLARE
+    vname VARCHAR(20);
+    vage NUMBER(30);
+BEGIN
+    vname := '두부쿠키';
+    vage := 27;
+END;
+```
+> ### 커서(CURSOR)
+
+* PL/SQL 블럭 내의 SELECT
+<table>
+    <tr>
+        <td>묵시적 커서</td>
+        <td>따로 커서를 선언하지 않고 일반적으로 SELECT문을 사용하는 경우</td>
+    </tr>
+    <tr>
+        <td>명시적 커서</td>
+        <td>커서를 선언하여 여러행으로 되어있는 SELECT문의 결과를 읽어오기 위해 사용</td>
+    </tr>
+</table>
+
+* 속성
+<table>
+    <tr>
+        <td>%ROWCOUNT</td>
+        <td>현재 커서에서 지금까지 읽힌 행의 수</td>
+    </tr>
+    <tr>
+        <td>%FOUND</td>
+        <td>읽어올 행이 있을 떄 참을 출력</td>
+    </tr>
+    <tr>
+        <td>%NOTFOUND</td>
+        <td>읽어올 행이 없을 떄 참을 출력</td>
+    </tr>
+    <tr>
+        <td>%ISOPEN</td>
+        <td>커서가 OPEN 상태이면 참을 출력</td>
+    </tr>
+</table>
+
+### 묵시적 커서
+```sql
+BEGIN
+    FOR vrow IN (SELECT empno, ename FROM emp)
+    LOOP
+        DBMS_OUTPUT.PUT_LINE (vrow.empno || ', ' || vrow.ename);
+    END;
+    -- SELECT 문의 결과 행에 대해서 empno, ename을 출력하는 FOR 문
+END;
+```
+### 명시적 커서 
+* 선언 &rarr; OPEN &rarr; FETCH &rarr; CLOSE
+```sql
+DECLARE
+    vempno emp.empno%TYPE;
+    vename emp.ename%TYPE;
+    -- 1) 선언
+    CURSOR emp_cursor IS (
+        SELECT empno, ename
+        FROM emp
+        WHERE deptno = 10;
+    )
+BEGIN
+    -- 2) OPEN : 커서를 실행
+    OPEN emp_cursor
+    
+    LOOP
+        -- 3) FETCH : 커서에서 한 행씩 받아옴
+        FETCH emp_cursor 
+        INTO vempno, vename
+        DBMS_OUTPUT.PUT_LINE(vempno || ', ' || vename);
+        EXIT WHEN emp_cursor%NOTFOUND OR emp_cusor%ROWCOUNT >= 3;
+    END LOOP;
+    -- 4) CLOSE
+    CLOSE emp_cursor;
+END;
 ```
