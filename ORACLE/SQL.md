@@ -872,3 +872,62 @@ CONNECT BY PRIOR empno = mgr AND ename != 'CLARK';
 --'CLARK'과 그 하위 계층('CLARK'을 매니저로 두는 레코드)는 출력 안함
 ```
 
+> ## VIEW(뷰)
+* 하나의 SELECT문과 같은 역할
+* 가상 테이블
+* 데이터의 일부만 접근할 수 있도록 제한
+  * 편리성
+  * 보안성
+* 뷰 생성
+  * 데이터 딕셔너리에 뷰에 대한 정의만 저장
+  * 실제 저장공간에 뷰의 내용이 할당되지는 않음
+* 뷰의 종류
+  * 심플뷰 : 1개 테이블로 만든 뷰
+  * 복합뷰 : 여러개 테이블로 만든 뷰
+* DML문 실행
+  * 제한적으로 사용 가능
+    * 복합뷰에서 하나의 인서트 문으로 두 테이블의 데이터 조작 불가
+  * 제약조건도 수정 가능
+* 생성
+```sql
+CREATE [OR REPLACE] [FORCE | NOFORCE] VIEW 뷰이름
+  [(alias[,alias]...]
+AS subquery
+[WITH CHECK OPTION]
+[WITH READ ONLY];
+```
+<table>
+  <tr>
+    <td>FORCE</td>
+    <td>기존 테이블 없어도 뷰 생성</td>
+  </tr>
+  <tr>
+    <td>NOFORCE</td>
+    <td>기존 테이블 있을 때만 뷰 생성</td>
+  </tr>
+  <tr>
+    <td>WITH CHECK OPTION</td>
+    <td>뷰에 의해 접근할 행만 삽입, 수정 가능</td>
+  </tr>
+  <tr>
+    <td>WITH READ ONLY</td>
+    <td>DML문을 제한 (읽기 전용)</td>
+  </tr>
+</table>
+
+> ## SEQUENDCE (시퀀스)
+
+* 기존 테이블에 '기본키나 유니크키'를 부가하는 하나의 컬럼으로 구성된 테이블
+* 일련번호를 매기기 위함
+  * ex. 은행 창구 번호표, ...
+* 한 번 넘어간 순번은 돌이킬 수 없음
+* 형식
+```sql
+CREATE SEQUENCE 시퀀스명
+[INCREMENT BY 정수] --정수만큼 증가(기본값 1)
+[START WITH 정수] --시작값(기본값 1)
+[MAXVALUE n | NOMAXVALUE] --최대 번호 값 (기본값 NOMAXVALUE)
+[MINVALUE n | NOMINVALUE] --최대 번호 값 (기본값 NOMAXVALUE)
+[CYCLE | NOCYCLE] --최대나 최소값에 도달했을 때 최소나 최대로 다시 돌아갈지 결정
+[CACHE n | NOCACHE]; --빠른 접근을 위해 시퀀스 값을 메모리에 저장(기본 20)
+```
