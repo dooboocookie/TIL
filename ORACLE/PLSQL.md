@@ -118,7 +118,67 @@ BEGIN
     vage := 27;
 END;
 ```
-> ### 커서(CURSOR)
+> ## 제어문
+### 조건문
+* 형식
+```sql
+IF (조건식) THEN 실행문;
+[ELSIF (조건식) THEN 실행문;]
+[ELSIF (조건식) THEN 실행문;]
+[...]
+[ELSE 실행문;]
+END IF;
+```
+```sql
+DECLARE
+    vkor NUMBER(3) := 0;
+    vgrade VARCHAR2(10);
+BEGIN
+    vkor := :bindNumber;
+    
+    IF (vkor >= 90 )THEN
+        vgrade := '수';
+    ELSIF (vkor >= 80 )THEN
+        vgrade := '우';
+    ELSIF (vkor >= 70 )THEN
+        vgrade := '미';
+    ELSIF (vkor >= 60 )THEN
+        vgrade := '양';
+    ELSE 
+        vgrade := '가';
+    END IF;
+    
+    DBMS_OUTPUT.PUT_LINE(vgrade);
+-- 점수 입력 받아 등급을 나타내는 문
+END;
+```
+
+### 반복문
+* FOR 루프
+```sql
+FOR counter변수 IN [REVERSE] 시작값.. 끝값
+LOOP
+    실행문;
+END LOOP;
+-- counter변수가 시작 값부터 끝 값까지 반복
+```
+* WHILE 루프
+```sql
+WHILE (조건식)
+LOOP
+    실행문;
+END LOOP;
+-- 조건식이 참일 동안 반복
+```
+* 단순 반복
+```sql
+LOOP
+    EXIT WHEN (조건식) -- break
+END LOOP;
+-- 조건식이 참일 때 break 
+```
+
+> ## 커서(CURSOR)
 
 * PL/SQL 블럭 내의 SELECT
 <table>
@@ -187,5 +247,38 @@ BEGIN
     END LOOP;
     -- 4) CLOSE
     CLOSE emp_cursor;
+END;
+```
+
+> ## 저장 프로시저 (Stored Procedure)
+* 자주 실행하는 업무를 프로시저로 생성하여
+* 데이터 베이스 내에 저장해 호출하여 사용하는 프로시저
+* 생성
+```sql
+CREATE [OR REPLACE] PROCEDURE 프로시저명
+(
+    -- 파라미터 지정 [IN : 입력 / OUT : 출력 / INOUT : 입출력]
+    파라미터명1 [IN|OUT|INOUT] 자료형, --(크기 지정 X)
+    파라미터명2 [IN|OUT|INOUT] 자료형,
+    ...
+)
+IS
+    -- 변수 선언부
+BEGIN
+    -- 실행부
+EXCEPTION
+    -- 예외처리부
+END;
+```
+* 사용
+  1. EXECUTE 문
+  2. 익명 프로시저나 다른 저장 프로시저 안에서 
+```sql
+--1
+EXECUTE 프로시저명;
+
+--2
+BEGIN
+    프로시저명;
 END;
 ```
