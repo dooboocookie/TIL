@@ -257,7 +257,7 @@ END;
 ```sql
 CREATE [OR REPLACE] PROCEDURE 프로시저명
 (
-    -- 파라미터 지정 [IN : 입력 / OUT : 출력 / INOUT : 입출력]
+    -- 파라미터 지정 [IN : 입력 / OUT : 출력 / IN OUT : 입출력]
     파라미터명1 [IN|OUT|INOUT] 자료형, --(크기 지정 X)
     파라미터명2 [IN|OUT|INOUT] 자료형,
     ...
@@ -283,4 +283,45 @@ BEGIN
     프로시저명[(입력값1, 입력값2, ...)];
     프로시저명[(파라미터명 => 입력값1, 파라미터명2 => 입력값2, ...)];
 END;
+```
+
+>## 저장 함수 (Stored Function)
+* 저장 프로시져와 유사한 형태로 리턴 값을 갖고 있는 함수
+* 형식
+```sql
+CREATE [OR REPLACE] FUNCTION 함수명
+(
+    -- 파라미터 지정
+    파라미터명1 자료형, --(크기 지정 X)
+    파라미터명2 자료형,
+    ...
+)
+RETURN 리턴자료형
+IS
+    -- 변수 선언부
+BEGIN
+    -- 실행부
+EXCEPTION
+    -- 예외처리부
+END;
+```
+```sql
+-- 주민등록번호에서 성별을 추출하는 함수 정의
+CREATE OR REPLACE FUNCTION uf_gender
+(
+    prrn VARCHAR2
+)
+RETURN VARCHAR2 -- '남자', '여자'
+IS
+    vgender VARCHAR2(6);
+BEGIN
+    IF MOD(SUBSTR(prrn, -7, 1),2) = 1 
+        THEN vgender := '남자';
+    ELSE vgender := '여자'
+    END IF;
+    RETURN vgender;
+END;
+
+SELECT uf_gender('941206-1234567') FROM dual;
+-- RETURN값인 vgender에 해댱되는 '남자'가 출력
 ```
