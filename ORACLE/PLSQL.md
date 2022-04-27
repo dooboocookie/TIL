@@ -24,7 +24,7 @@
     </tr>
     <tr>
         <td>저장 함수<br>(Stored Function)</td>
-        <td></td>
+        <td>저장 프로시저와 유사하지만, 리턴 값을 반환</td>
     </tr>
     <tr>
         <td>패키지<br>(Package)</td>
@@ -32,7 +32,7 @@
     </tr>
     <tr>
         <td>트리거<br>(Trigger)</td>
-        <td></td>
+        <td>대상이 되는 테이블에 이벤트 발생 시, 전(BEFORE) 후(AFTER)에 트리거가 정의한 내용을 실행</td>
     </tr>
     <tr>
         <td>객체 타입<br>(Object Type)</td>
@@ -325,3 +325,90 @@ END;
 SELECT uf_gender('941206-1234567') FROM dual;
 -- RETURN값인 vgender에 해댱되는 '남자'가 출력
 ```
+
+
+> ## 트리거(Trigger)
+
+* 대상이 되는 테이블에 이벤트(DML 문) 발생 시
+* 전(BEFORE) 후(AFTER)에 트리거가 정의한 내용을 실행
+<table>
+    <tr>
+        <td>BEFORE TRIGGER</td>
+        <td>이벤트 발생 전 처리 되는 트리거</td>
+    </tr>
+    <tr>
+        <td>AFTER TRIGGER</td>
+        <td>이벤트 발생 후 처리 되는 트리거</td>
+    </tr>
+<table>
+
+* 형식
+```sql
+CREATE [OR REPLACE] TRIGGER 트리거명 [BEFORE ? AFTER]
+  trigger_event ON 테이블명
+  [FOR EACH ROW [WHEN TRIGGER 조건]]
+DECLARE
+  선언문
+BEGIN
+  PL/SQL 코드
+END;
+```
+* 이벤트란? INSERT, UPDATE, DELETE 문의 실행
+* 키워드
+<table>
+    <tr>
+        <td>FOR EACH ROW</td>
+        <td>각 행에서 발생되는 이벤트에 대해 처리 실행</td>
+    </tr>
+    <tr>
+        <td>REFERENCING</td>
+        <td>영향받은 행의 값 참조</td>
+    </tr>
+    <tr>
+        <td>:OLD / :NEW</td>
+        <td>참조 전 / 후 컬럼의 값</td>
+    </tr>
+</table>
+
+```sql
+CREATE OR REPLACE TRIGGER ut_exam01 AFTER 
+INSERT OR UPDATE OR DELETE ON tbl_trigger1 
+BEGIN
+    IF INSERTING THEN
+        INSERT INTO tbl_trigger2 (memo) VALUES ('TBL_TRIGGER1 테이블 추가');
+    ELSIF UPDATING THEN
+        INSERT INTO tbl_trigger2 (memo) VALUES ('TBL_TRIGGER1 테이블 수정');
+    ELSIF DELETING THEN
+        INSERT INTO tbl_trigger2 (memo) VALUES ('TBL_TRIGGER1 테이블 삭제');
+    END IF;
+END;
+--tbl_trigger1에 DML문이 실행될 때 tbl_trigger2에 로그를 남기는 트리거
+```
+* 행 단위 트리거
+```sql
+CREATE OR REPLACE TRIGGER ut_exam01 AFTER 
+INSERT ON tbl_trigger1
+FOR EACH ROW 
+BEGIN
+    INSERT INTO tbl_trigger3  VALUES (:NEW.id, :NEW.name);
+END;
+--tbl_trigger1에 DML문이 실행될 때 tbl_trigger3에 해당되는 컬럼 값을 삽입하는 트리거
+```
+* 에러 발생 시키는 트리거
+```sql
+CREATE OR REPLACE TRIGGER ut_exam02 BEFORE
+INSERT OR UPDATE OR DELETE ON tbl_trigger1 
+BEGIN
+    IF NOT(TO_CHAR(SYSDATE, 'HH24') BETWEEN 9 AND 18) OR TO_CHAR(SYSDATE, 'D') IN (1, 7) THEN
+        -- 에러 강제 발생시키면 > DML문도 취소
+        RAISE_APPLICATION_ERROR(-20000, '지금은 근무 시간 외 또는 주말이기에 작업이 안 됩니다.');
+    END IF;
+END;
+-- 조건에 맞지 않는 상황에서 DML문이 실행 되기 전 에러를 발생시키는 트리거
+```
+
+
+
+
+
+
