@@ -28,7 +28,7 @@
     </tr>
     <tr>
         <td>패키지<br>(Package)</td>
-        <td></td>
+        <td>관계되는 타입, 프로그램 객체, 서브프로그램(procedure, function)을 논리적으로 묶어 놓은 것</td>
     </tr>
     <tr>
         <td>트리거<br>(Trigger)</td>
