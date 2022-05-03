@@ -86,3 +86,55 @@ cnn.close();
     }		
 }
 ```
+## Connection
+* url, 계정, 비밀번호를 이요해 DB와 연결함
+* 생성
+    * DriverManger 클래스
+```java
+Connection connection = DriverManger.getConnection(url, user, password);
+```
+* createStatement()
+  * 매개변수 : X
+  * 리턴자료형 : Statement
+  * SQLException 처리 필수
+
+* 작업이 끝나고 close() 필수
+
+## Statement
+* 하나의 정적인 쿼리를 처리 가능
+* 생성
+  * Connection을 이용
+```java
+Statement statement = connection.createStatement()
+```
+* ResultSet executeQuery(String sql)
+    * 매개변수 : String / 실행할 쿼리문(SELECT 문)
+    * 리턴자료형 : ResultSet 
+    * 매개변수로 입력된 쿼리문을 실행하여 한 레코드씩 ResultSet로 반환
+
+```java
+String sql = "SELECT * FROM emp";
+ResultSet rs = statement.executeQuery(sql);
+```
+
+* int executeUpdate(String sql)
+  * 매개변수 : String / 실행할 DML 문
+  * 리턴자료형 : int
+  * 매개변수로 입력된 INSERT, UPDATE, DELETE문 (DML 문)을 실행하고 반영된 레코드의 수를 반환
+  * AutoCommit;
+```java
+String sql = "INSERT INTO dept VALUES (50, 'QC', 'SEOUL'";
+int rowCount = statement.executeUpdate(sql);
+```
+* 작업이 끝나고 close() 필수
+
+## ResultSet
+* Statement에서 실행한 쿼리로 얻은 값을 저장하는 Set 
+* next()
+  * 매개변수 : X
+  * 리턴값 : boolean
+  * 저장한 행을 다음행으로 가리키고 있으면 True 없으면 False를 반환한다
+* getXXX()
+  * 매개변수 : String 컬럼명 / int 컬럼번호
+  * 리턴값 : 각 자료형
+  * 가리키고있는 행의 컬럼명이나 컬럼번호에 해당되는 데이터를 반환
