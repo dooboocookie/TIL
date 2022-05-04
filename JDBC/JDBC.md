@@ -138,3 +138,56 @@ int rowCount = statement.executeUpdate(sql);
   * 매개변수 : String 컬럼명 / int 컬럼번호
   * 리턴값 : 각 자료형
   * 가리키고있는 행의 컬럼명이나 컬럼번호에 해당되는 데이터를 반환
+
+
+## DTO (Data Transfer Object)
+* 각 계층간 데이터 교환을 위해 사용하는 객체
+
+```mermaid
+graph LR;
+    A(Client) --> |DTO|B(Controller);
+    B --> |DTO|C(Service);
+    C --> |DTO|D(Repository);
+    D --> |DTO|E(DB);
+    B --> |DTO|A;
+    C --> |DTO|B;
+    D --> |DTO|C;
+    E --> |DTO|D;
+```
+* MVC 패턴에서 Model과 View를 분리하여 서로의 의존성을 낮추고, 독립적인 개발을 가능하게 함
+```java
+public class DTO {
+    private Stirng name;
+    private int age;
+    private boolean gender;
+
+    public DTO() {
+        super();
+    }
+
+    public DTO()
+}
+```
+
+
+## PreparedStatement
+* 하나의 PreparedStatemetn 객체로 쿼리를 여러 번 처리할 수 있음
+* 생성
+```java
+PreparedStatement pstmt = conn.prepareStatement(sql);
+```
+* 바인드 변수 : ?
+  * sql문에 바인드 변수로 줄 부분에 ?
+* setXXX()
+  * 매개변수 : int i,  입력 값
+  * 리턴값 : void
+  * i번째 바인드 변수에 입력 값을 지정하는 메소드
+* 사용
+```java
+Scanner sc = new Scanner(System.in);
+int pdeptno = sc.nextInt();
+
+PreparedStatement pstmt = conn.prepareStatement(sql);
+pstmt.setInt(1,pdeptno);
+ResrultSet rs = pstmt.executeQuery();
+```
