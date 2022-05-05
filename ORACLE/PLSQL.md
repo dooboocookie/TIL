@@ -28,7 +28,7 @@
     </tr>
     <tr>
         <td>패키지<br>(Package)</td>
-        <td>관계되는 타입, 프로그램 객체, 서브프로그램(procedure, function)을 논리적으로 묶어 놓은 것</td>
+        <td>객체, Procedure, Function을 관계에 따라 묶어 놓은 것</td>
     </tr>
     <tr>
         <td>트리거<br>(Trigger)</td>
@@ -36,7 +36,7 @@
     </tr>
     <tr>
         <td>객체 타입<br>(Object Type)</td>
-        <td></td>
+        <td>객체에 데이터를 입력하기 위해서 PL/SQL을 사용</td>
     </tr>
 </table>
 
@@ -178,6 +178,35 @@ END LOOP;
 -- 조건식이 참일 때 break 
 ```
 
+> ## 예외 처리
+* EXCEPTION 부분
+```sql
+DECLARE
+    -- 미리 정의된 예외
+    ve_data_not_found EXCEPTION;
+    PRAGMA EXCEPTION_INIT(ve_data_not_found, -02291);
+    
+    -- 사용자가 정의할 예외
+    ve_invalid EXCEPTION;
+BEGIN
+
+    --실행문
+
+    IF 조건식 THEN
+        --강제 예외 발생
+        RAISE ve_invalid
+    END IF;
+
+EXCEPTION
+    WHEN ve_data_not_found THEN
+       RAISE_APPLICATION_ERROR(-20001, '>데이터를 찾을 수 없습니다<');     
+    WHEN ve_data_not_found THEN
+       ve_invalid(-20002, '>사용자가 정의한 예외<');
+    WHEN OTHERS THEN
+        RAISE_APPLICATION_ERROR(-20002, '>그 밖의 예외 발생<')
+END;
+```
+
 > ## 커서(CURSOR)
 
 * PL/SQL 블럭 내의 SELECT
@@ -249,6 +278,26 @@ BEGIN
     CLOSE emp_cursor;
 END;
 ```
+### SYS_REFCURSOR
+* 커서를 참조하는 자료형
+* 예시
+```sql
+CREATE OR REPLACE PROCEDURE 프로시저명
+(p_cursur SYS_REFCURSOR)
+IS
+BEGIN 실행부; (LOOP..)
+END;
+-- 저장 프로시저 컴파일
+
+DECLARE
+    v_cursor SYS_REFCURSOR;
+BEGIN
+    OPEN v_cursor FOR SELECT 문;
+    프로시저명(v_cursor);
+    CLOSE v_cursor;
+END;
+```
+
 
 > ## 저장 프로시저 (Stored Procedure)
 * 자주 실행하는 업무를 프로시저로 생성하여
@@ -406,9 +455,98 @@ BEGIN
 END;
 -- 조건에 맞지 않는 상황에서 DML문이 실행 되기 전 에러를 발생시키는 트리거
 ```
+> ## 패키지 (Package)
+* specification 부분
+  * type, constant, variable, exception, cursor, subprogram(procedure, function)을 선언
+```sql
+CREATE OR REPLACE PACKAGE 패키지명 AS
+    PROCEDURE 프로시저명1 (파라미터);
+    PROCEDURE 프로시저명2 (파라미터);
+    FUNCTION 함수명1 (파라미터);
+        RETURN 리턴 자료형;
+    ...
+END 패키지명;
+```
+* body 부분
+  * 실행부분까지 포함
+```sql
+CREATE OR REPLACE PACKAGE 패키지명 AS
+    
+    PROCEDURE 프로시저명1 (파라미터)
+    IS 변수 선언;
+    BEGIN 실행 부분;
+    EXCEPTION 예외처리;
+    END 프로시저명1;
+
+    PROCEDURE 프로시저명2 (파라미터)
+    IS 변수 선언;
+    BEGIN 실행 부분;
+    EXCEPTION 예외처리;
+    END 프로시저명2;
+
+    FUNCTION 함수명1 (파라미터);
+        RETURN 리턴 자료형
+    IS 변수 선언;
+    BEGIN 실행 부분;
+        RETURN 리턴 값;
+    EXCEPTION 예외처리;
+    END 함수명1;
+    
+    ...
+
+END 패키지명;
+```
 
 
+> ## 동적 쿼리
+* 컴파일 시, SQL문이 확정 되지 않고 실행할 때 SQL문이 확정
+* 목적
+  * SELECT문에 WHERE절에 조건을 매번 달리할 때 주로 사용
+  * PL/SQL에서 DML 문 실행 시
+* EXCUTE IMMEDIATE 로 실행
+```sql
+CREATE OR REPLACE PROCEDURE up_test
+(p_empno emp.empno%TYPE)
+IS
+    v_sql VARCHAR2(1000);
+    v_deptno emp.deptno%TYPE;
+    v_ename emp.ename%TYPE;
+BEGIN 
+    v_sql := 'SELECT deptno, ename ';
+    v_sql := v_sql || 'FROM emp ';
+    v_sql := v_sql || 'WHERE empno = :p_empno ';
 
+    EXECUTE IMMEDIATE v_sql
+        INTO v_deptno, v_ename
+        USING p_empno;
+    DBMS_OUTPUT.PUT_LINE('부서번호 : ' || v_deptno || ' / 사원명 : '|| v_ename);
+END;
 
+EXEC up_test(7369); -- 17369번 사원의 정보 출력
+```
+
+* 커서 변수에서 활용 
+
+```sql
+CREATE OR REPLACE PROCEDURE up_test
+(p_deptno emp.deptno%TYPE)
+IS
+    v_sql VARCHAR2(1000);
+    v_ename emp.ename%TYPE;
+    v_cursor SYS_REFCURSOR;
+BEGIN
+    v_sql := 'SELECT ename ';
+    v_sql := v_sql || 'FROM emp ';
+    v_sql := v_sql || 'WHERE deptno = :p_deptno ';
+
+    OPEN v_cursor FOR v_sql USING p_deptnol;
+    LOOP
+        FETCH v_cursor INTO v_ename;
+        EXIT WHEN v_cursor%NOTFOUND;
+        DBMS_OUT.PUT_LINE(v_ename);
+    END LOOP;
+    CLOSE v_cursor;
+END;
+```
 
 
