@@ -447,6 +447,15 @@ WHEN NOT MATCHED THEN -- INSERT
     INSERT (컬럼명[, ...]) VALUES (값 [, ...]);
 ```
 
+# TCL (Transaction Control Language)
+* 처리가 완료되지 않은 중간 과정을 시작 전 단계로 되돌리는 것
+* COMMIT : DML 문 실행  완료
+* ROLLBACK : DML 문 실행 취소
+* DML문 실행 > LOCK(잠김현상)
+  * COMMIT / ROLLBACK 실행 시 해제
+* DEAD LOCK : 교착 상태
+* SAVEPOINT : 트랜잭션 내 한 지점을 표시
+  * ROLLBACK TO SAVEPOIN로 롤백
 
 # DCL (Data Control Language)
 > ## GRANT 문
