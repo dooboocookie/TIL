@@ -86,7 +86,7 @@ cnn.close();
     }		
 }
 ```
-## Connection
+> ## Connection
 * url, 계정, 비밀번호를 이요해 DB와 연결함
 * 생성
     * DriverManger 클래스
@@ -100,7 +100,7 @@ Connection connection = DriverManger.getConnection(url, user, password);
 
 * 작업이 끝나고 close() 필수
 
-## Statement
+> ## Statement
 * 하나의 정적인 쿼리를 처리 가능
 * 생성
   * Connection을 이용
@@ -128,7 +128,7 @@ int rowCount = statement.executeUpdate(sql);
 ```
 * 작업이 끝나고 close() 필수
 
-## ResultSet
+> ## ResultSet
 * Statement에서 실행한 쿼리로 얻은 값을 저장하는 Set 
 * next()
   * 매개변수 : X
@@ -140,7 +140,7 @@ int rowCount = statement.executeUpdate(sql);
   * 가리키고있는 행의 컬럼명이나 컬럼번호에 해당되는 데이터를 반환
 
 
-## DTO (Data Transfer Object)
+> ## DTO (Data Transfer Object)
 * 각 계층간 데이터 교환을 위해 사용하는 객체
 
 ```mermaid
@@ -170,7 +170,7 @@ public class DTO {
 ```
 
 
-## PreparedStatement
+> ## PreparedStatement
 * 하나의 PreparedStatemetn 객체로 쿼리를 여러 번 처리할 수 있음
 * 생성
 ```java
@@ -190,4 +190,72 @@ int pdeptno = sc.nextInt();
 PreparedStatement pstmt = conn.prepareStatement(sql);
 pstmt.setInt(1,pdeptno);
 ResrultSet rs = pstmt.executeQuery();
+```
+
+> ## CallableStatement
+* 저장 프로시저를 호출하여 처리하는 스테이트먼트
+* 생성
+```java
+CallableStatement cstmt = conn.prepareCall(sql);
+```
+* 사용
+```java
+Scanner sc = new Scanner(Sytem.in);
+int deptno = sc.nextInt();
+String dname = sc.next();
+
+String sql = "{call 프로시저명(pdeptno => ?, pdname => ?)}";
+CallableStatement cstmt = conn.prepareCall(sql);
+cstmt.setInt(1, deptno);
+cstmt.setString(2, dname);
+int rowCount = cstmt.executeUpdate();
+
+cstmt.close();
+```
+
+> ## 트랜잭션 처리
+* 오라클 &rarr; 하나의 프로시저 안 &rarr; 트랜잭션 처리
+  * JAVA와 DB를 연동하여 호출할 때 &rarr; 트랜잭션 처리
+* DML 문(INSERT, DELETE, UPDATE), ...&rarr; DB를 변화시키는 작업 단위
+* 예
+  * A &rarr; [100만원] &rarr; B
+    1. A의 통장에서 100만원을 인출 (UPDATE)
+    2. B의 통장에 100만원을 입금 (UPDATE)
+    3. A와 B의 거리내역 추가 (INSERT)
+    4. ...
+  * 위와 같은 일련의 과정들은 한 번에 발생해야 함 / 하나의 단위 / 트랜잭션 
+   
+<table>
+    <tr>
+        <td>commit()</td>
+        <td>커밋 처리<br>하나의 논리적인 작업 단위 모두 성공(완료) 시</td>
+    </tr>
+    <tr>
+        <td>rollback()</td>
+        <td>롤백 처리<br>하나의 논리적인 작업 단위 중 하나라도 실패(예외) 시</td>
+    </tr>
+    <tr>
+        <td>setAutoCommit(boolean t) </td>
+        <td>기본은 자동 커밋<br>자동 커밋 시 중간에 작업에서 예외 발생해도 그 전 작업은 커밋 됨<br>매개변수로 false &rarr; 자동커밋 해제</td>
+    </tr>
+</table>
+
+```java
+// 자동 커밋 해제
+try{
+    conn.setAutoCommit(false);
+    // 1번 작업
+    PreparedStatement pstmt = conn.prepareStatement(sql1);
+    pstmt.executeUpdate();
+    // 2번 작업
+    pstmt = conn.prepareStatement(sql2);
+    pstmt.executeUpdate();
+    // 1 + 2 번 성공 시 커밋
+    conn.commit();
+} catch (SQLException e) {
+    // 1, 2 번 중 한 군데서라도 예외 발생 시 롤백
+    conn.rollback();
+} finally {
+     pstmt.close();
+}
 ```
