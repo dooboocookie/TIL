@@ -139,6 +139,32 @@ int rowCount = statement.executeUpdate(sql);
   * 리턴값 : 각 자료형
   * 가리키고있는 행의 컬럼명이나 컬럼번호에 해당되는 데이터를 반환
 
+> ## ResultSetMetaData
+* 리플렉션 (reflection)
+  * ResultSet로 받는 결과물에서 정보를 추출하는 것
+* 생성
+```java
+ResultSet rs  = pstmt.excuteQuery();
+ResultSetMetaData rsmd = rs.getMetaData();
+```
+* getColumnCount()
+  * 매개변수 : x
+  * 리턴값 : int
+  * 기능
+    * ResultSet이 갖고 있는 컬럼 수를 반환하는 메소드
+
+* getColumnType()
+  * 매개변수 : int index
+  * 리턴값 : int
+  * 기능
+    * ResultSet에 index번째 컬럼의 타입을 반환한다
+    * 반환하는 int는 oracle.jdbc.OracleTypes에 있는 상수와 같은 값
+
+* 그 외
+  * int getScale(int idx)
+  * int getPrecision(int idx)
+  * String getColumnTypeName(int idx)
+  * String getColumnName(int idx)
 
 > ## DTO (Data Transfer Object)
 * 각 계층간 데이터 교환을 위해 사용하는 객체
@@ -212,6 +238,44 @@ int rowCount = cstmt.executeUpdate();
 
 cstmt.close();
 ```
+
+### 출력 매개변수
+* 저장 프로시저에 출력 파라미터가 있을 때 받아오는 예
+```sql
+CREATE OR REPLACE PROCEDURE up_test
+(
+    pdeptno emp.deptno%TYPE, -- 입력 매개변수
+    pcursor OUT SYS_REFCURSOR -- 출력 매개변수(커서)
+)
+IS
+    vsql VARCHAR2(2000);
+BEGIN
+    vsql := 'SELECT * ';
+    vsql := vsql || 'FROM emp ';
+    vsql := vsql || 'WHERE dpetno = :pdeptno ';
+
+    OPEN pcursor FOR vsql;
+END;
+```
+```java
+String sql = "{call up_test(pdeptno => ?, pcursor => ?)}";
+CallableStatement cstmt = connection.prepareCall(sql);
+cstmt.setInt(1, 10); //입력 파라미터 (10번 부서원)
+cstmt.registerOutParameter(2, oracle.jdbc.OracleTypes.CUSOR);
+// 2번째 바인딩 변수에 참조커서 타입으로 출력 파라미터를 받아오겠다는 코딩
+cstmt.executeQuery();
+
+ResultSet rs = (ResultSet) cstmt.getObject(2);
+```
+* resiterOutPrameter()
+  * 매개변수 : int idx, int sqlType
+  * 리턴값 : x(void)
+  * 기능
+    * 해당 스테이트먼트의 idx번째 바인딩 변수의 sqlType에 해당되는 타입의 출력 파라미터를 부여
+  * int sqlType
+    * oracle.jdbc.OracleTypes  추상 메소드 안에 상수 값을 이용
+* 
+
 
 > ## 트랜잭션 처리
 * 오라클 &rarr; 하나의 프로시저 안 &rarr; 트랜잭션 처리
