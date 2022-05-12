@@ -31,4 +31,7 @@
 
 ### JDBC
 * [JDBC](./JDBC/JDBC.md)
-* [MVC ](./JDBC/MVC.md)
+* [MVC 패턴](./JDBC/MVC.md)
+
+### WEB
+* [HTML](./WEB/HTML.md)
