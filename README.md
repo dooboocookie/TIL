@@ -34,5 +34,5 @@
 * [MVC 패턴](./JDBC/MVC.md)
 
 ### WEB
-* [WEB](./WEB/WEB.md
+* [WEB](./WEB/WEB.md)
 * [HTML](./WEB/HTML.md)
