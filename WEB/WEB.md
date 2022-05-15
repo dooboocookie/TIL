@@ -33,15 +33,71 @@
 </tr>
 </table>
 
+### URI (Uniform Resouce Identifier)
+* 통합 자원 식별자
+* URL (Uniform Resource Locator)
+  * 파일 위치를 나타냄
+  * URI 안에 개념 [URI vs URL]
+* 구성
+* 통신 프로토콜(SCHEME)
+  * http://
+  * https://
+  * file://
+  * ftp://
+* 도메인, IP (HOSTS)
+  * 127.0.0.1
+  * www.google.com
+* 포트번호 (PORT)
+  * 80 (기본, 생략 가능)
+  * 3000
+  * ...
+* 파일 경로(URL-PATH)
+  * Context Root : 해당 프로젝트명이 구분하는 경로명
+  * Context Directory : 물리적인 파일 경로
+  * webPro/src/main/webapp/html/test.html
+* 쿼리 스트링 (QueryString)
+  * ?where=...&test=...:
+
+<pre>
+[구글에 'URL' 검색 결과에 대한 URL]
+    
+    1. 통신 프로토콜
+    https://
+    
+    2. 도메인
+    www.google.com
+    
+    3. 경로
+    /search
+    
+    4. 쿼리 스트링
+    ?q=URL
+    &oq=URL
+    &aqs=chrome..69i57j69i59j0i433i512j0i512j0i433i512j69i60l3.2836j0j9
+    &sourceid=chrome
+    &ie=UTF-8
+</pre>
 > ## 웹 동작
+
+### 정적 웹 페이지
 ```mermaid
 graph LR
-A(클라이언트) --> |요청|B(서버)
+A(클라이언트) --> |URL,요청|B(서버)
 B --> |응답|A
+B --> |read|C(DB)
+C --> |file contents|B
 ```
 * 기본적으로 정적 웹을 보면, 간단하게 클라이언트가 웹 서버에 파일을 요청하면 그 파일을 보내주는 응답을 함
 
-### 동적 웹
+### 동적 웹 페이지
+* 데이터베이스, 서버 내 로직 등을 활용해 요청에 따라 동적으로 동작하는 웹페이지
 
-
-### URL
+```mermaid
+graph LR
+A(클라이언트) --> |URL,요청|B(서버)
+B --> |응답|A
+B --> C(WAS)
+C --> B
+C --> |JDBC|D(DB)
+D --> |JDBC|C
+```
