@@ -310,6 +310,19 @@ ln(x) = log<sub>e</sub>(x)
 <a href = "javascript:window.alert('경고창')">경고창</a><br>
 ```
 
+> ## \<button>\</button>
+* 버튼
+* on~ 속성
+  * 이벤트 발생 처리
+  * onclick
+    * 클릭 이벤트 발생시 처리할 내용
+
+<button onclick = "javascript:windows.alert('경고')">경고창</button><br>
+
+```html
+<button onclick = "javascript:windows.alert('경고')">경고창</button><br>
+```
+
 > ## \<img>
 * 이미지 
 * in-line 모드
