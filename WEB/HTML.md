@@ -165,56 +165,61 @@ public class Test {
 ```html
 나는 <strong>두부쿠키</strong>입니다.
 ```
+3. \<em> 이태릭체, 중요성O
 
-3. \<i> 이태릭체
+나는 <em>두부쿠키</em>입니다.
+```html
+나는 <em>두부쿠키</em>입니다.
+```
+4. \<i> 이태릭체
 
 나는 <i>두부쿠키</i>입니다.
 ```html
 나는 <i>두부쿠키</i>입니다.
 ```
 
-4. \<mark> 마크
+5. \<mark> 마크
 
 나는 <mark>두부쿠키</mark>입니다.
 ```html
 나는 <mark>두부쿠키</mark>입니다.
 ```
 
-5. \<samll> 작은 글꼴
+6. \<samll> 작은 글꼴
 
 나는 <small>두부쿠키</small>입니다.
 ```html
 나는 <small>두부쿠키</small>입니다.
 ```
 
-6. \<del> 취소선, 삭제된 텍스트 표시
+7. \<del> 취소선, 삭제된 텍스트 표시
 
 나는 <del>두부쿠키</del>입니다.
 ```html
 나는 <del>두부쿠키</del>입니다.
 ```
 
-7. \<ins> 밑줄, 추가된 텍스트 표시
+8. \<ins> 밑줄, 추가된 텍스트 표시
 
 나는 <ins>두부쿠키</ins>입니다.
 ```html
 나는 <ins>두부쿠키</ins>입니다.
 ```
 
-8. 윗 첨자
+9. 윗 첨자
 
 re<sup>iθ</sup>
 ```html
 re<sup>iθ</sup>
 ```
 
-9. 아랫 첨자
+10. 아랫 첨자
 
 ln(x) = log<sub>e</sub>(x)
 ```html
 ln(x) = log<sub>e</sub>(x)
 ```
-10. 텍스트 방향
+11. 텍스트 방향
 
 <bdo dir = "ltr">ㄱㄴㄷㄹㅁㅂㅅ</bdo> <br>
 <bdo dir = "rtl">ㄱㄴㄷㄹㅁㅂㅅ</bdo>
@@ -304,7 +309,7 @@ ln(x) = log<sub>e</sub>(x)
 
 2. JavaScript 호출
 
-<a href = "javascript:window.alert('경고창')">경고창</a><br>
+<a href = "javascript:window.alert('경고창')">경고창</a>(마크 다운 문서라 js는 실행이 안됨)<br>
 
 ```html
 <a href = "javascript:window.alert('경고창')">경고창</a><br>
@@ -317,7 +322,7 @@ ln(x) = log<sub>e</sub>(x)
   * onclick
     * 클릭 이벤트 발생시 처리할 내용
 
-<button onclick = "javascript:windows.alert('경고')">경고창</button><br>
+<button onclick = "javascript:windows.alert('경고')">경고창</button>(마크 다운 문서라 js는 실행이 안됨)<br>
 
 ```html
 <button onclick = "javascript:windows.alert('경고')">경고창</button><br>
@@ -341,4 +346,337 @@ ln(x) = log<sub>e</sub>(x)
 <img alt = "Ryan" src = "./img/Ryan.jpg" width = "300px">
 <img alt = "Ryan" src = "./img/Ryan.jpg" width = "50%">
 <img alt = "Ryan" src = "./img/Ryan.jpg">
+```
+
+> ## \<map>\</map>  요소
+* 이미지 맵을 정의하는 태그
+  * name 속성 : 이름 지정 (필수)
+* \<area> 요소를 포함
+  * \<area>로 클릭 가능한 영역을 지정
+    * shape 속성 : 영역의 모양 지정 
+    * coords 속성 : 이미지 위에 영역을 맵핑
+
+<img alt = "map_tag" src ="./img/map_tag.jpg"  width ="100%">
+
+* 적용
+<img alt="workplace" src="./img/workplace.jpg" width = "100%" usemap="#map">
+
+<map name="map">
+  <area alt="laptop" shape="rect" coords="34,44,270,350" href="https://ko.wikipedia.org/wiki/%EB%9E%A9%ED%86%B1">
+  <area alt="" shape="rect" coords="290,172,333,250" href="https://ko.wikipedia.org/wiki/%ED%9C%B4%EB%8C%80_%EC%A0%84%ED%99%94">
+  <area alt="" shape="circle" coords="337,300,44" href="https://ko.wikipedia.org/wiki/%EC%BB%A4%ED%94%BC">
+</map>
+
+```html
+<img alt="workplace" src="./img/workplace.jpg" width = "100%" usemap="#map">
+
+<map name="map">
+  
+  <!-- 랩탑 영역 -->
+  <area alt="laptop" shape="rect" coords="34,44,270,350" href="https://ko.wikipedia.org/wiki/%EB%9E%A9%ED%86%B1">
+  
+  <!-- 폰 영역 -->
+  <area alt="phone" shape="rect" coords="290,172,333,250" href="https://ko.wikipedia.org/wiki/%ED%9C%B4%EB%8C%80_%EC%A0%84%ED%99%94">
+  
+  <!-- 커피 영역 -->
+  <area alt="coffee" shape="circle" coords="337,300,44" href="https://ko.wikipedia.org/wiki/%EC%BB%A4%ED%94%BC">
+
+</map>
+```
+> ## 이미지 플로팅
+* \<img>에 style 속성의 float 값
+* 부모 태그의 영역에서 위치할 곳을 지정
+
+<p style="border:1px solid; padding">
+	<img alt="Ryan" src="./img/Ryan.jpg" style="width:70px; float: right;">
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+</p>
+<p style="border:1px solid;">
+	<img alt="Ryan" src="./img/Ryan.jpg" style="width:70px; float: left;">
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+</p>
+
+```html
+<!-- style 속성으로 적용 -->
+<p style="border:1px solid;">
+	<img alt="Ryan" src="./img/Ryan.jpg" style="width:70px; float: right;">
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+</p>
+<p style="border:1px solid;">
+	<img alt="Ryan" src="./img/Ryan.jpg" style="width:70px; float: left;">
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+</p>
+```
+
+> ## \<picture>\</picture> 요소
+* 장치의 환경에 따라 다른 이미지를 출력하는 태그
+  * 반응형 웹
+  * 모바일 환경 등에서 화면 너비다 달라질 때 사용
+* \<source>, \<img> 요소 포함
+  * \<source>태그 : 하나 이상
+  * \<img>태그 : 마지막 위치에 하나 
+
+<picture>
+  <!--출력하는 환경이 650px이상일 때 소스를 지정하는 태그-->
+  <source srcset="./img/Ryan.jpg"media="(min-width:650px)">
+  <img alt="Ryan2" src="./img/Ryan2.jpg">
+</picture>
+
+```html
+<picture>
+  <!--출력하는 환경이 650px이상일 때 소스를 지정하는 태그-->
+  <source srcset="./img/Ryan.jpg"media="(min-width:650px)">
+  <img alt="Ryan2" src="./img/Ryan2.jpg">
+</picture>
+```
+
+> ## 파비콘(Favicon)
+* 브라우저 탭에 표시되는 작은 아이콘
+<img src="./img/favicon.png">
+
+* 사용되는 파일 형식
+1. .ico
+2. .png
+3. .gif
+4. .jpeg
+5. .svg 
+
+### \<link>
+  * 해당 문서와 외부 소스 사이의 관계를 정의할 때 사용
+    * CSS 파일 등을 연결할 떄 사용
+  * <head>요소 안에 넣음
+  * 해당 태그로 파비콘 정의
+    * rel 속성 : 관계를 나타냄 
+      * 파비콘 &rarr; rel = "shortcut icon"
+    * type 속성 : 미디어 타입
+```html
+<link rel="shortcut icon" type="image/x-icon" href="../images/SiSt.ico">
+```
+> ## CSS
+
+### 선언 방식
+* \<style> 태그 안에서 선언
+```css
+선택자 {
+  속성 : 값;
+  속성 : 값;
+  ...
+}
+/* 선택자를 여러 개 줄 수 있음*/
+선택자1, 선택자2 {
+  속성 : 값;
+  속성 : 값;
+}
+```
+
+* 선택자명:hover 
+  * 마우스 올렸을 때의 상태를 지정
+* 선택자명:nth-child()
+  * ()안에 숫자 &rarr; 부모의 n번째 자식 요소 적용
+  * ()안에 odd,even &rarr; 부모의 홀수, 짝수 번째 자식  요소 적용
+* 선택자명:nth-of-type()
+  * 같은 유형의 n번째에 적용
+
+### 속성 종류
+
+<table>
+<tr>
+  <td>border</td>
+  <td>경계선</td>
+</tr>
+<tr>
+  <td>width</td>
+  <td>너비를 지정<br>기본 값은 부모 너비의 100%</td>
+</tr>
+<tr>
+  <td>height</td>
+  <td>높이를 지정<br>기본 값은 컨텐츠의 양에 따라 결정/지정하면 고정</td>
+</tr>
+<tr>
+  <td>padding</td>
+  <td>해당 요소의 안쪽 여백을 지정</td>
+</tr>
+<tr>
+  <td>background-color</td>
+  <td>해당 요소의 배경 색을 지정</td>
+</tr>
+<tr>
+  <td>background-image</td>
+  <td>해당 요소의 배경 이미지를 지정<br>url('이미지 경로')</td>
+</tr>
+</table>
+
+### 색 지정
+```css
+선택자 {
+  /* 16진수, 2자리 수 마다 rgb값을 나타냄 (0~255)*/
+  색에 대한 속성 : #rrggbb;
+  /* 0~255값으로 rgb 값 표현 */
+  색에 대한 속성 : rgb(255,255,255);
+  /* 0~255값으로 rgb 값 표현 + a는 투명도 0(불투명)~1(투명)*/
+  색에 대한 속성 : rgba(255,255,255,0.5);
+}
+```
+
+> ## 테이블
+<table>
+  <caption>테이블 요소 소개</caption>
+  <colgroup>
+    <col style = "background-color:gray;">
+  </colgroup>
+  <thead>
+    <tr>
+      <th>요소</th>
+      <th>내용</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>< table ></td>
+      <td>테이블 요소<br>테이블의 시작과 끝</td>
+    </tr>
+    <tr>
+      <td>< tr ></td>
+      <td>행의 내용을 담고 있는 요소</td>
+    </tr>
+    <tr>
+      <td>< td ></td>
+      <td>한 셀의 내용을 담고 있는 요소</td>
+    </tr>
+    <tr>
+      <td>< th ></td>
+      <td>헤더 셀의 내용을 담는 요소</td>
+    </tr>
+    <tr>
+      <td>< thead ></td>
+      <td>헤더 부분의 요소들을 감싸는 요소</td>
+    </tr>
+    <tr>
+      <td>< tbody ></td>
+      <td>내용 부분의 요소들을 감싸는 요소</td>
+    </tr>
+    <tr>
+      <td>< tfoot ></td>
+      <td>footer 부분의 요소들을 감싸는 요소</td>
+    </tr>
+    <tr>
+      <td>< colgroup ></td>
+      <td>열을 그룹지어주는 컬럼</td>
+    </tr>
+    <tr>
+      <td>< col ></td>
+      <td>colgroup 내부에서 각각의 열에 속성을 지정할 수 있게 하는 요소</td>
+    </tr>
+  </tbody>
+</table>
+
+```html
+<!--테이블 시작-->
+<table>
+  
+  <!--테이블 소개-->
+  <caption>테이블 요소 소개</caption>
+  
+  <!--컬럼 그룹-->
+  <colgroup>
+    <!--첫 번째 컬럼에 스타일 적용-->
+    <col style = "background-color:gray;">
+  </colgroup>
+  
+  <!--헤더-->
+  <thead>
+    <tr>
+      <!--헤더의 각 셀의 내용-->
+      <th>요소</th>
+      <th>내용</th>
+    </tr>
+  </thead>
+
+  <!--내용-->
+  <tbody>
+    <!--각 행-->
+    <tr>
+      <!--각 셀의 내용-->
+      <td>< table ></td>
+      <td>테이블 요소<br>테이블의 시작과 끝</td>
+    </tr>
+
+    <tr>
+      <td>< tr ></td>
+      <td>행의 내용을 담고 있는 요소</td>
+    </tr>
+
+    <tr>
+      <td>< td ></td>
+      <td>한 셀의 내용을 담고 있는 요소</td>
+    </tr>
+
+    <tr>
+      <td>< th ></td>
+      <td>헤더 셀의 내용을 담는 요소</td>
+    </tr>
+
+    <tr>
+      <td>< thead ></td>
+      <td>헤더 부분의 요소들을 감싸는 요소</td>
+    </tr>
+
+    <tr>
+      <td>< tbody ></td>
+      <td>내용 부분의 요소들을 감싸는 요소</td>
+    </tr>
+
+    <tr>
+      <td>< tfoot ></td>
+      <td>footer 부분의 요소들을 감싸는 요소</td>
+    </tr>
+
+    <tr>
+      <td>< colgroup ></td>
+      <td>열을 그룹지어주는 컬럼</td>
+    </tr>
+
+    <tr>
+      <td>< col ></td>
+      <td>colgroup 내부에서 각각의 열에 속성을 지정할 수 있게 하는 요소</td>
+    </tr>
+
+  </tbody>
+
+</table>
+```
+
+### span 속성
+* rowspan : 행 병합
+* colsapn : 열 병합
+  * 속성 값으로 병합할 셀의 갯수를 정함
+  * 두 속성을 같이 사용 가능
+<table>
+  <tr>
+    <td>1</td>
+    <td>2</td>
+    <td rowspan = "2">3<br>6</td>
+  </tr>  
+  <tr>
+    <td colspan="2" rowspan="2" >4/5<br>7/8</td>
+  </tr>  
+  <tr>
+    <td>9</td>
+  </tr>
+</table>
+
+```html
+<table>
+  <tr>
+    <td>1</td>
+    <td>2</td>
+    <td rowspan = "2">3<br>6</td>
+  </tr>  
+  <tr>
+    <td colspan="2" rowspan="2" >4/5<br>7/8</td>
+  </tr>  
+  <tr>
+    <td>9</td>
+  </tr>
+</table>
 ```
