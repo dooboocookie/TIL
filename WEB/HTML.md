@@ -383,30 +383,7 @@ ln(x) = log<sub>e</sub>(x)
 
 </map>
 ```
-> ## 이미지 플로팅
-* \<img>에 style 속성의 float 값
-* 부모 태그의 영역에서 위치할 곳을 지정
 
-<p style="border:1px solid; padding">
-	<img alt="Ryan" src="./img/Ryan.jpg" style="width:70px; float: right;">
-	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-</p>
-<p style="border:1px solid;">
-	<img alt="Ryan" src="./img/Ryan.jpg" style="width:70px; float: left;">
-	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-</p>
-
-```html
-<!-- style 속성으로 적용 -->
-<p style="border:1px solid;">
-	<img alt="Ryan" src="./img/Ryan.jpg" style="width:70px; float: right;">
-	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-</p>
-<p style="border:1px solid;">
-	<img alt="Ryan" src="./img/Ryan.jpg" style="width:70px; float: left;">
-	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-</p>
-```
 
 > ## \<picture>\</picture> 요소
 * 장치의 환경에 따라 다른 이미지를 출력하는 태그
@@ -451,71 +428,6 @@ ln(x) = log<sub>e</sub>(x)
     * type 속성 : 미디어 타입
 ```html
 <link rel="shortcut icon" type="image/x-icon" href="../images/SiSt.ico">
-```
-> ## CSS
-
-### 선언 방식
-* \<style> 태그 안에서 선언
-```css
-선택자 {
-  속성 : 값;
-  속성 : 값;
-  ...
-}
-/* 선택자를 여러 개 줄 수 있음*/
-선택자1, 선택자2 {
-  속성 : 값;
-  속성 : 값;
-}
-```
-
-* 선택자명:hover 
-  * 마우스 올렸을 때의 상태를 지정
-* 선택자명:nth-child()
-  * ()안에 숫자 &rarr; 부모의 n번째 자식 요소 적용
-  * ()안에 odd,even &rarr; 부모의 홀수, 짝수 번째 자식  요소 적용
-* 선택자명:nth-of-type()
-  * 같은 유형의 n번째에 적용
-
-### 속성 종류
-
-<table>
-<tr>
-  <td>border</td>
-  <td>경계선</td>
-</tr>
-<tr>
-  <td>width</td>
-  <td>너비를 지정<br>기본 값은 부모 너비의 100%</td>
-</tr>
-<tr>
-  <td>height</td>
-  <td>높이를 지정<br>기본 값은 컨텐츠의 양에 따라 결정/지정하면 고정</td>
-</tr>
-<tr>
-  <td>padding</td>
-  <td>해당 요소의 안쪽 여백을 지정</td>
-</tr>
-<tr>
-  <td>background-color</td>
-  <td>해당 요소의 배경 색을 지정</td>
-</tr>
-<tr>
-  <td>background-image</td>
-  <td>해당 요소의 배경 이미지를 지정<br>url('이미지 경로')</td>
-</tr>
-</table>
-
-### 색 지정
-```css
-선택자 {
-  /* 16진수, 2자리 수 마다 rgb값을 나타냄 (0~255)*/
-  색에 대한 속성 : #rrggbb;
-  /* 0~255값으로 rgb 값 표현 */
-  색에 대한 속성 : rgb(255,255,255);
-  /* 0~255값으로 rgb 값 표현 + a는 투명도 0(불투명)~1(투명)*/
-  색에 대한 속성 : rgba(255,255,255,0.5);
-}
 ```
 
 > ## 테이블
@@ -680,3 +592,81 @@ ln(x) = log<sub>e</sub>(x)
   </tr>
 </table>
 ```
+
+> ## 목록 (list)
+
+### list item
+<li> < li > </li>
+<li>항목들의 내용을 담는 태그</li>
+<li>Block 모드</li>
+
+```html
+<li>< li ></li>
+<li>항목들의 내용을 담는 태그</li>
+<li>Block 모드</li>
+```
+
+### 순서가 있는 목록 태그
+<ol>
+  <li>ordered list</li>
+  <li>< ol ></li>
+  <li>속성</li>
+  <ol type="i">
+    <li>type="A"&rarr; 알파벳 </li>
+    <li>type="I"&rarr; 로마 숫자 </li>
+    <li>start="10"&rarr; 10부터 시작</li>
+    <li>...</li>
+  </ol>
+</ol>
+
+```html
+<ol>
+  <li>ordered list</li>
+  <li>< ol ></li>
+  <li>속성</li>
+  <ol type="i">
+    <li>type="A": 알파벳 </li>
+    <li>type="I": 로마 숫자 </li>
+    <li>...</li>
+  </ol>
+</ol>
+```
+### 순서가 없는 목록 태그
+<ul type="square">
+  <li>unordered list</li>
+  <li>< li ></li>
+  <li>속성</li>
+  <ul type="disc">
+    <li>type="circle"&rarr; 원</li>
+    <li>type="square"&rarr; 사각형 </li>
+    <li>type="disc"&rarr; 원</li>
+  </ul>
+</ul>
+
+```html
+<ul type="square">
+  <li>unordered list</li>
+  <li>< li ></li>
+  <li>속성</li>
+  <ul type="disc">
+    <li>type="circle": 원</li>
+    <li>type="square": 사각형 </li>
+    <li>type="disc": 원</li>
+  </ul>
+</ul>
+```
+### 설명 목록 태그
+<dl>
+  <dt>< dl ></dt>
+  <dd>description list</dd>
+  <dd>definition list</dd>
+</dl>
+
+```html
+<dl>
+  <dt>< dl ></dt>
+  <dd>description list</dd>
+  <dd>definition list</dd>
+</dl>
+```
+
