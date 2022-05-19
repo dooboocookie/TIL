@@ -9,6 +9,13 @@
 ```html
 <span>내용</span>
 ```
+### 코딩 가이드
+1. 문서 유형 선언 : 대문자 권장
+2. 요소 : 소문자 권장
+3. 속성=속성값 : 등호 양옆에 공백 사용X
+4. 파일경로는 대소문자 구분 함
+5. \<p>태그는 닫기 태그가 없어도 역할을 하지만 꼭 닫기
+6. 확장자 : .html .htm(리눅스)
 > ## 기본 구조
 ```html
 <!DOCTYPE html>
@@ -29,12 +36,21 @@
   * root(루트) 요소
   * 모든 요소의 부모 요소
 * \<head>\</head>
-  * html문서에 대한 정보
-  * \<meta charset="UTF-8">
-    * 메타 정보를 지정하는 요소
+  * html문서에 대한 메타 정보
   * \<title>\</title>
     * html 문서의 제목을 지정하는 요소
     * 브라우저에 표시
+  * \<style>\</style>
+    * html문서의 스타일 정보 정의
+  * \<meta>
+    * 메타 정보를 지정하는 요소
+    *  charset="UTF-8" : 인코딩 정의
+    *  name="keywords" 
+    *  content="html css javascript" 키워드 정의
+  * \<script></script>
+    * js 코딩
+  * \<base>
+    * 해당 문서의 상대 주소들의 기본 주소를 지정
 * \<body>\</body>
   * 필수 요소
   * 브라우저 화면에 표시하는 내용을 담고 있는 요소
@@ -670,3 +686,106 @@ ln(x) = log<sub>e</sub>(x)
 </dl>
 ```
 
+>## Sementic Tag(구조 태그)
+
+* 레이아웃을 구성하기 위해 div 컨테이너 등에 태그를 담아 id로 식별 &rarr; 의미가 있는 태그로 변경
+* SEO(Search Engine Optimization) 최적화
+* 유지 보수 용이
+
+<img src="img/sementic_tag.png">
+
+<table>
+<caption>구조 태그 종류</caption>
+<tr>
+  <td>< header ></td>
+  <td>제목, 머리글, 로고, 아이콘, ... </td>
+</tr>
+<tr>
+  <td>< section ></td>
+  <td>일반적으로 제목이 있는 콘텐츠의 주제별 그룹<br>장, 소개, ..</td>
+</tr>
+<tr>
+  <td>< nav ></td>
+  <td>링크의 집합, 탐색 메뉴의 집합 <br>목차, 리스트, ...</td>
+</tr>
+<tr>
+  <td>< article ></td>
+  <td>그 자체로 의미가 있는 독립적인 컨텐츠, 독립적으로 배포 가능한 컨텐츠<br>게시물, 신문기사, ...</td>
+</tr>
+<tr>
+  <td>< aside ></td>
+  <td>사이드에 배치된 컨텐츠<br>광고, 최근 본 상품, ...</td>
+</tr>
+<tr>
+  <td>< footer ></td>
+  <td>문서나 섹션의 바닥글<br>저작권 정보, 사이트 맵, ...</td>
+</tr>
+<tr>
+  <td>< figure ></td>
+  <td>사진, 코드 목록, 다이어그램, ... 독립적인 컨텐츠</td>
+</tr>
+<tr>
+  <td>< figcaption ></td>
+  <td>< figure >의 캡션</td>
+</tr>
+<tr>
+  <td colspan="2">< time >,< main >,< mark >, < details >, ... </td>
+</tr>
+</table>
+
+```html
+<div id="header">
+	<h1>제목</h1>
+</div>
+<div id="section">
+	<div id="nav">
+		<ul>
+			<li><a href="#">목차1</a></li>
+			<li><a href="#">목차2</a></li>
+			<li><a href="#">목차3</a></li>
+		</ul>
+	</div>
+	<div id="article">
+		<h3>Lorem.</h3>
+		<p></p>
+		<p></p>
+	</div>
+</div>
+<div id="footer">
+	<h5>Lorem ipsum dolor sit amet.</h5>
+```
+&darr;&darr;&darr;&darr;&darr;&darr;&darr;
+```html
+<header>
+	<h1>제목</h1>
+</header>
+<section>
+	<nav>
+		<ul>
+			<li><a href="#">목차1</a></li>
+			<li><a href="#">목차2</a></li>
+			<li><a href="#">목차3</a></li>
+		</ul>
+	</nav>
+	<article>
+		<h3>Lorem.</h3>
+		<p></p>
+		<p></p>
+	</article>
+</section>
+<footer>
+	<h5>Lorem ipsum dolor sit amet.</h5>
+</footer>
+```
+
+
+> ## \<iframe>\</iframe>
+* inline + frame
+  * 현재 html 문서에 또 다른 문서를 포함
+* src
+  * 삽입할 페이지의 경로
+* YouTube 영상 등도 쉽게 삽입 가능
+
+```html
+<iframe width="560" height="315" src="https://www.youtube.com/embed/6Y8PpdMb6BI">
+```
