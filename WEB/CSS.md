@@ -150,3 +150,57 @@
         <td>플로팅된 이미지가 부모 요소의 영역보다 클 때, 흘러 넘치는 상황에서 어떻게 보여줄 지 결정</td>
     </tr>
 </table>
+
+
+> ## 반응형 웹
+* 다양한 장치에서 페이지를 보기 좋게 디자인하는 것
+### 뷰포트 (ViewPort)
+  * \<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  * width=device-width
+    * 디바이스의 너비로 너비를 맞춤
+  * initial-scale=1.0
+    * 초기 화면 배율을 설정
+    * 0.0~1.0의 백분율
+
+### 반응형 텍스트 크기
+* vw(viewport width)
+  * 1vw == 뷰포트의 1%
+    * 뷰포트 50cm의 1vw == 0.5cm
+
+### 미디어 쿼리
+* 미디어 쿼리를 이용해서 화면 조건에 따라 다른 레이아웃 표현
+* @media 조건 {}
+  * 조건
+    * min-width : 최소 너비
+    * max-width : 최대 너비
+    * only screen : 화면에 표시될 때만 적용
+
+```CSS
+nav {
+  float : left;
+  width : 20%;
+}
+article {
+  float : left;
+  width : 60%
+}
+aside {
+  float : left;
+  width : 20%;
+}
+@media only screen and (max-width:600px){
+  nav, article{
+    width : 100%
+  }
+  aside{
+    display : none;
+  }
+}
+```
+* 600px 이상에서
+<img src="img/mediaquery1.png">
+
+* 600px 이하에서
+<img src="img/mediaquery2.png">
+
+
