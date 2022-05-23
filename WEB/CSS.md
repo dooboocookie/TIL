@@ -1,7 +1,12 @@
-# CSS
+# CSS 
 
-> ## 선언 방식
-* \<style> 태그 안에서 선언
+* Cascading Style Sheets
+* html의 요소가 표시되는 방법, 문서의 스타일을 지정하는 언어
+
+
+> ## 형식
+* \<head>의 \<style> 태그 안에서 선언
+* .css 파일을 stylesheet로 \<link>로 연결해서 사용
 ```css
 선택자 {
   속성 : 값;
@@ -14,53 +19,150 @@
   속성 : 값;
 }
 ```
-
-* 선택자명:hover 
-  * 마우스 올렸을 때의 상태를 지정
-* 선택자명:nth-child()
-  * ()안에 숫자 &rarr; 부모의 n번째 자식 요소 적용
-  * ()안에 odd,even &rarr; 부모의 홀수, 짝수 번째 자식  요소 적용
-* 선택자명:nth-of-type()
-  * 같은 유형의 n번째에 적용
-
->## 속성 종류
-
+## 선택자
 <table>
+<thead>
+	<th>종류</th>
+	<th>표현</th>
+	<th>설명</th>
+</thead>
 <tr>
-  <td>border</td>
-  <td>경계선</td>
+	<td>전체</td>
+	<td>*</td>
+	<td>html문서 내에 모든 요소에 적용하기 위한 선택자</td>
 </tr>
 <tr>
-  <td>width</td>
-  <td>너비를 지정<br>기본 값은 부모 너비의 100%</td>
+	<td>태그</td>
+	<td>태그명</td>
+	<td>선택한 태그 모두에 적용하는 선택자</td>
 </tr>
 <tr>
-  <td>height</td>
-  <td>높이를 지정<br>기본 값은 컨텐츠의 양에 따라 결정/지정하면 고정</td>
+	<td>ID</td>
+	<td>#아이디명</td>
+	<td>해당 id명을 갖는 요소에 스타일 적용</td>
 </tr>
 <tr>
-  <td>padding</td>
-  <td>해당 요소의 안쪽 여백을 지정</td>
+	<td>Class</td>
+	<td>.클래스명</td>
+	<td>해당 class에 해당되는 요소들에 스타일 적용</td>
 </tr>
 <tr>
-  <td>background-color</td>
-  <td>해당 요소의 배경 색을 지정</td>
+	<td rowspan="4">복합</td>
+	<td>요소.클래스명</td>
+  <td>해당 요소 중 클래스명이 일치하는 요소들에 스타일 적용</td>
 </tr>
 <tr>
-  <td>background-image</td>
-  <td>해당 요소의 배경 이미지를 지정<br>url('이미지 경로')</td>
+	<td>조상선택자 후손선택자</td>
+	<td>조상 선택자에 후손 요소들 중 후손선택자와 일치하는 요소에 스타일 적용</td>
+</tr>
+<tr>
+	<td>부모선택자 > 자식선택자</td>
+	<td>부모 선택자에 자식 요소중 자식 선택자와 일치하는 요소에 스타일 적용</td>
+	<td></td>
+</tr>
+<tr>
+	<td>형제요소 +(~) 형제요소</td>
+	<td>인접(+)하거나 형제되는(~)요소를 선택</td>
+</tr>
+<tr>
+	<td>가상 클래스</td>
+	<td>요소:가상클래스</td>
+	<td>해당되는 요소의 특정 상태나 구조적으로 특정 요소에만 스타일을 적용</td>
 </tr>
 </table>
 
+
+### 가상 클래스 
+
+<table>
+
+<thead><tr><td colspan="2">동적 선택자</td></tr></thead>
+<tr>
+	<td>:link</td>
+	<td>방문하지 않은 상태의 링크</td>
+</tr>
+<tr>
+	<td>:visited</td>
+	<td>이미 방문한 링크</td>
+</tr>
+<tr>
+	<td>:hover</td>
+	<td>해당 요소에 마우스가 올라온 상태</td>
+</tr>
+<tr>
+	<td>:active</td>
+	<td>해당 요소가 선택된 상태/td>
+</tr>
+<tr>
+	<td>:focus</td>
+	<td>해당 요소에 포커스된 상태</td>
+</tr>
+<thead><tr><td colspan="2">구조 가상 클래스</td></tr></thead>
+<tr>
+	<td>:nth-child(n)</td>
+	<td>부모의 n번째 자식 중 일치하는 요소</td>
+</tr>
+<tr>
+	<td>:nth-of-type(n)</td>
+	<td>부모의 타입이 일치하는 자식 중 n번째 요소</td>
+</tr>
+<tr>
+	<td>:first-child</td>
+	<td>첫번쨰 자식 요소</td>
+</tr>
+<tr>
+	<td>:last-child</td>
+	<td>마지막 자식 요소</td>
+</tr>
+<thead><tr><td colspan="2">가상 요소</td></tr></thead>
+<tr>
+	<td>::before</td>
+	<td>해당 요소 앞 공간을 선택</td>
+</tr>
+<tr>
+	<td>::after</td>
+	<td>해당 요소 뒤 공간을 선택</td>
+</tr>
+<thead><tr><td colspan="2">부정 선택자</td></tr></thead>
+<tr>
+	<td>:not()</td>
+	<td>()의 선택자를 제외하고 선택</td>
+</tr>
+</table>
+
+
+---
+### 인라인 CSS 적용 방법 
+  * 해당 요소의 sytle 속성으로 적용
+```html
+<div style="background-color:red;"></div>
+```
+
+
 > ## 색 지정
+
+1. 표준 색상명 (140개)
+2. rgb(0~255,0~255,0~255)
+   - red/green/blue 색의 3원소
+3. #rrggbb	
+   - HEX == 16진수
+4. rgba(0~255,0~255,0~255,alpha 투명도 0.0~1.0)
+5. hsl 
+	- hue(색조) 0~360 : 0(빨강) / 120(초록) / 240(파랑) 
+	- saturation(채도) 0~100% 
+	- lightness(밝기) 0(검정)~100(흰색)%
 ```css
 선택자 {
-  /* 16진수, 2자리 수 마다 rgb값을 나타냄 (0~255)*/
-  색에 대한 속성 : #rrggbb;
-  /* 0~255값으로 rgb 값 표현 */
-  색에 대한 속성 : rgb(255,255,255);
-  /* 0~255값으로 rgb 값 표현 + a는 투명도 0(불투명)~1(투명)*/
-  색에 대한 속성 : rgba(255,255,255,0.5);
+  
+  속성 : red;
+  
+  속성 : #rrggbb;
+  
+  속성 : rgb(255,255,255);
+  
+  속성 : rgba(255,255,255,0.5);
+  
+  속성 : hsl(0,100%,50%);
 }
 ```
 
