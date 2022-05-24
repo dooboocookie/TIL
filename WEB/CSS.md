@@ -191,8 +191,11 @@
   * \<h1>~\<h5>
   * ...
 
-
-
+### none
+* 해당 컨텐츠를 보여지 않게 함
+* visibility:hidden과 차이
+  * diplay:none; - 콘텐츠가 차지하는 공간을 없앰
+  * visbility:hiddenl - 콘텐츠가 차지하는 공간을 유지하고 보이지만 않음
 
 > ## 박스 모델 (box model)
 <img src="img/img_css_boxmodel.png" width="600px">
@@ -216,7 +219,46 @@
     * 요소 영역 바깥쪽으로 갖는 여백
 
 
-> ## 이미지 플로팅
+> ## float 속성
+
+
+<table>
+    <caption>플로팅 관련 속성</caption>
+    <tr>
+        <td>float</td>
+        <td>'뜨다'라는 의미<br>요소를 플로팅해서 어디에 보여줄 지를 결정</td>
+    </tr>
+    <tr>
+        <td>overflow</td>
+        <td>float된 요소가 부모 요소의 영역보다 클 때, 흘러 넘치는 상황에서 어떻게 보여줄 지 결정</td>
+    </tr>
+    <tr>
+        <td>clear</td>
+        <td>해당 위치에 부유를 제거하여 float된 요소 다음에 오는 요소가 float요소 밑에 깔리지 않게 하는 속성</td>
+    </tr>
+</table>
+
+
+* float(둥둥 뜨다)
+* 요소의 위치, 레이아웃을 배치하기 위해 사용
+* 값
+  * none : 기본 값
+  * left : 띄운 요소를 왼쪽에 배치
+  * right: 띄운 요소를 오른쪽에 배치
+
+### 문제점
+1. float 속성을 사용
+2. 컨테이너의 height이 기본값이면 컨텐츠의 양만큼 지정
+3. 컨텐츠들이 다 float되면 overflow발생
+
+#### &rarr; 해결
+1. 컨테이너에 overflow속성을 auto나 hidden을 줘서 넘친 속성만큼 컨테이너의 높이를 줘야 함
+2. 의사 요소(::before  / :: after)에 clear속성을 준다
+ 
+ 
+
+
+### 이미지 플로팅
 * \<img>에 style 속성의 float 값
 * 부모 태그의 영역에서 위치할 곳을 지정
 
@@ -241,17 +283,7 @@
 </p>
 ```
 
-<table>
-    <caption>플로팅 관련 속성</caption>
-    <tr>
-        <td>float</td>
-        <td>'뜨다'라는 의미<br>이미지를 플로팅해서 어디에 보여줄 지를 결정</td>
-    </tr>
-    <tr>
-        <td>overflow</td>
-        <td>플로팅된 이미지가 부모 요소의 영역보다 클 때, 흘러 넘치는 상황에서 어떻게 보여줄 지 결정</td>
-    </tr>
-</table>
+> ## overflow 속성
 
 
 > ## 반응형 웹
@@ -306,3 +338,22 @@ aside {
 <img src="img/mediaquery2.png">
 
 
+>## position
+
+
+>## 정렬
+### 수직 정렬
+1. 블럭 모드를 컨테이너에 대하여 가운데 정렬
+```css
+div{
+  margin: 0 auto;
+  /* left, right 마진을 자동으로줘서 가운데 정렬*/
+}
+```
+2. 텍스트를 가운데 정렬
+```css
+p{
+  text-align: center;
+  /* 요소 안의 텍스트를 가운데 정렬 */
+}
+```
