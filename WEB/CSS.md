@@ -130,14 +130,72 @@
 </tr>
 </table>
 
+### 속성 선택자
 
----
 ### 인라인 CSS 적용 방법 
   * 해당 요소의 sytle 속성으로 적용
 ```html
 <div style="background-color:red;"></div>
 ```
 
+> ## CSS 우선순위
+
+<table>
+	<tr>
+		<th>종류</th>
+		<th>점수</th>
+		<th>내용</th>
+	</tr>
+	<tr>
+		<td>!important</td>
+		<td>-</td>
+		<td>인라인 스타일을 무시하는 예외</td>
+	</tr>
+	<tr>
+		<td>인라인 css</td>
+		<td>1000점</td>
+		<td>태그 안에서 style요소로 주는 경우, 우선 순위가 가장 높음 </td>
+	</tr>
+	<tr>
+		<td>id 선택자</td>
+		<td>100점</td>
+		<td>id명(#) 선택자로 준 CSS</td>
+	</tr>
+	<tr>
+		<td>class 선택자</td>
+		<td>10점</td>
+		<td>class명(.) 선택자로 준 CSS</td>
+	</tr>
+	<tr>
+		<td>의사 클래스</td>
+		<td>10점</td>
+		<td>(:의사클래스)어떤 요소의 특정 상황에 스타일을 주는 가상 클래스</td>
+	</tr>
+	<tr>
+		<td>태그 선택자</td>
+		<td>1점</td>
+		<td>태그명을 선택자로 준 CSS</td>
+	</tr>
+	<tr>
+		<td>의사 요소</td>
+		<td>1점</td>
+		<td>(::의사요소)요소의 특정 부분에 스타일을 적용하기 위해 주는 가상의 요소</td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td>0점</td>
+		<td>html 내 모든 요소에 스타일을 적용, 우선 순위가 가장 낮음</td>
+	</tr>
+</table>
+
+
+```css
+div{} /* 1점 */
+div p{} /* 1 + 1 = 2점 */
+.myClass{} /* 10점 */
+div#myId{} /* 1 + 100 = 101점 */
+div{color:red !important;} /* 최우선 */
+```
 
 > ## 색 지정
 
@@ -339,7 +397,8 @@ aside {
 
 
 >## position
-
+<table>
+</table>
 
 >## 정렬
 ### 수직 정렬
@@ -357,3 +416,36 @@ p{
   /* 요소 안의 텍스트를 가운데 정렬 */
 }
 ```
+
+
+> ## 이미지 스프라이트
+* 하나의 이미지에 여러 이미지 모음
+* 서버에서 이비리를 로드하는 횟수를 줄여 성능을 향상
+
+* 네이버에서 사용하는 이미지 스프라이트
+<img src="img/sp_main_dba1af.png">
+
+```html
+<style>
+  div {
+    /* 1. 이미지를 표현하고자하는 사이즈 */
+    width: 222px;
+    height: 52px;
+
+    /* 2. 이미지 스프라이트르 배경이미지로 지정 */
+    background-image:url("https://s.pstatic.net/static/www/img/uit/sp_main_dba1af.png");
+
+    /* 3. 표현하려는 크기와 실제 이미지파일의 사이즈 비교하여 사이즈 지정  */
+    background-size: 457px; /* 50% :원본 914px*/
+    
+    /* 4. 사용하려하는 이미지의 시작 좌표만큼 이미지 포지션을 잡음 */
+    background-position: 0 -158px;
+    
+    background-repeat: no-repeat;
+  }
+</style>
+<body>
+  <div></div>
+</body>
+```
+<img src="img/naver.png">
