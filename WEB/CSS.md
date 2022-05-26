@@ -417,6 +417,51 @@ p{
 }
 ```
 
+---
+# background 속성
+
+> ## background-image
+* 특정 이미지를 배경으로 사용하는 속성
+* 여러 이미지를 사용할 수 있음
+* 속성
+  * background-size : 이미지 사이즈를 정함
+  * background-position : 이미지가 시작하는 위치를 정함
+  * background-repeat : 이미지를 반복할지 결정
+
+```css
+div{
+	background: url("나무 이미지 경로") left top no-repeat
+				, url("꽃 이미지 경로") right bottom no-repeat
+				, url("종이 이미지 경로") left top repeat;
+				
+	background-size: 50px 150px, 130px, auto;
+}
+```
+<img src="img/background_img.png" alt="백그라운드 이미지 속성을 설명하는 사진">
+
+### background-size
+* contain
+  * 이미지가 요소를 넘치지 않을 정로도만 크게 유지
+* cover
+  * 이미지의 세로나 가로가 꽉 차도록 이미지를 크기 조절
+    * 세로 비율이 짧은 이미지라면, 세로가 꽉 차는 크기
+    * 가로 비율이 짧은 이미지라면, 가로가 꽉 차는 크기
+
+### background-origin
+* 배경 이미지의 영역을 지정
+* 속성 값
+  * padding-box : 패딩 왼쪽상단 (기본값)
+  * border-box : 테두리 왼쪽 상단
+  * content-box : 콘텐츠 왼쪽 상단
+* background-clip 은 배경색이 칠해질 영역에 대한 속성
+
+### gradient 효과
+* 색의 부드러운 전환
+* 속성 값
+  * 선형 그라데이션
+    * linear-gradient(방향, 색상 %, 색상 %, ...)
+  * 방사형 그라데이션
+    * radial-gradient(모양, 색상 %, 색상 %, ...)
 
 > ## 이미지 스프라이트
 * 하나의 이미지에 여러 이미지 모음
@@ -449,3 +494,126 @@ p{
 </body>
 ```
 <img src="img/naver.png">
+
+---
+# 텍스트
+
+* 기본
+  * 요소보다 텍스트가 길어지면 개행
+  * 단어 단위로 개행
+
+### word-wrap 속성
+* 단어가 요소 밖으로 overflow될 때, 줄을 바꿀 지 지정
+* 속성 값
+  * normal : 기분 줄바꿈
+  * break-word : overflow가 발생하는 단어를 잘라서 줄 바꿈
+
+### white-space
+* 공백 문자 처리
+* 속성 값
+  * normal : 연속 공백을 하나로 합침, 자동 개행
+  * nowrap : 연속 공백을 하나로 합침, <br>태그에서만 개행
+
+### text-overflow
+* overflow된 텍스트 표시 여부
+* 속성 값
+  * clip : 기본 값
+  * ellipsis : 잘린 텍스를 '...'으로 표시
+
+---
+# 폰트
+
+>## @font-face
+1. 클라이언트(브라우저)에 설치 되지 않은 폰트
+2. 웹 폰트로 지정
+3. 페이지 로드 시, 자동으로 서버에서 폰트 로드
+4. 클라이언트 폰트 사용
+
+```css
+@font-face{
+	font-family: myFirstWebFont;
+	src:url("../images/sansation_bold.woff");
+	font-weight: bold;
+}
+
+*{
+	font-family: myFirstWebFont;
+}
+```
+
+---
+# transform
+
+> ## 요소 이동
+
+* translate()
+  * translateX()
+  * translateY()
+
+```css
+#id1{transform : translate(50px, 100px);}
+/* 요소를 x축으로 50px y축으로 100px만큼 이동 */
+
+#id2{transform : translate(-50%, 50%);}
+/* 요소를 x축으로 요소 너비의 50프로만큼 -방향으로 이동*/
+/* 요소를 y축으로 요소 높이의 50프로만큼 +방향으로 이동 */
+
+```
+
+> ## 요소 회전
+
+* rotate()
+  * rotateX()
+  * rotateY()
+* rotate3d()
+
+```css
+#id1{transform : rotate(20deg);}
+/* 요소를 시계방향으로 20도 만큼 회전 */
+```
+
+> ## 요소 크기 변경
+
+* scale()
+  * scaleX() : 너비 
+  * scaleY() : 높이
+* scale3d()
+
+```css
+#id1{transform : scale(1.5);}
+/* 요소의 크기를 1.5배만큼 변경 */
+```
+
+> ## 요소 기울이기
+* skew()
+  * skewX()
+  * skewY()
+
+```css
+#id1{transform : skew(20deg, 10deg);}
+/* x축에 대하여 20도만큼 기울이기 */
+/* y축에 대하여 10도만큼 기울이기 */
+
+#id2{transform : skew(20deg);}
+/* == transform:skew(20deg, 0); */
+```
+
+---
+# transition
+
+* 전환
+* 요소의 속성 값이 변할 때, 속도나 시간을 지정하여 자연스러운 효과를 줌
+* 속성
+	* transition-delay 속성 
+    	* 전환 전, 딜레이
+	* transition-duration 속성
+    	* 전환되는 시간
+	* transition-property 속성
+    	* 어떠한 속성이 변할 때, 전환효과를 줄 지 지정
+	* transition-timing-function 속성
+    	* 전환 속도 유형을 정함
+    	* ease : 천천히 &rarr; 빨리 (기본값)
+    	* linear : 등속
+    	* ease-in : 천천히 시작
+    	* ease-out : 천천히 끝
+    	* ease-in-ou : 천천히 &rarr; 천천히
