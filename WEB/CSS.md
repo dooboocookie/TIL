@@ -397,8 +397,34 @@ aside {
 
 
 >## position
+
 <table>
+<tr>
+	<th>속성 값</th>
+	<th>배치</th>
+</tr>
+<tr>
+	<td>static</td>
+	<td>기본값<br>정적 / top,left,... 속성 적용 불가</td>
+</tr>
+<tr>
+	<td>relative</td>
+	<td>상대 좌표<br>기준 위치</td>
+</tr>
+<tr>
+	<td>absolute</td>
+	<td>절대 좌표<br>가장 가까운 relative 부모 요소를 기준(0px,0px)으로 배치</td>
+</tr>
+<tr>
+	<td>fixed</td>
+	<td>고정<br>화면에 고정된 위치에 배치</td>
+</tr>
+<tr>
+	<td>sticky</td>
+	<td>사용자의 스크롤 위치에 따라 배치</td>
+</tr>
 </table>
+
 
 >## 정렬
 ### 수직 정렬
@@ -617,3 +643,69 @@ div{
     	* ease-in : 천천히 시작
     	* ease-out : 천천히 끝
     	* ease-in-ou : 천천히 &rarr; 천천히
+
+---
+# animation
+* 요소를 어떤 스타일 &rarr; 다른 스타일로 점차적으로 변환하는 애니메이션 속성
+
+
+> ## @keyframes Rule
+* 애니메이션 속성에 의해 요소가 점차적으로 변하는 스타일을 지정
+* 특정 시간에 요소가 가지는 스타일을 지정
+* 시작 
+  * 0% {}
+  * from {}
+* 끝
+  * 100% {}
+  * to {}
+* 중간
+  * n% {}
+
+> ## animation 속성
+* 애니메이션을 줄 요소에 지정하는 속성
+### animation-name
+* @keyframse의 요소가 가지는 스타일을 가져옴
+### animation-duration
+* 애니메이션 한 사이클의 시간을 지정
+### animation-timing-function
+* 애니메이션의 전환 속도를 결정
+	* ease : 천천히 &rarr; 빨리 (기본값)
+	* linear : 등속
+	* ease-in : 천천히 시작
+	* ease-out : 천천히 끝
+	* ease-in-ou : 천천히 &rarr; 천천히
+### animation-delay
+* 애니메이션 시작 시간 지연
+### animation-iteration-count
+* 반복 횟수 결정
+  * infinite 값 줄 시, 계속 반복
+### animation-fill-mode
+* 시작 전이나 종료 후 상태 결정
+### animation-direction
+* alternate : 0% &rarr; 100% &rarr; 0% ... 번갈아
+* reverse : 역방향
+* normal
+* alternate-reverse 
+
+```css
+div{
+	width: 100px;
+	height:100px;
+	background:red;
+
+	animation-name : example;
+	animation-duration : 4s;
+	animation-timing-function : linear;
+	animation-iteration-count:infinite;
+	animation-direction:alternate; 
+
+	position: relative;
+}
+
+@keyframes example{
+	0% {background-color:red; left: 0; top: 0;}
+	50% {background-color:green; left: 200px; top: 0;}
+	100% {background-color:blue; left: 200px; top: 200px;}
+}
+```
+![animation_css](img/animation_css.gif)
