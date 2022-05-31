@@ -46,3 +46,125 @@ html
     └── img
 
 ```
+
+> ### 연산자
+<table>
+    <tr>
+        <td colspan="2">산술연산자</td>
+    </tr>
+    <tr>
+        <td>+</td>
+        <td>덧셈 연산자</td>
+    </tr>
+    <tr>
+        <td>-</td>
+        <td>뺄셈 연산자</td>
+    </tr>
+    <tr>
+        <td>*</td>
+        <td>곱셈 연산자</td>
+    </tr>
+    <tr>
+        <td>/</td>
+        <td>나눗셈 연산자</td>
+    </tr>
+    <tr>
+        <td>%</td>
+        <td>나머지 연산자</td>
+    </tr>
+    <tr>
+        <td>**</td>
+        <td>제곱 연산자</td>
+    </tr>
+    <tr>
+        <td colspan="2">증감 연산자</td>
+    </tr>
+    <tr>
+        <td>++</td>
+        <td>1 증가</td>
+    </tr>
+    <tr>
+        <td>--</td>
+        <td>1 감소</td>
+    </tr>
+    <tr>
+        <td colspan="2">대입(할당) 연산자</td>
+    </tr>
+    <tr>
+        <td>=</td>
+        <td>대입 연산자 / 우항의 값을 좌항에 대입</td>
+    </tr>
+    <tr>
+        <td>+=</td>
+        <td>좌항에 값에 우항을 더한 값을 좌항에 대입</td>
+    </tr>
+    <tr>
+        <td>-=</td>
+        <td>좌항에 값에 우항을 더한 값을 좌항에 대입</td>
+    </tr>
+    <tr>
+        <td>...</td>
+        <td>*=, /=, %=, **=</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td colspan="2"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td colspan="2"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td colspan="2"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
