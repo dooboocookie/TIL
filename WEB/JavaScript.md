@@ -166,7 +166,7 @@ html
         <td>*=, /=, %=, **=</td>
     </tr>
     <tr>
-        <td colspan="2"비교 연산자</td>
+        <td colspan="2">비교 연산자</td>
     </tr>
     <tr>
         <td>==</td>
@@ -219,3 +219,120 @@ html
         <td>& | ~  ^ << >> >>></td>
     </tr>
 </table>
+
+---
+
+> # 자료형
+<table>
+<tr>
+  <td>String</td>
+  <td>
+    문자열 데이터
+    <br>요소(16비트,부호없는정수)의 집합
+    <br>요소 하나당 string 한 자리, 인덱스(0 ~)
+  </td>
+</tr>
+<tr>
+  <td>Number</td>
+  <td>
+    숫자 데이터  
+    <br>&pm;(2^53-1)까지의 수
+    <br>정수, 실수 모두
+    <br>&pm;Infinity, NaN 값 포함
+  </td>
+</tr>
+<tr>
+  <td>Boolean</td>
+  <td>true / false 값을 가지는 자료형</td>
+</tr>
+<tr>
+  <td>BigInt</td>
+  <td>
+    큰 정수를 임의의 정밀도로 갖는 자료형
+  </td>
+</tr>
+<tr>
+  <td>undefined</td>
+  <td>
+    선언된 변수에 할당하지 않은 변수에 자동으로 할당되는 값
+  </td>
+</tr>
+<tr>
+  <td>null</td>
+  <td>
+    의도적으로 비어있는 값을 나타냄
+  </td>
+</tr>
+<tr>
+  <td>Object</td>
+  <td>
+    관련된 데이터(속성)과 함수(메소드)의 집합
+    <br>객체
+  </td>
+</tr>
+</table>
+
+### typeof 연산자
+* 대상의 타입을 반환하는 연산자
+  * typeof()함수도 가능
+```javascript
+console.log(typeof 100); //umber
+console.log(typeof 3.14); //number
+console.log(typeof "abc"); //string
+console.log(typeof undefinded); //indefined
+console.log(typeof null); //object
+```
+
+> ## String
+* 문자열 자료형
+* ""(큰따옴표), ''(작은 따옴표) 사이에 내용
+  * var text = "abcd";
+* 0개 이상의 문자 집합
+* 연결
+  * \+
+  * concat()
+### String관련된 유용한 함수
+* String.trim()
+  * 문자열 좌, 우 끝에 공백을 지움
+* String.replace(searchString, replacement)
+  * 문자열에서 일치하는 문자열을 찾아 대체
+  * 매개변수
+    * searchString : 찾는 문자열이나 정규표현식
+    * replacement : 대체할 문자열
+  * 리턴
+    * String
+    * 변경된 문자열
+* String.substring(from, to) / String.slice(from, to)
+  * 문자열의 원하는 위치 값에 문자(열)을 반환하는 함수
+  * 매개변수
+    * from : 시작 인덱스 (0부터 시작)
+    * to : 끝 인덱스, 이 인덱스 이전까지 리턴
+  * 리턴
+    * String
+    * 해당 인덱스의 문자열
+* String.split(pattern)
+  * 매개변수를 구분자로 문자열을 나누는 함수
+  * 매개변수
+    * 구분자로 사용할 문자열이나, 정규표현식
+  * 리턴
+    * Array(object)
+    * 구분자로 나누어진 문자열의 배열을 반환
+* padStart() / padEnd()
+  * 정해진 자리만큼 채우고 문자열로 반환하는 함수
+* startWith() / endWith()
+  * 대상 문자열에 인자값이 시작하는지/끝나는지 판별하여 boolean값 반환하는 함수
+* includes()
+  * 대상 문자열에 인자값이 있는지 판별하여 boolean 값을 반환하는 함수
+
+### 정규표현식
+* string에서 특정 규칙으로 된 문자 조합을 찾기 위한 패턴
+* //사이에 정규표현식 패턴 표시
+* 변경자(modifier)
+  * i : 대소문자 구분 X
+  * g : 전체 문자열에서 모두 검색
+  * m : 여러 줄 검색
+* 선언 및 할당
+```javascript
+const pattern  = /hong/ig 
+//대소문자 구분 없이 hong 모두 검색하기 위한 정규표현식 
+```
