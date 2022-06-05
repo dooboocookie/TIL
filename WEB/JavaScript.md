@@ -336,3 +336,51 @@ console.log(typeof null); //object
 const pattern  = /hong/ig 
 //대소문자 구분 없이 hong 모두 검색하기 위한 정규표현식 
 ```
+
+
+> ## 변수 선언
+1. var
+* function-scoped
+  * 블럭 안팍에서 같은 기억공간
+* `hoisiting`시 자동으로 undefined로 초기화
+  * 인터프리터가 변수의 메모리를 선언 전에 미리 할당함
+* 변수 중복 선언 가능
+```javascript
+var test1 = 1;
+var test1 = 10; //에러 없음
+
+test2 = 100;
+console.log('test2 = '+test2);
+var test2; // 에러 없음(hoisting)
+```
+
+2. let
+* block-scoped
+  * 블럭안에서 할당한 값은 블럭 안에서만 유효
+* `hoisting`시 변수를 자동으로 초기화하지 않음
+  * block-scoped 단위로 호이스팅이 일어남
+  * 변수 선언 전 변수에 할당 시 > [`tdz`](https://ui.toast.com/weekly-pick/ko_20191014)
+* 변수를 중복으로 선언 불가 
+
+```javascript
+let test1 = 1;
+let test1 = 100; // SyntaxError
+
+test2 = 100;
+let test2; // ReferenceError
+```
+
+
+3. const
+* block-scooped
+* let과 대부분 비슷한 규칙을 가짐
+* 상수
+  * 선언과 동시에 할당
+  * 재할당 불가
+
+```javascript
+const test1; // Missing initializer in const declaration
+
+const test2 = 3.14;
+test2 = 3.141592 // SyntaxError
+```
