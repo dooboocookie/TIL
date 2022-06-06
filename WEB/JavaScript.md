@@ -1,8 +1,8 @@
 # JavaScript
 * 객체 기반의 스크립트 프로그래밍 언어
 * 목적
-  * 웹페이지 사용자의 반응 처리
-  * 사용자의 특정 이벤트나 입력 값을 받아서 동적으로 처리
+  * `웹페이지` 사용자의 반응 처리
+  * 사용자의 특정 `이벤트`나 `입력 값`을 받아서 동적으로 처리
 * 용도
   * html 내용 변경
   * html 속성 변경
@@ -243,7 +243,11 @@ html
 </tr>
 <tr>
   <td>Boolean</td>
-  <td>true / false 값을 가지는 자료형</td>
+  <td>
+    true / false 값을 가지는 자료형
+    <br>의미 없는 값 : false(0, NaN, null, "", undefined)
+    <br>의미 있는 값 ; true(1, "글자", ...)
+  </td>
 </tr>
 <tr>
   <td>BigInt</td>
@@ -385,6 +389,159 @@ const test1; // Missing initializer in const declaration
 const test2 = 3.14;
 test2 = 3.141592 // SyntaxError
 ```
+
+---
+
+> ## 배열(Array)
+* 인덱스에 대한 요소들을 갖고 있는 여러 데이터의 집합
+  * typeof 배열 : object
+    * 배열은 객체에 속하지만 순서와 길이가 있다는 차이가 있음
+* 배열 선언
+  * const 배열명 = [];
+```javascript
+const family1 = []; 
+// let, var로도 선언 가능하지만 주로 const로 선언
+family1[0] = '두부';
+family1[1] = '쿠키';
+family1[2] = '경환';
+// 선언 시, 크기를 지정하지 않고 요소를 추가할 수 있음
+//인덱스는 0부터 시작
+
+
+const family2 = ['두부', '쿠키', '경환']
+// 선언 시, 요소를 같이 선언할 수 있음
+```
+
+### 배열 정렬
+* 기본적으로 sort()라는 함수를 사용해서 정렬
+  * default는 오름차순
+* 내림차순 정렬
+  * `compare 함수`
+  * localeCompare() 함수 - 문자열 비교
+```javascript
+const test = ['a','c','e','b','d'];
+
+// 1. compare 함수
+// 오름차순
+test.sort(function compare(a, b) {
+  if (a > b){
+    return 1;
+  }
+  if (a < b){
+    return -1;
+  }
+  //a must be equal to b
+  return 0;
+});
+// 내림차순
+test.sort(function compare(a, b) {
+  if (a < b){
+    return 1;
+  }
+  if (a > b){
+    return -1;
+  }
+  //a must be equal to b
+  return 0;
+});
+
+//2. localeCompare() 이용
+// 오름차순
+test.sort(function compare(a, b) {
+  return a.localeCompare(b);
+});
+// 내림차순
+test.sort(function compare(a, b) {
+  return b.localeCompare(a);
+});
+
+//2-2. 람다식 표현
+// 오름차순
+test.sort((a,b)=>a.localeCompare(b));
+// 내림차순
+test.sort((a,b)=>b.localeCompare(a));
+```
+
+* number 정렬
+  * 각각 비교 요소의 가장 첫자리씩 비교
+  * 1, 2, 5, 30, 100 을 정렬 시
+    * 1, 100, 2, 30, 5로 오름차순 정렬됨
+  * `compare 함수` 필요
+
+```javascript
+const test = [1, 5, 2, 100, 30];
+// 오름차순
+test.sort(function compare(a, b) {
+    return a - b;
+});
+//내림차순
+test.sort(function compare(a, b) {
+    return b - a ;
+});
+```
+
+### 속성 및 함수
+* Array.length
+  * 배열의 길이(== 요소의 개수)를 반환
+* Array.isArray()
+  * 대상이 배열인지 판별하여 반환
+    * typeof연산자로는 배열은 object로 반환
+* 요소 추가 및 삽입
+
+<table>
+    <tr>
+        <td colspan="2" align="center">요소 추가</td>
+    </tr>
+    <tr>
+        <td>push()</td>
+        <td>배열의 맨 뒤 새 요소 추가</td>
+    </tr>
+    <tr>
+        <td>unshift()</td>
+        <td>배열의 0번째 요소로 추가 <br>원래 요소들을 한 인덱스씩 뒤로 미룸</td>
+    </tr>
+    <tr>
+        <td colspan="2" align="center">요소 제거</td>
+    </tr>
+    <tr>
+        <td>pop()</td>
+        <td>배열의 마지막 인덱스 요소를 제거하고 그 값을 반환</td>
+    </tr>
+    <tr>
+        <td>shift()</td>
+        <td>배열의 0번쨰 요소를 제거하고 그 값을 반환<br>나머지 요소들을 한 인덱스씩 앞으로 당김</td>
+    </tr>
+    <tr>
+        <td>splice(idx,n,e1,e2,...)</td>
+        <td>idx번째 인덱스 부터 n개의 요소를 제거 후<br>e1, e2, ... 의 값을 요소로 추가<br>n을 0 주면 삽입만 / e1, e2,... 생략 시 삭제만</td>
+    </tr>
+    <tr>
+        <td colspan="2" align="center">배열 반환</td>
+    </tr>
+    <tr>
+        <td>slice(from,to)</td>
+        <td>from번째 인덱스 부터 to번쨰 인덱스 전까지 요소들을 잘라 배열로 반환<br>원래 배열 유지</td>
+    </tr>
+    <tr>
+        <td>concat(a,b)</td>
+        <td>a배열과 b배열을 이어서 새로운 배열을 반환</td>
+    </tr>
+    <tr>
+        <td colspan="2" align="center">요소 검색</td>
+    </tr>
+    <tr>
+        <td>includes(val)</td>
+        <td>val값이 배열에 있는지 판별하여 true,false값을 반환</td>
+    </tr>
+    <tr>
+        <td>indexOf(val)</td>
+        <td>val값을 배열에서 검색하여 그 인덱스 값을 반환<br>없으면 -1</td>
+    </tr>
+</table>
+
+
+---
+
 
 > ## Event 
 * 시스템에 일어나는 사건(action)
