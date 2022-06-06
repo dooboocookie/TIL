@@ -283,7 +283,7 @@ html
 console.log(typeof 100); //umber
 console.log(typeof 3.14); //number
 console.log(typeof "abc"); //string
-console.log(typeof undefinded); //indefined
+console.log(typeof undefinded); //undefined
 console.log(typeof null); //object
 ```
 
@@ -673,12 +673,101 @@ btn.addEventListener('click', function () {
     </tr>
 </table>
 
+---
 
+ # 제어문
 
+> ## 조건문
+### if문
+  * else if로 여러 조건 나열
+  * 가장 먼저 만족하는 조건 블럭 수행
+  * else 블럭은 아무 조건 해당 안될 때 수행
+```javascript
+if (condition){
+  //js code
+} else if (condition){
+  //js code
+} else {
+  //js code
+}
+```
+### switch문
+  * key가 해당되는 값을 갖는 case 실행
+```javascript
+switch (key){
+  case value:
+    //js code
+    break;
+  case value:
+    //js code
+    break;
+  // :
+  default
+    //js code
+    break;
+}
+```
 
+> ## 반복문
+### for문
+```javascript
+for (let i = 0; i < Array.length; i++) {
+    //js code
+    //i가 0부터 Array.length보다 작을 때까지 반복
+}
+```
+* for ... in 문
+  * 객체(배열)의 첫번째 키 값부터 마지막 키 값까지 반복
+* for ... of 문
+  * 객체(배열)의 첫번쨰 속성 값부터 마지막 속성 값까지 반복
+* Array.forEach 함수
+  * 배열 처음 인덱스부터 마지막 인덱스까지 반복하는 반복 함수
 
+```javascript
+const testObj = {
+  name : '경환',
+  age : 29,
+  gender : false
+};
 
+for (var key in obj) {
+  console.log(key); // name / age / gender
+}
 
+for (var value of iterable) {
+  console.log(value); // '경환' / 29 / false
+}
+
+const testArr = [11,12,13,14,15];
+testArr.forEach(function(elt,idx,array){
+    console.log(index+":"+elt);
+}); 
+// 1:11 / 2:12 / 3:13 / 4:14 / 5:15
+// array는 배열 전체
+```
+
+### while문
+* 조건이 만족할 떄까지 반복
+* do ... while 문
+  * 먼저 조건없이 do{} 을 실행하고, 조건이 만족할 때 까지 반복
+```javascript
+//1. while
+while (condition){
+  //codition 만족할 떄 까지 반복
+}
+
+//2. do while
+do{
+  //1번 실행 후
+  //condition 만족할 떄 까지 반복
+}while(condition)
+```
+
+### break, continue
+* break;
+  * 해당 코드를 만나면 바로 반복문 벗어남
+* continue;
+  * 해당 코드를 만나면 반복문에서 다음 루프로 넘어감
 
 
 
