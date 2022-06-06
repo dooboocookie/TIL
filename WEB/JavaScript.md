@@ -332,13 +332,14 @@ console.log(typeof null); //object
   * g : 전체 문자열에서 모두 검색
   * m : 여러 줄 검색
 * 선언 및 할당
+  * /pattern/modifier
 ```javascript
 const pattern  = /hong/ig 
 //대소문자 구분 없이 hong 모두 검색하기 위한 정규표현식 
 ```
 
-
 > ## 변수 선언
+### 변수 선언 방법
 1. var
 * function-scoped
   * 블럭 안팍에서 같은 기억공간
@@ -384,3 +385,165 @@ const test1; // Missing initializer in const declaration
 const test2 = 3.14;
 test2 = 3.141592 // SyntaxError
 ```
+
+> ## Event 
+* 시스템에 일어나는 사건(action)
+  * 마우스 클릭
+  * 키 입력
+  * 포커스
+  * ...
+
+### 이벤트 연결
+1. 인라인 방식
+* 속성 태그에 `on이벤트` 속성을 통하여 연결
+```javascript
+<button onclick="js code..."></button>
+```
+* 동일한 이벤트 여러 개 적용 불가
+
+2. 프로퍼티 방식
+* `이벤트 핸들러 프로퍼티`에 등록하여 사용
+```javascript
+//버튼 요소 중 가장 첫번쨰 요소 선택
+document.querySelecotr('button').onclick =  function() {
+  let text = this.value
+  console.log(text);
+}
+```
+* this
+  * 이벤트가 일어나는 대상
+* 동일한 이벤트 핸들러 여러 번 사용 불가
+
+3. 이벤트 리스너 방식
+* 이벤트 리스너 메소드를 이용한 연결
+  * addEventListner('이벤트',function(){})를 통하여 이벤트 등록
+  * removeEventListner('이벤트',function(){})를 통하여 이벤트 제거
+
+```javascript
+let btn = document.querySelector("button#test");
+btn.addEventListener('click', function () {
+    alert('이벤트 발생')
+})
+```
+
+### 이벤트 종류
+<table>
+    <tr>
+        <td colspan="2" align="center">마우스 이벤트</td>
+    </tr>
+    <tr>
+        <td>click</td>
+        <td>대상 요소를 마우스로 클릭을 했다 떼는 이벤트</td>
+    </tr>
+    <tr>
+        <td>mouseover</td>
+        <td>대상 요소에 마우스 커서를 올리는 이벤트</td>
+    </tr>
+    <tr>
+        <td>mouseout</td>
+        <td>대상 요소에서 마우스 커서를 빼는 이벤트</td>
+    </tr>
+    <tr>
+        <td>mousemove</td>
+        <td>마우스를 움직이는 이벤트</td>
+    </tr>
+    <tr>
+        <td colspan="2" align="center">키보드 이벤트</td>
+    </tr>
+    <tr>
+        <td>keypress</td>
+        <td>
+            키를 누를 때, 문자 입력 전
+            <br>기능키 인식 X / 대소문자 구분 O
+        </td>
+    </tr>
+    <tr>
+        <td>keydown</td>
+        <td>
+            키를 누를 때, 문자 입력 전
+            <br>기능키 인식 O / 대소문자 구분 X
+        </td>
+    </tr>
+    <tr>
+        <td>keydown</td>
+        <td>
+            키를 땔 때, 문자 입력 후
+            <br>기능키 인식 O / 대소문자 구분 X
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" align="center">UI 이벤트</td>
+    </tr>
+    <tr>
+        <td>load</td>
+        <td>
+            페이지가 로드되는 이벤트
+            <br>모든 요소가 모두 로드 되었을 때
+        </td>
+    </tr>
+    <tr>
+        <td>unload</td>
+        <td>
+            페이지 언로드되는 이벤트
+            <br>새로운 페이지를 요청하거나, 페이지를 끌 때
+        </td>
+    </tr>
+    <tr>
+        <td>scroll</td>
+        <td>페이지나 요소에서 스크롤을 하는 이벤트</td>
+    </tr>
+    <tr>
+        <td colspan="2" align="center">포커스 이벤트</td>
+    </tr>
+    <tr>
+        <td>focus</td>
+        <td>포커스 되는 이벤트</td>
+    </tr>
+    <tr>
+        <td>blur</td>
+        <td>포커스를 잃는 이벤트</td>
+    </tr>
+    <tr>
+        <td colspan="2" align="center">폼 이벤트</td>
+    </tr>
+    <tr>
+        <td>change</td>
+        <td>선택된 버튼이나 옵션이 바뀌는 이벤트</td>
+    </tr>
+    <tr>
+        <td>submit</td>
+        <td>폼을 제출하는 이벤트</td>
+    </tr>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
