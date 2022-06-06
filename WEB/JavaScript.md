@@ -539,7 +539,34 @@ test.sort(function compare(a, b) {
     </tr>
 </table>
 
+---
+> ## 객체(Object)
+* 관련된 속성(엔티티, 함수, ...)을 담고있는 집합
+* 선언
+```javascript
+const TestObj = {
+  name : '경환',
+  age : 29,
+  gender : false
+};
+```
+* 생성
+  * 생성자를 통해서 새 객체 생성
+```javascript
+let obj = new TestObj();
+```
+### prototypea
+* Javascript에서는 객체를 상속하기 위하여 프로토타입이라는 방식을 사용
 
+> ## 유용한 객체
+### Date
+  * 197년 1월 1일 00:00:00:000~ 부터의 시간을 담는 객체
+### Math
+  * 연산 같은 수학적인 작업에 필요한 메소드와 속성을 갖는 객체
+### Set
+
+### Map
+* 한 쌍의 엔트리(키 + 밸류)들의 집합
 ---
 
 
@@ -724,7 +751,7 @@ for (let i = 0; i < Array.length; i++) {
   * 배열 처음 인덱스부터 마지막 인덱스까지 반복하는 반복 함수
 
 ```javascript
-const testObj = {
+const TestObj = {
   name : '경환',
   age : 29,
   gender : false
