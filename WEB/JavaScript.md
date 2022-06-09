@@ -564,10 +564,39 @@ let obj = new TestObj();
 ### Math
   * 연산 같은 수학적인 작업에 필요한 메소드와 속성을 갖는 객체
 ### Set
-
+* 연관된 데이터들의 집합
+  * 중복 허용 X
+  * 순서 없음
+* 생성
+```javascript
+const setTest = new Set();
+```
+* 속성 및 함수
 ### Map
 * 한 쌍의 엔트리(키 + 밸류)들의 집합
+* 생성
+```javascript
+const mapTest = new Map();
+```
+* 속성 및 함수
+
 ---
+> ## Class
+* 연관된 필드와 기능들로 정의하여 객체를 만들기 위한 틀 (`특별한 함수`)
+  * 필드는 생성자 안에서 정의됨
+  * 메소드(생성자 포함)들의 집합
+* 선언
+  * 생성자(필드값 포함)들과 메소드들을 나열
+```javascript
+class Person() {
+  // 생성자
+  constructor(name, age){
+    this.name = name;
+    this.age = age;
+  }
+  print
+}
+```
 
 
 > ## Event 
@@ -700,6 +729,32 @@ btn.addEventListener('click', function () {
     </tr>
 </table>
 
+
+### 이벤트 버블링, 이벤트 캡처링
+* 이벤트 버블링
+  * 자식요소에 이벤트가 발생하면 부모요소에도 그 이벤트가 전달
+* 이벤트 캡처링
+  * 부모요소에 이벤트가 발생하면 자식요소에도 그 이벤트가 전달
+
+```html
+<div id="out">
+    <h2>이벤트 버블링 체크</h2>
+    <p id="in" >자식 p태그 클릭!</p>
+</div>
+<!--해당 상황에서 p태그 클릭시 div도 클릭됨-->
+
+<script>
+document.getElementById("out").onclick = function () {
+    alert("out div click");
+}
+
+document.getElementById("in").onclick = function () {
+    alert("in p click");
+    event.cancelBubble=true;
+    //자식 태그를 클릭했을떄 부모한테도 뜨는 버블링을 취소하는 코딩
+}
+</script>
+```
 ---
 
  # 제어문
@@ -797,13 +852,49 @@ do{
   * 해당 코드를 만나면 반복문에서 다음 루프로 넘어감
 
 
+ # 함수(Function)
+> ## 함수 선언
+```javascript
+function 함수명([매개변수...]){
+  [return 리턴값]
+} 
+```
+* 익명함수
+  * 함수명 선언시 함수명을 명시하지 않은 함수 `다른 곳`에서 호출하지 않음
+  * 이벤트 핸들러로 역할, ...
+```javascript 
+document.querySelector("button").onclcick = function() {
+  alert("이벤트 발생");
+}
+```
+> ## 함수호출
+1. 일반적인 함수 호출
+```javascript 
+function sum(a,b=10){
+  return a+b;
+}
 
-
-
-
-
-
-
+let x = sum(10, 11) // 21
+let y = sum(10) // 1
+```
+* 이벤트 핸들러로 호출
+```html
+<button onclick="clickBtn()">test</button>
+<script>
+  function clickBtn() {
+    alert('함수 호출됨');
+  }
+</script>
+```
+2. 자체 호출 함수
+* 함수의 선언부와 호출부가 같이 있는 형태
+  * 함수 선언 + 함수 호출
+  * (함수선언부)() 로 호출
+```javascript
+(function () {
+  return a+b;
+})();
+```
 
 
 
