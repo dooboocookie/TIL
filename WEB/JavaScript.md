@@ -859,7 +859,7 @@ function 함수명([매개변수...]){
   [return 리턴값]
 } 
 ```
-* 익명함수
+### 익명함수
   * 함수명 선언시 함수명을 명시하지 않은 함수 `다른 곳`에서 호출하지 않음
   * 이벤트 핸들러로 역할, ...
 ```javascript 
@@ -867,6 +867,10 @@ document.querySelector("button").onclcick = function() {
   alert("이벤트 발생");
 }
 ```
+
+### 중첩함수
+* 함수안에 함수를 선언하여
+
 > ## 함수호출
 1. 일반적인 함수 호출
 ```javascript 
@@ -896,9 +900,6 @@ let y = sum(10) // 1
 })();
 ```
 
-
-
-
 # 쿠키(HTTP cookie)
 * `HTTP`의 일종
 * 사용자가 웹 사이트 방문할 경우
@@ -910,24 +911,97 @@ let y = sum(10) // 1
   * ...
 
 ```mermaid
-graph LR
-A[클라이언트]-->|요청|B[서버]
-B-->|쿠키 발급|A
-
-
-C[클라이언트]-->|쿠키 사용|D[서버]
-D-->|응답|C
+sequenceDiagram
+participant 클라이언트
+participant 서버
+  Note right of 서버 : 실선 : 쿠키 없는 상태 
+  Note right of 서버 : 점선  : 쿠키 가진 상태
+  클라이언트 ->> 서버 : 요청
+  서버 ->> 클라이언트 :  응답(쿠키 발급)
+  클라이언트 -->> 서버 : 요청(쿠키 사용)
+  서버 -->> 클라이언트 :  응답
 ```
 
+### 쿠키 형식
+<table>
+    <tr>
+        <th>요소</th>
+        <th>내용</th>
+    </tr>
+    <tr>
+        <td>쿠키명</td>
+        <td>쿠키를 구별하는 데사 용하는 요소 / 필수 요소</td>
+    </tr>
+    <tr>
+        <td>쿠키값</td>
+        <td>해당 쿠키의 값을 나태내는 요소 / 필수 요소</td>
+    </tr>
+    <tr align=center>
+        <td colspan="2">쿠키명=쿠키값 (필수)
+        <br>ex. id=dooboocookie</td>
+    </tr>
+    <tr>
+        <td>expire</td>
+        <td>
+            만료시점 / 기본 값 : 브라우저가 닫힐 때 자동 삭제 
+            <br> expires = new Date() + (10일);
+        </td>
+    </tr>
+    <tr>
+        <td>path</td>
+        <td>쿠키를 전송할 요청 경로</td>
+    </tr>
+    <tr>
+        <td>domain</td>
+        <td>쿠키를 전송할 도메인</td>
+    </tr>
+    <tr>
+        <td>secure</td>
+        <td>보안</td>
+    </tr>
+    
+</table>
 
+### 쿠키 저장
+* 요소들을 `; `로 이어서 document.cookie속성에 문자열로 저장
+* 같은 요소 이름을 저장 시 덮어 씌워짐
 
+```javascript 
+var cname = "id";
+var cvalue = escape("두부쿠키");
+// escape()함수를 사용하여  %16값으로 변환
 
+var expireday = new Date();
+expireday.setDate(expireday.getDate()+10);//현재 시간으로부터 10일 후 날짜
 
+document.cookie = cname + "=" + cvalue + "; expires="+ expireday.toUTCString() +";";
+//"id=두부쿠키; expires=(10일 뒤 날짜형);" 의 형태로 저장 
+```
 
+### 쿠키 검색
+* document.cookie 속성
+  * 해당 경로에 모든 쿠키 정보를 반환
+  * 문자열형으로 반환
+    * "쿠키명1=쿠키값1; 쿠키명2=쿠키값2; 쿠키명3=쿠키명3;..."
+    * 마지막 쿠키에는 `;`이 생략
 
+```javascript 
+console.log(document.cookie);
+//"id=%uB450%uBD80%uCFE0%uD0A4; age=29"
+``` 
 
+<img src="./img/cookie_check.png">
 
+* 크롬에서 확인
+  * 설정 &rarr; 개인정보 및 보안 &rarr; 쿠키 및 기타 사이트 데이터 &rarr; 모든 쿠키 및 사이트 데이터 보기 &rarr; 검색
 
+### 쿠키 삭제
+* 만료일을 오늘보다 이전 날짜로 덮어 씌워 삭제
+```javascript 
+var cname = "id";
+var expireday = new Date();
+expireday.setDate(expireday.getDate()-10);//현재 시간으로부터 10일 전 날짜
 
-
-
+document.cookie = cname + "=; expires="+ expireday.toUTCString() +";";
+//id이름 갖는 쿠키 파기
+```
