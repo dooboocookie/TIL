@@ -28,12 +28,26 @@
   * html 코딩과 분리 - 유지, 보수 / 확장 용이
   * 캐싱된 js파일 - 페이지 로드 속도 향상 
 
+# window 객체
+* 최상위 부모 객체
+* 전역 변수, 함수를 선언 시 자동으로 window객체의 자식이 됨
+<img src="./img/DOM_BOM.png">
 > ## DOM
 * Document Object Model
 * HTML문서 객체 기반 표현 방식
   * \<body> \<html>태그를 JavaScript가 객체로서 접근하여 사용하는 방식
 
-
+* DOM 사용
+  * html 요소 추가, 수정, 삭제
+  * html 속성 추가, 수정, 삭제
+  * css 스타일 변경
+  * html 이벤트 추가, 수정, 삭제
+  * ...
+* W3C DOM 종류
+  * Core DOM - 모든 문서 유형에 대한 표준 DOM
+  * html DOM -> html DOM
+  * xml DOM -> xml DOM
+  * 
 ### 노드 트리 표현
 * 트리 구조
 * root node : \<html>
@@ -52,6 +66,37 @@ html
 ```
 
 ## 데이터 타입
+<table>
+    <tr>
+        <th>
+            종류
+        </th>
+        <th>
+            내용
+        </th>
+    </tr>
+    <tr>
+        <td>document node</td>
+        <td>해당 문서 전체를 나타내는 노드</td>
+    </tr>
+    <tr>
+        <td>element node</td>
+        <td>요소에 대한 노드, attribute node를 가질 수 있음</td>
+    </tr>
+    <tr>
+        <td>attribute node</td>
+        <td>요소의 속성을 나타내는 노드</td>
+    </tr>
+    <tr>
+        <td>text node</td>
+        <td>문서의 텍스트들을 나타내는 노드, 공백이나 개행도 포함될 수 있음</td>
+    </tr>
+    <tr>
+        <td>comment node</td>
+        <td>문서의 주석을 나타내는 노드</td>
+    </tr>
+</table>
+
 ### document
 * 브라우저가 불러낸 웹페이지를 나타냄
 * 요소를 생성하거나, 가져오고, URL을 얻어오는 데, ... 사용
@@ -60,6 +105,8 @@ html
     * 현재 문서의 \<body> 태그를 리턴
   * document.documnetURI
     * 현재 문서의 위치를 반환
+  * document.documentElement
+    * 현제 문서의 \<html> 태그를 리턴
   * ...
 2. 메소드
   * document.createElement()
@@ -88,6 +135,7 @@ html
 
 ### node
 * 노드를 나타내는 객체
+
 1. 속성
   * node.nextSibling
     * 다음으로 오는 형제 node를 반환
@@ -105,7 +153,77 @@ html
   * list.item(1)
   * list[i]
 
+> ## BOM
+* Browser Object Model
+### window 객체
+* 최상위 객체
+* 브라우저 창 자체를 나타내는 객체
+  * 모든 브라우저에서 제공
+* 속성
+  * .innerWidth, .innerHeight
+    * 현재 창의 도구 모음, 스크롤막대 등을  포함하지 않는 너비, 높이
+    * px 단위
+* 메소드
+  * .open()
+    * 대상에 새창을 여는 메소드
+  * .close()
+    * 대상의 창을 닫는 메소드
+  * .moveTo(), moveBy()
+    * 대상의 창의 위치를 해당 위치로, 해당 위치만큼 이동시키는 메소드
+  * .resizeTo(), .resizeBy()
+    * 대상의 창의 사이즈를 해당 크기로, 해당 크키만큼 크기를 변화하는 메소드
 
+### screen 객체
+* 사용자 화면에 대한 정보를 가지고 있는 객체
+* 속성
+  * .width, height
+    * 스크린의 너비, 높이
+  * .availWidth, .availHeight
+    * `사용 가능한` 스크린의 너비, 높이
+  * .colorDepth
+    * 색 농도(16비트 : 655363가지 / 32비트 : 42억 가지)
+
+### location 객체
+* window의 위치를 나타내는 객체
+  * 현재 페이지의 주소를 얻어오거나 새로 설정하는데 사용
+* 속성
+  * .hostname
+    * 도메인 이름을 반환
+  * .protocol
+    * 현제 페이지의 웹 프로토콜(통신규약)
+  * .port
+    * 포트번호 반환
+  * .href
+    * 브라우저의 주소, 입력 시 해당 url로 리다이렉션
+* 메소드
+  * .assign()
+    * 매개변수로 받은 url로 리다이렉션하는 메소드
+
+### history 객체
+* 브라우저의 기록을 포함하는 객체
+  * 사용자의 개인정보 보호 목적으로 접근 방법이 제한적이다
+* 메소드
+  * .go()
+    * 뒤로 가기, 앞으로 가기 수행
+    * history.back(); == history.go(-1); : 뒤로 가기
+    * history.forward(); == history.go(1); : 앞으로 가기
+
+### navigator 객체
+* 사용자 브라우저의 정보를 나타내는 객체
+* 속성
+  * .appName
+    * 브라우저의 응용프로그램 이름
+  * .appCodeName
+    * 브라우저의 응용 프로그램 코드이름
+  * .product
+    * 브라우저의 엔진 이름
+  * .cookieEnabled
+    *  브라우저의 쿠키 사용여부
+  * .platform
+    * 브라우저의 플랫폼(운영체제)
+* 메소드
+  * .javaEnabled()
+    * 브라우저에서 java 활성화 여부
 > ## 연산자
 <table>
     <tr>
