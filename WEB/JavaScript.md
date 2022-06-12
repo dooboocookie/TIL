@@ -31,7 +31,9 @@
 # window 객체
 * 최상위 부모 객체
 * 전역 변수, 함수를 선언 시 자동으로 window객체의 자식이 됨
+
 <img src="./img/DOM_BOM.png">
+
 > ## DOM
 * Document Object Model
 * HTML문서 객체 기반 표현 방식
