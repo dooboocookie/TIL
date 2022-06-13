@@ -375,30 +375,59 @@ $("div")
 <div style="background-color: aqua; width: 200px; height: 100px; position:absolute;">HELLO</div>
 
 <script>
-    $("#start").click(function () {
-        //대기열 큐
-        $("div")
-            .animate({left:"200px"},5000) // 1
-            .animate({fontSize:"3em"},5000); // 2
-    });
+  $("#start").click(function () {
+    //대기열 큐
+    $("div")
+        .animate({left:"200px"},5000) // 1
+        .animate({fontSize:"3em"},5000); // 2
+  });
 
-    $("#stopff").click(function () {
-        $("div").stop(false, false);
-        // 1 애니메이션 처리할때 stopff 버튼 클릭 -> 1번 애니메이션만 중지 / 2번은 큐에 남아있음
-    });
-    $("#stopft").click(function () {
-        $("div").stop(false, true);
-        // 1 애니메이션 처리할 때 stopft 버튼 클릭 -> 1번 애니메이션 중지(완료상태) / 2번은 큐에 남아있음
-    });
-    $("#stoptf").click(function () {
-        $("div").stop(true, false);
-        // 1 애니메이션 처리할 떄 stoptf 버튼 클릭-> 1번 애니메이션 중지 / 2번 애니메이션도 중지
-    });
-    $("#stoptt").click(function () {
-        $("div").stop(true, true);
-        // 1 애니메이션 처리할 때 stopft 버튼 클릭 -> 1번 애니메이션 중지(완료상태) / 2번 애니메이션도 중지
-    });
+  $("#stopff").click(function () {
+    $("div").stop(false, false);
+    // 1 애니메이션 처리할때 stopff 버튼 클릭 -> 1번 애니메이션만 중지 / 2번은 큐에 남아있음
+  });
+  $("#stopft").click(function () {
+    $("div").stop(false, true);
+    // 1 애니메이션 처리할 때 stopft 버튼 클릭 -> 1번 애니메이션 중지(완료상태) / 2번은 큐에 남아있음
+  });
+  $("#stoptf").click(function () {
+    $("div").stop(true, false);
+    // 1 애니메이션 처리할 떄 stoptf 버튼 클릭-> 1번 애니메이션 중지 / 2번 애니메이션도 중지
+  });
+  $("#stoptt").click(function () {
+    $("div").stop(true, true);
+    // 1 애니메이션 처리할 때 stopft 버튼 클릭 -> 1번 애니메이션 중지(완료상태) / 2번 애니메이션도 중지
+  });
 </script>
 ```
 
 ![stop()이미지](img/animate_stip().gif)
+
+
+> ##  `요소`에 대한 메소드
+### 자식 노드를 가져오거나 입력하는 메소드
+1. .text()
+* 매개변수 넣을 시, 해당 요소 자식으로 text로 입력
+* 매개변수 생략 시, 해당 요소 자식 text 값을 반환
+2. .html()
+* 매개변수 넣을 시, 해당 요소 자식으로 html로 입력
+* 매개변수 생략 시, 해당 요소 자식 html 값을 반환
+3. .val()
+* 매개변수 넣을 시, 해당 요소 value 입력
+* 매개변수 생략 시, 해당 요소의 value 반환
+
+### 요소의 `속성`에 대한 메소드
+1. attr(속성, 값)
+* 속성, 값 모두 입력 시, 해당 속성의 값 입력
+  속성만 입력 시, 해당 속성의 값을 반환
+
+### 요소 추가하는 메소드
+1. A.append(B)
+* A 요소 객체의 자식 맨뒤에 B를 추가하는 메소드
+2. A.appendTo(B)
+* A 요소 객체를 B의 자식 맨 뒤에 추가하는 메소드
+1. A.prepend(B)
+* A 요소 객체의 자식 맨뒤에 B를 추가하는 메소드
+2. A.prependTo(B)
+* A 요소 객체를 B의 자식 맨 뒤에 추가하는 메소드
+3.  
