@@ -426,8 +426,66 @@ $("div")
 * A 요소 객체의 자식 맨뒤에 B를 추가하는 메소드
 2. A.appendTo(B)
 * A 요소 객체를 B의 자식 맨 뒤에 추가하는 메소드
-1. A.prepend(B)
-* A 요소 객체의 자식 맨뒤에 B를 추가하는 메소드
-2. A.prependTo(B)
-* A 요소 객체를 B의 자식 맨 뒤에 추가하는 메소드
-3.  
+3. A.prepend(B)
+* A 요소 객체의 자식 맨 앞에 B를 추가하는 메소드
+4. A.prependTo(B)
+* A 요소 객체를 B의 자식 맨 앞에 추가하는 메소드
+5. A.before(B)
+* A 요소 전에 B를 추가하는 메소드
+6. A.after(B)
+* A 요소 후에 Bfmf 추가하는 메소드
+
+> ## CSS 조작
+
+### .css(속성, 값)
+* 해당 요소의 css 속성과 값을 받아 입력하거나 반환하는 메소드
+* 매개변수는 문자열로 받음
+### 클래스
+* addClass() / removeClass() / toggleClass()로 요소에 클래스를 부여하거나 삭제하여 CSS 조작
+
+> ## jquery Traversing
+*  부모, 자손, 형제 요소들을 찾는 것
+
+
+<table>
+    <tr>
+        <td colspan="2" align="center">형제</td>
+    </tr>
+    <tr>
+        <td>.next()</td>
+        <td>다음에 오는 형제 요소 객체를 반환</td>
+    </tr>
+    <tr>
+        <td>.prev()</td>
+        <td>이전에 있는 형제 요소 객체를 반환</td>
+    </tr>
+    <tr>
+        <td colspan="2" align="center">부모</td>
+    </tr>
+    <tr>
+        <td>.parent()</td>
+        <td>직계 부모 요소 객체를 반환</td>
+    </tr>
+    <tr>
+        <td>.parents()</td>
+        <td>조상 부모 요소들을 반환</td>
+    </tr>
+    <tr>
+        <td>.parentsUntill()</td>
+        <td>조상 부모들 중 대상 직계부모부터 매개변수까지의 요소 객체를 반환</td>
+    </tr>
+    <tr>
+        <td colspan="2" align="center">자손</td>
+    </tr>
+    <tr>
+        <td>.children()</td>
+        <td>직계 자식 요소 객체를 반환</td>
+    </tr>
+    <tr>
+        <td>find()</td>
+        <td>모든 하위 자식 요소 객체를 반환</td>
+    </tr>
+    <tr>
+        <td colspan="2">위 메소드들의 매개변수는 선택자를 받고 그 선택자에 일치하는 요소들을 반환</td>
+    </tr>
+</table>
