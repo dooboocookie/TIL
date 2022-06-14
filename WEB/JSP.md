@@ -1,5 +1,62 @@
-# JSP (Java Server Page)
+# JSP (Java Server Pages)
+* `동적 웹 페이지`[(링크)](./WEB.md)의 사용되는 자바의 표준 기술
+* 서버단에서 로직 등을 통하여 웹 페이지를 동적으로 조작
+* HTML 응답을 생성하는 기능 제공
+### WAS
+* Web Application Server
+  * 톰캣, 제티, ...
+* `동적인 컨텐츠`의 로직 처리를 하기 위함
 
+```mermaid
+graph LR
+A(클라이언트) --> |HTTP 요청|B(WAS)
+B --> |HTTP 응답|A
+B --> |실행|C(JSP)
+```
+1. HTTP 요청 : http://localhost:8080/test.jsp
+2. 실행 : jsp의 java 코드 등을 컴파일 후 실행
+3. HTTP 응답
+
+
+# JSP 구성 요소
+> ## Directive(디렉티브)
+* 지시자
+* JSP 페이지에 대한 설정 정보를 지정할 떄 사용
+1. <%@ page %> : page 지시자
+2. <%@ taglib %> : taglib 지시자
+3. <%@ include %> : include 지시자
+
+> ## Script(스크립트)
+* 문서의 내용을 동적으로 생성하기 위해 사용
+  * 폼에 입력한 정보를 서브밋 하여 데이터베이스에 저장
+  * 데이터베이스의 데이터를 읽어오기
+### Scriptlet(스크립트릿)
+* <% %>
+* JAVA 코드를 실행하는 요소
+
+### Expression(표현식)
+* <%= %>
+* 변수에 입력된 값 등을 출력하는 요소
+
+### Declaration(선언부)
+* <%! %>
+* 변수, 메소드 선언하는 요소
+
+> ## Expression Languge(표현 언어)
+### 형식
+* `${표현식}`의 형태
+  * 정해진 문법을 따르는 표현식을 입력하여 기능 실행
+* 코드를 간결하게하여 이해하기 좋게 만듦
+
+> ## 기본 객체
+* JSP가 어플리케이션 기능 구현에 필요한 기능을 제공하는 기본 객체
+### request
+* 클라이언트의 요청 정보를 저장하는 객체
+* 메소드
+  * getParameter(String name)
+    * 해당 파라미터의 값을 받아오는 메소드 / 없을 시 null
+
+# Form
 > ## \<form>\</form>
 
 * html 태그
