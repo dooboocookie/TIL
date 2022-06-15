@@ -23,6 +23,48 @@ B --> |실행|C(JSP)
 * 지시자
 * JSP 페이지에 대한 설정 정보를 지정할 떄 사용
 1. <%@ page %> : page 지시자
+<table>
+    <thead>page 지시자의 속성</thead>
+    <tr>
+        <th>속성</td>
+        <th>내용</td>
+    </tr>
+    <tr>
+        <td>contentType</td>
+        <td>
+            JSP가 생성하는 문서의 콘텐츠 타입을 설정하는 속성
+            <br>text/html; : 기본값
+            <br>charset=UTF-8 : html의 인코딩 방식을 utf-8로 설정
+        </td>
+    </tr>
+    <tr>
+        <td>
+            pageEncoding
+        </td>
+        <td>
+            JSP의 문자 인코딩을 설정하는 속성
+            <br>ISO-8859-1 : 기본값
+        </td>
+    </tr>
+    <tr>
+        <td>
+            language
+        </td>
+        <td>
+            JSP의 프로그래밍 언어를 설정
+            기본값 : java
+        </td>
+    </tr>
+    <tr>
+        <td>import</td>
+        <td>사용해야되는 패키지.클래스를 임포트하는 속성</td>
+    </tr>
+    <tr>
+        <td>info</td>
+        <td>JSP에 대한 설명을 담는 속성</td>
+    </tr>
+</table>
+
 2. <%@ taglib %> : taglib 지시자
 3. <%@ include %> : include 지시자
 
@@ -51,10 +93,47 @@ B --> |실행|C(JSP)
 > ## 기본 객체
 * JSP가 어플리케이션 기능 구현에 필요한 기능을 제공하는 기본 객체
 ### request
-* 클라이언트의 요청 정보를 저장하는 객체
+* 클라이언트의 `요청`한 서버와 관련된 정보를 저장하는 객체
+  * 파라미터
+  * 헤더
+  * 쿠키 정보
+  * ...
 * 메소드
-  * getParameter(String name)
-    * 해당 파라미터의 값을 받아오는 메소드 / 없을 시 null
+<table>
+    <thead>
+        request객체의 메소드
+    </thead>
+    <tr>
+        <td>.getContextPath()</td>
+        <td>어플리캐이션의 컨텍스트 경로를 가져와서 반환</td>
+    </tr>
+    <tr>
+        <td>.getRemoteAddr()</td>
+        <td>클라이언트의 IP주소를 가져와서 반환</td>
+    </tr>
+    <tr>
+        <td>.getMethod()</td>
+        <td>클라이언트가 전송 요청할 떄, 전송 방식(get,post)을 가져와 반환</td>
+    </tr>
+    <tr>
+        <td>.getRequestURL()</td>
+        <td>클라이언트가 전송 요청한 URL을 가져와 반환</td>
+    </tr>
+    <tr>
+        <td>.getRequestURI()</td>
+        <td>클라이언트가 전송 요청한 URI을 가져와 반환</td>
+    </tr>
+</table>
+
+> ## 인코딩 디코딩
+
+
+```mermaid
+graph LR
+A(웹 브라우저) --> |setCharacterEncoding|B(WAS)
+B --> |response.setContentType|A
+```
+* UTF-8 : 한글 지원(3바이트)
 
 # Form
 > ## \<form>\</form>
@@ -68,10 +147,12 @@ B --> |실행|C(JSP)
   * action
     * 데이터가 전송되는 백엔드 URL 
   * method
-    * get : 쿼리스트링 &rarr; ?name속성값=입력값&...
+    * GET : 쿼리스트링 &rarr; ?name속성값=입력값&...
+      * 캐쉬되어 저장
       * 보안 취약
       * 기본 값
-    * post : http 내부 저장 전송
+    * POST : http 내부 저장 전송
+      * 브라우저에 의해 캐시되지 않음 &rarr; 히스토리에 남지 않음
       * 보안 안정적
 
 > ## \<input>\<input>
@@ -109,7 +190,7 @@ B --> |실행|C(JSP)
     </tr>
     <tr>
         <td>checkbox</td>
-        <td>체그박스<br>name속성이 같은 체크박스끼리 그룹, 중복 가능</td>
+        <td>체크박스<br>name속성이 같은 체크박스끼리 그룹, 중복 가능</td>
     </tr>
     <tr>
         <td>file</td>
@@ -125,3 +206,78 @@ B --> |실행|C(JSP)
     </tr>
 
 </table>
+
+# Servlet
+* JAVA 클래스를 이용하여 웹 어플레이션을 만드는 기술
+>## 구현 과정
+1. `Servlet 규약`에 따른 자바 클래스를 선언
+   * 자바 클래스의 접근지정자 : public
+   * javax.servlet.http.HttpServlet 클래스를 상속
+   * service(), get(), post() 오버라이딩
+
+2. .java 파일에 자바 코딩 &rarr; 컴파일 &rarr; .class 파일 생성
+3. .class 파일 웹 프로젝트에 /WEB-INF/classes 패키지에 위치
+   * (이클립스와 같은 IDE를 사용하면 2~3의 과정은 자동으로 이루어짐)
+4. web.xml에 서블릿 클래스 설정 & @WebServlet 어노테이션 사용
+5. 웹 컨테이너인 WAS(톰캣)을 실행
+6. URL로 요청 &rarr; URL패턴에 해당되면 응답
+
+
+
+
+### web.xml 서블릿 설정
+```xml
+<!--서블릿 클래스를 등록하는 부분-->
+<servlet>
+  <!--설명-->
+  <description>현재 날짜 시간을 나타내는 서블릿</description>
+  <!--서블릿 클래스의 이름을 설정(매핑 시 사용)-->
+  <servlet-name>now</servlet-name>
+  <!--사용할 클래스를 설정-->
+  <servlet-class>test.Now</servlet-class>
+</servlet>
+
+<!--서블릿 클래스를 매핑하는 부분-->
+<servlet-mapping>
+  <!--매핑할 서블릿의 이름(위에서 등록한 이름)-->
+  <servlet-name>now</servlet-name>
+  <!--서블릿 클래스가 매핑될 url 패턴들-->
+  <url-pattern>/test/*</url-pattern>
+</servlet-mapping>
+```
+
+### @WebServlet으로 매핑
+
+```java
+package test;
+
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
+
+@WebServlet(
+  /*서블릿에 대한 설명*/
+  description = "@WebServlet 어노테이션 사용 자동 서블릿 등록",
+  /*서블릿 클래스가 매핑될 url 패턴들*/
+  urlPatterns = {
+    "/now",
+    "/test/*"
+  })
+
+/*HttpServlet 상속 필수*/
+public class Now extends HttpServlet {
+
+    public Info() {
+        super();
+    }
+
+    @Override
+    public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {}
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {}
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {}
+```
+

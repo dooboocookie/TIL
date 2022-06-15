@@ -40,3 +40,4 @@
 * [CSS](./WEB/CSS.md)
 * [JSP](./WEB/JSP.md)
 * [JavaScript](./WEB/JavaScript.md)
+* [jQuery](./WEB/jQuery.md)
