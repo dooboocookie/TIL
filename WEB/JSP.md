@@ -92,7 +92,7 @@ B --> |실행|C(JSP)
 
 > ## 기본 객체
 * JSP가 어플리케이션 기능 구현에 필요한 기능을 제공하는 기본 객체
-### request
+## request
 * 클라이언트의 `요청`한 서버와 관련된 정보를 저장하는 객체
   * 파라미터
   * 헤더
@@ -125,8 +125,59 @@ B --> |실행|C(JSP)
     </tr>
 </table>
 
-> ## 인코딩 디코딩
+* 웹 브라우저가 전송한 파라미터를 읽어올 수 있는 메서드
+<table>
+<tr>
+    <td>메소드</td>
+    <td>내용</td>
+</tr>
+<tr>
+    <td>.getParameter()</td>
+    <td>
+        기능 : 매개변수로 받은 파라미터의 값을 반환
+        <br>매개변수 : String 파라미터의 이름
+        <br>리턴 : String 파라미터의 값
+    </td>
+</tr>
+<tr>
+    <td>.getParameterValues()</td>
+    <td>
+        기능 : 매개변수로 받은 파라미터의 값들을 모두 반환
+        <br>매개변수 : String 파라미터의 이름
+        <br>리턴 : String[] 파라미터의 값을 담은 배열
+    </td>
+</tr>
+<tr>
+    <td>.getParameterNames()</td>
+    <td>
+        기능 : 웹 브라우저가 요청한 파라미터의 이름을 반환
+        <br>매개변수 : -
+        <br>리턴 : Enumeration<E> 파라미터의 이름을 담은 열거자
+    </td>
+</tr>
+<tr>
+    <td>.getParameterMap()</td>
+    <td>
+        기능 : 웹 브라우저가 요청한 파라미터의 이름과 그 값을 반환
+        <br>매개변수 : -
+        <br>리턴 : Map<E> 파라미터의 이름을 키 값, 값을 밸류로하는 맵을 반환
+    </td>
+</tr>
+</table>
 
+
+## response
+* 웹 브라우저로 응답하는 정보를 담는 객체
+* 주요 기능
+  * `응답` `헤더` 정보 입력
+  * `리다이렉트` 기능 
+
+### 리다이렉트
+
+
+
+
+> ## 인코딩 디코딩
 
 ```mermaid
 graph LR
@@ -212,7 +263,7 @@ B --> |response.setContentType|A
 >## 구현 과정
 1. `Servlet 규약`에 따른 자바 클래스를 선언
    * 자바 클래스의 접근지정자 : public
-   * javax.servlet.http.HttpServlet 클래스를 상속
+   * `javax.servlet.http.HttpServlet` 클래스를 상속
    * service(), get(), post() 오버라이딩
 
 2. .java 파일에 자바 코딩 &rarr; 컴파일 &rarr; .class 파일 생성
