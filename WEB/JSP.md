@@ -173,7 +173,35 @@ B --> |실행|C(JSP)
   * `리다이렉트` 기능 
 
 ### 리다이렉트
+1. URL을 통하여 서버에 요청
+2. 해당 서버에서 다른 URL을 포함한 응답
+3. 응답을 받은 브라우저가 `다른 웹 컨테이너`에서  응답 받은 새로운 URL로 요청 
+4. 새로운 URL에서 응답 받음
 
+```mermaid
+sequenceDiagram
+    웹 브라우저->>서버: test1.jsp URL 요청
+    activate 서버
+    서버-->>웹 브라우저: test2.jsp 경로로 가라는 응답
+    deactivate 서버
+    웹 브라우저->>+서버: 응답받은 test2.jsp로 다시 요청
+    서버-->>-웹 브라우저: 응답
+```
+*  리다이렉트될 떄는 `웹 컨테이너가 바뀌기 떄문에` 새로운 request, response 객체를 생성
+
+### 포워딩
+1. URL을 통하여 서버에 요청
+2. `동일한 웹 컨테이너`에서 해당 요청을 서버의 다른 자원으로 전달
+3. 클라이언트는 그 자원이 주는 응답을 받음
+
+```mermaid
+graph LR
+A(웹 브라우저) --> |요청 URL|B(test1.jsp)
+B --> |포워딩|C(test2.jsp)
+C --> |응답|A
+```
+* 요청한 URL 경로는 바뀌지 않기 때문에 웹 브라우저에서 확인 불가
+* `같은 웹 컨텡이너`에서 일어나기 때문에 request, response를 공유
 
 
 
@@ -184,6 +212,7 @@ graph LR
 A(웹 브라우저) --> |setCharacterEncoding|B(WAS)
 B --> |response.setContentType|A
 ```
+
 * UTF-8 : 한글 지원(3바이트)
 
 # Form
