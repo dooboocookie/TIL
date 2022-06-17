@@ -75,6 +75,7 @@ B --> |실행|C(JSP)
 ### Scriptlet(스크립트릿)
 * <% %>
 * JAVA 코드를 실행하는 요소
+* 여기서 선언되는 변수들은 지역 변수
 
 ### Expression(표현식)
 * <%= %>
@@ -83,6 +84,55 @@ B --> |실행|C(JSP)
 ### Declaration(선언부)
 * <%! %>
 * 변수, 메소드 선언하는 요소
+* 해당 영역에서 선언하는 것은 클래스의 멤버(변수, 메소드)가 됨
+
+
+> ## JSP 동작 과정
+1. 브라우저에서 해당 test.jsp 을 요청
+2. 톰캣(웹서버 + WAS)가 서블릿 컨테이너에게 요청을 전달
+3. java 코딩이 되어있는 .jsp파일을 servlet(.java) 파일로 파싱
+4. .class 파일로 컴파일되고 실행
+5. 웹 브라우저가 인식하는 HTML로 실행
+
+```mermaid
+graph LR
+A(웹 브라우저) --> |요청 URL|B[WAS]
+B -->|응답| A
+B --> |처음 요청된 jsp|C(test.jsp)
+C --> |.java로 파싱|D(test_jsp.java)
+D --> |.class로 컴파일|E(서블릿 클래스)
+E --> |처리 결과 전달|B
+B --> |서블릿에게 바로 처리 요청,처음이 아닌 경우|E
+```
+1. 작성된 test.jsp 파일
+```html
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%--페이지가 자바(기본값) 문법을 통해서 html으로 작성될 문서이고, 인코딩은 UTF-8로 하겠다는 지시자--%>
+
+<%! 
+    String name = "두부쿠키";
+    int age = 29;
+%>
+
+<%
+    // 스크립트릿
+    for (int i = 1; i <= 10; i++) {
+        out.append("<li>"+ i +"</li>");
+    // 스크립트릿을 중간에 끊어서 다른 html 태그를 중간에 두고 이어서 코딩할 수 있음
+%>
+<li><%=i%></li>
+<%
+    }
+%>
+```
+2. 파싱된 서블릿(.java) 클래스
+```java
+```
+
+3. 출력된 html
+
+
+
 
 > ## Expression Languge(표현 언어)
 ### 형식
@@ -360,4 +410,5 @@ public class Now extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {}
 ```
+
 
