@@ -363,6 +363,7 @@ B --> |response.setContentType|A
 ```
 
 > ## 기본 객체의 영역
+![jsp영역](img/jsp_scope.jpeg)
 <table>
     <tr>
         <td>영역</td>
