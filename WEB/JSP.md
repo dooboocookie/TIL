@@ -275,8 +275,7 @@ C --> |응답|A
 * `같은 웹 컨텡이너`에서 일어나기 때문에 request, response를 공유
 
 
-
-> ## 인코딩 디코딩
+### 인코딩 디코딩
 
 ```mermaid
 graph LR
@@ -285,6 +284,108 @@ B --> |response.setContentType|A
 ```
 
 * UTF-8 : 한글 지원(3바이트)
+
+> ## out
+* jsp 페이지의 변수와 같은 값들을 출력하는데 사용하는 객체
+* 출력 스트림
+### 메소드
+* .append()
+* .print() / println()
+  * 내용을 출력하는 메소드
+  * ln은 "\r\n"이므로 html에서는 개행이 안됨
+### 버퍼 관련 메소드
+* .getBufferSize()
+  * 출력 버퍼의 크기를 반환하는 메소드
+    * 지시자에서 buffer="8kb"로 주면 8kb로 설정
+  * 매개변수 : -
+  * 리턴 : int (출력 버퍼, 바이트 단위)
+* .clearBuffer()
+  * 출력 버퍼의 저장된 내용을 클리어 시키는 메소드
+  * 매개변수 : -
+  * 리턴 : void
+* .getRemaining()
+  * 출력 버퍼의 남은 내용을 바이트 단위로 반환하는 메소드
+  * 매개변수 : -
+  * 리턴 : int 
+* .flush()
+  * 현재 버퍼의 내용을 flush(출력)하는 메소드
+  * 매개변수 : -
+  * 리턴 : void
+* .isAutoFlush()
+  * 출력 버퍼의 용량이 다 차서 자동으로 flush되었는지를 확인하는 메소드
+  * 매개변수 : -
+  * 리턴 : boolean
+
+> ## pageContext
+* pageContext객체는 jsp 페이지의 정보를 나타내는 객체
+  * 이 객체를 통하여 다른 기본 객체에 접근할 수 있음
+* 속성 처리 가능
+* 페이지 흐름 제어
+* 에러 데이터
+### 다른 기본 객체로 접근
+* pageContext.getRequest().getParameter("name");
+* pageContext.getResponse();
+* pageContext.getOut();
+* pageContext.getSession();
+
+> ## application
+* 웹 애플리케이션과 관련된 정보를 나타내는 객체
+  * 한 어플리케이션 안의 모든 jsp 페이지에서 공유하는 1개의 객체
+  * 모든 jsp 페이지에서 공유하는 정보를 저장/읽기
+
+### \<context-params>
+* web.xml에 해당 태그를 추가하여 웹 어플리케이션의 전반적인 환경설정 정보를 저장
+* .getInitParameter(String pname)
+  * web.xml에 설정된 파라미터 pname의 값을 반환
+  * 매개변수 : String
+  * 리턴 : String, 파라미터 밸류
+* .getRealPath(String url)
+  * url을 실제 배포 경로로 반환
+  * 매개변수 : String
+  * 리턴 : String, 배포 경로
+
+```xml
+<!--web.xml-->
+    <context-param>
+        <description>파일 경로</description>
+        <param-name>filePath</param-name>
+        <param-value>/test</param-value>
+    </context-param>
+```
+
+```java
+<%
+    // .jsp 파일
+    String filePath = application.getInitParameter("filePath");
+    String realPath = application.getRealPath(filePath);
+    // /Users/hwan/Class/JSPClass/jspPro/target/jspPro-1.0-SNAPSHOT/test
+%>
+```
+
+> ## 기본 객체의 영역
+<table>
+    <tr>
+        <td>영역</td>
+        <td> 내용</td>
+    </tr>
+    <tr>
+        <td>application</td>
+        <td>웹 어플리케이션 전체에서 사용되는 영역</td>
+    </tr>
+    <tr>
+        <td>session</td>
+        <td>하나의 브라우저에서 사용되는 영역</td>
+    </tr>
+    <tr>
+        <td>request</td>
+        <td>하나의 요청 처리할 때 사용되는 영역<br>포워딩 시, 요청이 하나이므로 영역에 속하게 됨</td>
+    </tr>
+    <tr>
+        <td>page</td>
+        <td>하나의 jsp 페이지를 처리할 때 사용되는 영역</td>
+    </tr>
+</table>
+
 
 # Form
 > ## \<form>\</form>
@@ -307,7 +408,6 @@ B --> |response.setContentType|A
       * 보안 안정적
 
 > ## \<input>\<input>
-
 * 입력하기 위한 태그
 * 요소
   * type
