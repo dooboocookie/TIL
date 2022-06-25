@@ -436,9 +436,57 @@ cookie.setMaxAge(-1); //브라우저 닫을 떄 까지 쿠키 유지
 
 ### 쿠키응답
 ```java
-response.addCookie(cookie);
+respnse.addCookie(cookie);
+```
+> ## 세션
+
+
+
+# 커넥션풀(DBCP)
+* JDBC 연동을 할떄, Connection를 매번 생성, 닫기 작업 필요
+* 동시 접속자가 많아지면 성능이 떨어짐
+>## 사용방법
+
+1. 커넥션 풀 등록
+```html
+<!--프로젝트 폴더 안, META-INF 폴더 안, content.xml-->
+<Context>
+  <Resource
+    name="jdbc/myoracle"
+    auth="Container"
+    type="javax.sql.DataSource"
+
+    driverClassName="oracle.jdbc.OracleDriver"
+    url="jdbc:oracle:thin:@127.0.0.1:1521:mysid"
+    username="scott"
+    password="tiger"2
+    p423
+    maxTotal="20" <!--커넥션 풀 안에 최대 생성할 커넥션 객체의 수-->
+    maxIdle="10" <!--커넥션 풀이 보관할 수 잇는 최대 유효 객체 수()대기-->
+    maxWaitMillis="-1"
+  />
+</Context>
 ```
 
+```html
+<!--프로젝트 폴더 안, META-INF 폴더 안, content.xml-->
+<resource-ref>
+  <description>Oracle Datasource example</description>
+  <res-ref-name>jdbc/myoracle</res-ref-name>
+  <res-type>javax.sql.DataSource</res-type>
+  <res-auth>Container</res-auth>
+</resource-ref>
+```
+
+2. 등록한 커넥션풀을 통해 Connection 객체 생성
+
+```java
+Context initContext = new InitialContext();
+Context envContext  = (Context)initContext.lookup("java:/comp/env");
+DataSource ds = (DataSource)envContext.lookup("jdbc/myoracle");
+Connection conn = ds.getConnection(); //커넥션풀에서 Connection객체생성
+conn.close();//커넥션풀으로 생성한 Connection객체 반환
+```
 
 # Form
 > ## \<form>\</form>
