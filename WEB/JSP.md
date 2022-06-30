@@ -439,6 +439,9 @@ cookie.setMaxAge(-1); //브라우저 닫을 떄 까지 쿠키 유지
 respnse.addCookie(cookie);
 ```
 > ## 세션
+* 쿠키와는 다르게 서버에 저장하는 방식
+* 상태 관리 등을 위해 사용
+
 
 
 
