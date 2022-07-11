@@ -5,6 +5,16 @@
 (2022.06.06) 파일 세분화해서 리팩토링 필요
 
 ## 분류
+
+
+### WEB
+* [WEB](./WEB/WEB.md)
+* [HTML](./WEB/HTML.md)
+* [CSS](./WEB/CSS.md)
+* [JSP](./WEB/JSP.md)
+* [JavaScript](./WEB/JavaScript.md)
+* [jQuery](./WEB/jQuery.md)
+
 ### Java
 
 * [클래스(Class)](JAVA/Class.md)
@@ -21,6 +31,9 @@
 * [열거형](JAVA/Enums.md)
 * [어노테이션](JAVA/Annotation.md)
 
+### Spring
+* [스프링](Spring/spring.md)
+
 ### Oracle
 * [데이터베이스](./ORACLE/DATABASE.md)
 * [SQL](./ORACLE/SQL.md)
@@ -34,10 +47,6 @@
 * [JDBC](./JDBC/JDBC.md)
 * [MVC 패턴](./JDBC/MVC.md)
 
-### WEB
-* [WEB](./WEB/WEB.md)
-* [HTML](./WEB/HTML.md)
-* [CSS](./WEB/CSS.md)
-* [JSP](./WEB/JSP.md)
-* [JavaScript](./WEB/JavaScript.md)
-* [jQuery](./WEB/jQuery.md)
+
+### ect
+* [Git](./ect/git.md)
