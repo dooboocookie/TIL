@@ -1,0 +1,76 @@
+
+
+
+
+### 자바 파일 > 어노테이션을 이용한 방법
+
+
+### 자동 연결
+<콘텍스트 어노테이션 콘피그> >> 이걸 xml에 추가
+
+@Autowired
+
+
+@Resource(name="record2")
+이름을 기준으로 지정
+
+@Inject
+
+
+실질적으로 많이 쓰는 방법 
+
+p 115 컴포넌트 스캔을 이용한 빈 자동 등록
+bean 수백개가 있다면 xml에 자동으로 빈 객체 생성
+
+1) 컴포넌트 스캔
+   1) .command 패키지
+      1) ~~~~Handler
+      2)  ~~~~Handler
+      3)   ~~~~Handler
+      4)    ~~~~Handler
+   2)    persistence 패키지
+   3)    domain 패키지
+        >> 자동으로 패키지만 설정하면 빈으로 생성
+
+    @Component >> 스캔 대상이되는 클래스 위에 어노테이션 달아야함 
+    
+    
+    -> 자동으로 생성되는 빈객체에는 이름이 등록이 안되어있기 떄문에 @Resource X > @Autowired
+    
+    -> @Component 어노테이션이 클래스위에 있으면 자동으로 Id명은 class이름의 소문자로 되어진다
+
+
+
+1. setInterface vs set
+
+# MVC 패턴
+
+> ## Controller
+### :DispatcherServlet 구성요소
+
+웹브라우저 [list.do] (1)요청 > MV[C] [fornt 컨트롤러] :DispatcherServlet 구성요소
+
+-> (2) 요청 유알아이컨트롤러 검색 :HandlerMapping 구성요소
+
+<- 다시 :DispatcherServlet 구성요소
+
+-> (3) 처리 요청 :HandlerAdapter 구성요소
+
+-> (4) 요청 처리 [M]VC 컨트롤러
+
+<- (5) 처리 결과 리턴 :HandlerAdapter 구성요소
+
+<- (6) 처리 결과 리턴 Model / ModerAndView 처리 결과 저장
+
+-> (7) 처리 결과를 보여줄 `View 검색` :ViewResolver 구성요소
+
+<- (8) 검색된 View를 front Controller에게 알려준다
+
+-> (9) 응답 생성
+
+-> (10) View 페이지
+
+
+
+스프링 MVC 프로젝트 생성
+1) 다이아니믹 웹 프로젝트 생성
