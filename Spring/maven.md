@@ -41,7 +41,7 @@ mvn archetype:generate -DgroupId=org.dbck -DartifactId=javaprj -DarchetypeArtifa
 
 컴파일 플러그인 설정
   <build>
-    <plugins>
+    <plugins>s
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
@@ -53,7 +53,7 @@ mvn archetype:generate -DgroupId=org.dbck -DartifactId=javaprj -DarchetypeArtifa
     </plugins>
   </build>
 빌드 설정하는 태그
-빌드 설정중 플러그인을 설정하는 태그
+빌드 설정중 플러그인을 설정하는 태그g
 플러그인 설정을 maven-compiler-plugin을 하고 
 그 플러그인의 버전을 3.8.1로 하고
 그 플러그인의 구성 설정을 소스, 타겟  JDK 버전을 1.8로 함
