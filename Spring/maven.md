@@ -100,6 +100,7 @@ mvn archetype:generate -DgroupId=org.dbck -DartifactId=javaprj -DarchetypeArtifa
 디펜던시 헤라키
 
 > ## 메이븐 라이브러리 오류 문제
+
 다운로드 중, 링크나 파일의 깨짐
 로컬 리파지토리로의 파일을 다 지우고 다시 실행? 
 
@@ -108,4 +109,5 @@ mvn archetype:generate -DgroupId=org.dbck -DartifactId=javaprj -DarchetypeArtifa
 프로젝트 개발할때 모든 라이브러리는 로컬 저장소에 있어야한다
 프로젝트를 진행하다보면 라이브러리를  만들기도한다
 내가 만든 라이브러리를 참조할떄는 만든 라이브러리를 
+
 
