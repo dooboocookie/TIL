@@ -75,12 +75,15 @@ class MemberSerivce() {
     MemberReository memberRepository = new MemoryMemberRepository();
 }
 ```
+
 3. JpaMemberRepository로 대체
+
 ```java
 class MemberSerivce() {
     MemberReository memberRepository = new JpaMemberRepository();
 }
 ```
+
 * 클라이언트 코드가 역할(MemberRepository)와 구현(MemoryMemberRepository) 둘 다 의존함
 * DIP, OCP를 지키지 못함
   * 스프링의 DI 컨테이너를 통하여 의존관계 주입을 하여 해결
