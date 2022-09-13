@@ -38,7 +38,7 @@ public class ExServlet extends HttpServlet {
 ** [JSP 정리](JSP.md)에 자세히 정리한 내용이 있음
   
 
-### HttpRequest 객체
+### HttpServletRequest 객체
 
 요청 데이터
     겟 방식
