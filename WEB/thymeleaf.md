@@ -96,3 +96,31 @@ ${data}
 * 세션 접근
   * ${session.세션명}
 
+  스프링빈 접근
+  * ${@member.getId()}
+
+#### 유틸리티 객체
+* 문자, 숫자, URI를 편리하게 나타내기 위한 유틸리티 객체 
+  * #객체명
+  * message / uris / dates(java.util.Dte) / calendars / temporals(java8날짜) / numbers / objects / strings / bools / arrays / lists / sets / maps / ids
+
+
+## URL
+* `href, src, ...` 같은 속성에 들어갈 URL 생성
+* `@{url/{경로변수}(쿼리 파라미터 or 경로 변수)}`
+```html
+<!-- 파라미터 : "param1"="aaa", "param2"="bbb" -->
+
+<a th:href="@{/hello}"></a>
+<!--href=/hello"-->
+
+<a th:href="@{/hello(param1=${param1}, param2=${param2})}"></a>
+<!--href=/hello?param1=aaa&param2=bbb"-->
+
+<a th:href="@{/hello/{param1}/{param2}(param1=${param1}, param2=${param2})}"></a>
+<!--href=/hello/aaa/bbb"-->
+
+<li><a th:href="@{/hello/{param1}(param1=${param1}, param2=${param2})}"></a>
+<!--href=/hello/aaa?param2=bbb"-->
+```
+
