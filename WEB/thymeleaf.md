@@ -350,3 +350,121 @@ var user[[${userStat.count}]] = [[${user}]];
     </body>
 </html>
 ```
+
+# 스프링과 통합
+## \<form>관련
+* `form 태그`에 `th:object`를 통하여 커맨드 객체 지정
+* `th:field="*{필드명}"`로 필드 지정
+  * id 속성 필드명으로 지정
+  * name 속성 필드명으로 지정
+  * value 속성 필드값으로 지정
+* 장점
+  * html 속성으로 바로 코딩하면 오타 발생 시, 에러X 바인딩X의 문제가 있음
+  * `th:field`에서 필드명 오타 발생 시, 에러 발생으로 디버깅 장점
+  * 수정 기능과 같은 경우, 바로 value 속성 지정됨
+
+```java
+@Getter
+public class Member{
+  private String name;
+  private int age;
+}
+```
+
+```html
+<!--렌더링 전-->
+<form th:action th:object="${member}">
+  <label for="name">이름</label>
+  <input type="text" th:field="*{name}">
+  <label for="age">나이</label>
+  <input type="text" th:field="*{age}">
+</form>
+
+<!--렌더링 후-->
+<form action="">
+  <label for="name">이름</label>
+  <input type="text" id="name" name="name" value="">
+  <label for="age">나이</label>
+  <input type="text" id="age" name="age" value="">
+</form>
+```
+
+## 체크박스
+* \<input>태그 중, `checkbox` 체크하고 submit 시 값이 'on'으로 넘어감
+  * 'on'으로 넘어온 값은, 스프링이 `true`로 변환
+* 체크 하지 않고 submit 시 파라미터가 아예 안넘어감
+  * 파라미터가 아예 안넘어감으로 `null`
+  * \<input type="hidden" name="_필드명" value="xxxx"> 같이 `_필드명`의 값이 있고, `필드명`에 해당되는 파라미터가 없으면, 스프링이 `false`로 변환
+  * `th:field`사용하면 `_필드명` 인풋 히든 자동으로 렌더링
+
+```html
+<!--렌더링 전-->
+<div th:each="pet : ${pets}">
+  <input type="checkbox" th:field="*{pets}" th:value="${pet.key}">
+  <label th:for="${#ids.prev('pets')}" th:text="${pet.value}">..</label>
+</div>
+
+<!--렌더링 후-->
+<div>
+  <input type="checkbox" id="pets1" name="pets" value="DOG">
+  <input type="hidden" name="_pets" value="on">
+  <label for="pets1">강아지</label>
+</div>
+<div>
+  <input type="checkbox" id="pets2" name="pets" value="CAT">
+  <input type="hidden" name="_pets" value="on">
+  <label for="pets2">고양이</label>
+</div>
+<div>
+  <input type="checkbox" id="pets3" name="pets" value="ECT">
+  <input type="hidden" name="_pets" value="on">
+  <label for="pets3">기타</label>
+</div>
+
+<!--
+  아무 것도 체크 안할 시 : _pet=on에 의해서 pets=[] 빈배열 넘어감
+-->
+```
+
+## 라디오버튼
+```html
+<!--렌더링 전-->
+<div th:each="pet : ${pets}">
+  <input type="radio" th:field="*{pets}" th:value="${pet.key}">
+  <label th:for="${#ids.prev('pets')}" th:text="${pet.value}">..</label>
+</div>
+
+<!--렌더링 후-->
+<div>
+  <input type="radio" id="pets1" name="pets" value="DOG">
+  <label for="pets1">강아지</label>
+</div>
+<div>
+  <input type="radio" id="pets2" name="pets" value="CAT">
+  <label for="pets2">고양이</label>
+</div>
+<div>
+  <input type="radio" id="pets3" name="pets" value="ECT">
+  <label for="pets3">기타</label>
+</div>
+<!--
+  라디오버튼은 _pet 히든태그 만들지 않음 체크 안할 시 null로 넘어감
+-->
+```
+
+## 셀렉트
+```html
+<!--렌더링 전-->
+<select th:field="*{pets}">
+  <option value="">==반려동물==</option>
+  <option th:each="pet : ${pets}" th:value="${pet.key}" th:text="${pet.value}">..</option>
+</select>
+
+<!--렌더링 후-->
+<select id="pets" name="pets">
+  <option value="">==반려동물==</option>
+  <option value="DOG">강아지</option>
+  <option value="CAT">고양이</option>
+  <option value="ECT">기타</option>
+</select>
+```
