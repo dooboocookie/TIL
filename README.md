@@ -7,16 +7,8 @@
 ## 분류
 
 
-### WEB
-* [WEB](./WEB/WEB.md)
-* [HTML](./WEB/HTML.md)
-* [CSS](./WEB/CSS.md)
-* [JSP](./WEB/JSP.md)
-* [JavaScript](./WEB/JavaScript.md)
-* [jQuery](./WEB/jQuery.md)
 
 ### Java
-
 * [클래스(Class)](JAVA/Class.md)
 * [객체 지향 프로그래밍](JAVA/OOP.md)
 * [연산자 정리](JAVA/Operator.md)
@@ -32,9 +24,21 @@
 * [어노테이션](JAVA/Annotation.md)
 
 ### Spring
-* [스프링](Spring/spring.md)
+* [스프링](Spring/spring_framework.md.md)
+* [스프링MVC](Spring/SpringMVC.md)
+* [타임리프](Spring/thymeleaf.md)
+* [메세지,국제화](Spring/message.md)
+* [검증](Spring/validation.md)
+* [빌드툴](Spring/build_tool.md)
 
-### Oracle
+### WEB
+* [WEB](WEB/WEB.md)
+* [HTTP](WEB/HTTP.md)
+* [Ajax](WEB/Ajax.md)
+* [JSP](WEB/JSP.md)
+* [MVC 패턴](./JDBC/MVC.md)
+
+### RDBMS(Oracle)
 * [데이터베이스](./ORACLE/DATABASE.md)
 * [SQL](./ORACLE/SQL.md)
 * [함수 정리](./ORACLE/function.md)
@@ -45,8 +49,16 @@
 
 ### JDBC
 * [JDBC](./JDBC/JDBC.md)
-* [MVC 패턴](./JDBC/MVC.md)
+
+### Front-end
+* [HTML](Frontend/HTML.md)
+* [CSS](Frontend/CSS.md)
+* [JavaScript](Frontend/JavaScript.md)
+* [jQuery](Frontend/jQuery.md)
 
 
 ### ect
-* [Git](./ect/git.md)
+* [Git](ect/git.md)
+
+### 알고리즘
+* [알고리즘](Algorithm/Algorithm.md)

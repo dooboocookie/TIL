@@ -35,7 +35,7 @@ public class ExServlet extends HttpServlet {
     * `HttpServletRequest`요청을 담는 객체
     * `HttpServletResponse` 응답에 대한 객체
  
-** [JSP 정리](JSP.md)에 자세히 정리한 내용이 있음
+* [JSP 정리](../WEB/JSP.md)에 자세히 정리한 내용이 있음
   
 
 ### HttpServletRequest 객체
